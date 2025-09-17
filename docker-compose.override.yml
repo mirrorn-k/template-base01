@@ -1,0 +1,21 @@
+version: "3.9"
+
+# このネットワークはトトノウMA＋ップのために作成したものです
+networks:
+  ttnoumap-net:
+    external: true
+    driver: bridge
+
+# ローカル環境用の設定
+
+services:
+  frontend:
+    command: npm run dev
+    environment: { NODE_ENV: development }
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    env_file:
+      - ${ENV_FILE:-./env/develop.env}
+    networks:
+      - ttnoumap-net

@@ -1,0 +1,16 @@
+# docker-compose.yml（同居前提の最小）
+services:
+  frontend:
+    ports:
+      - "${PORT:-3000}:3000" # ← host公開は ports で管理
+    build:
+      context: ./frontend
+      dockerfile: ../Dockerfile # ← ルートの Dockerfile を参照
+    working_dir: /app
+    env_file:
+      - ${ENV_FILE:-./env/prod.env}
+    command: sh -c "npm run build && npm run start"
+    volumes:
+      - ./frontend/cache/meta:/app/cache/meta
+    environment:
+      NODE_ENV: production
