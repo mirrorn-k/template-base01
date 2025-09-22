@@ -9,31 +9,31 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@emotion/cache": "^11.14.0",
-    "@emotion/react": "^11.14.0",
-    "@emotion/styled": "^11.14.1",
-    "@fontsource/noto-sans-jp": "^5.2.8",
-    "@fontsource/shippori-mincho": "^5.2.8",
-    "@mui/icons-material": "^6.5.0",
-    "@mui/material": "^6.5.0",
-    "axios": "^1.12.2",
-    "deepmerge": "^4.3.1",
-    "dotenv": "^16.6.1",
-    "loglevel": "^1.9.2",
-    "next": "15.5.2",
-    "next-sitemap": "^4.2.3",
-    "node-fetch": "^3.3.2",
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "tsconfig-paths": "^4.2.0"
+    "@emotion/cache": "11.14.0",
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.0",
+    "@fontsource/noto-sans-jp": "5.1.1",
+    "@fontsource/shippori-mincho": "5.1.1",
+    "@mui/icons-material": "6.3.0",
+    "@mui/material": "6.4.2",
+    "axios": "1.7.9",
+    "deepmerge": "4.3.1",
+    "dotenv": "16.4.7",
+    "loglevel": "1.9.2",
+    "next": "15.1.2",
+    "next-sitemap": "4.2.3",
+    "node-fetch": "3.3.2",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "tsconfig-paths": "4.2.0"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.1",
-    "@types/node": "^20.19.16",
+    "@eslint/eslintrc": "3.3.1",
+    "@types/node": "20.17.24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "^9.35.0",
-    "eslint-config-next": "^15.1.2",
-    "typescript": "^5.9.2"
+    "eslint": "9.36.0",
+    "eslint-config-next": "15.1.2",
+    "typescript": "5.9.2"
   }
 }

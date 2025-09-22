@@ -1,5 +1,17 @@
 import Image from "next/image";
 import styles from "./page.module.css";
+import { Metadata } from "next";
+import * as funcMeta from "@/packages/core/meta";
+
+// メタデータを設定
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug?: string[] }>;
+}): Promise<Metadata> {
+  const resolved = await params;
+  return funcMeta.getMetaData(resolved, "top");
+}
 
 export default function Home() {
   return (
@@ -15,7 +27,7 @@ export default function Home() {
         />
         <ol>
           <li>
-            Get started by editing <code>src/app/page.tsx</code>.
+            Get started by editing <code>app/page.tsx</code>.
           </li>
           <li>Save and see your changes instantly.</li>
         </ol>
