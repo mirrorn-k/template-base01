@@ -8,7 +8,7 @@ import path from "path";
  */
 export default function readCacheFile(
   relativePath: string
-): Record<string, any> | null {
+): Record<string, unknown> | null {
   try {
     const filePath = path.join(process.cwd(), "cache", relativePath);
 

@@ -7,7 +7,6 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { FlexBox } from "@/packages/core/atoms/Box";
 import Link from "@mui/material/Link";
-import MenuBtn from "@/packages/core/modal/Menu";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -22,7 +21,13 @@ const Main = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             My Application
           </Typography>
-          <FlexBox sx={{ gap: 3, alignItems: "center" }}>
+          <FlexBox
+            sx={{
+              gap: 3,
+              alignItems: "center",
+              display: { xs: "none", md: "flex" },
+            }}
+          >
             <Link color="inherit" href="/">
               Home
             </Link>

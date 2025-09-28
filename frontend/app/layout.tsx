@@ -1,10 +1,8 @@
-import type { Metadata } from "next";
 import BaseThemeProvider from "@/themes/BaseTheme";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 //import Header from "components/Header";
 import "./globals.css";
-import { Suspense } from "react";
 import { CssBaseline } from "@mui/material";
 import { headers } from "next/headers";
 import * as ContextCommon from "@/packages/core/context/Common";
@@ -55,7 +53,7 @@ export default async function RootLayout({
           <body className={`bg-white text-black`}>
             <BaseThemeProvider>
               <Header />
-              {children}
+              <main>{children}</main>
               <Footer />
             </BaseThemeProvider>
             <ModalContact />
