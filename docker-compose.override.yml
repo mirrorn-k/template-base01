@@ -14,7 +14,7 @@ services:
     environment: { NODE_ENV: development }
     volumes:
       - ./frontend:/app
-      - /app/node_modules
+      #- /app/node_modules
     env_file:
       - ${ENV_FILE:-./env/develop.env}
     networks:

@@ -15,6 +15,10 @@ setup:
 
 build:
 	docker compose build frontend
+
+build-no-cache:
+	docker compose build frontend --no-cache
+
 up:
 	docker compose up frontend
 upd:
@@ -25,6 +29,10 @@ down:
 	docker compose stop frontend
 login:
 	docker compose run --rm frontend sh
+
+cache-clear:
+	docker compose down --volumes --rmi all --remove-orphans
+
 
 # =========================
 # 本番：プロジェクト単位（本番と同じ compose で起動確認）

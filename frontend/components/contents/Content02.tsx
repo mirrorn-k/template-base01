@@ -1,0 +1,80 @@
+/**
+ * メニューのリストコンポーネント
+ *　画像のMAXは横幅800px、縦幅600px
+ *
+ */
+
+import { FlexBox, FlexColumnBox } from "@/packages/core/atoms/Box";
+import { Typography } from "@mui/material";
+import * as Image from "@/packages/core/media/Index";
+import { tMedia } from "@/packages/core/media/type";
+import LinkButton from "@/atoms/LinkButton";
+
+export default function Main(props: {
+  media: tMedia;
+  title: string;
+  caption: string;
+  linkHref?: string;
+  linkText?: string;
+}) {
+  return (
+    <FlexBox
+      color={"primary.contrastText"}
+      sx={{
+        justifyContent: "center",
+        position: "relative",
+        "&::before": {
+          content: '""',
+          position: "absolute",
+          top: 0,
+          left: "50%",
+          transform: "translateX(-50%)", // ← 画面中央から左右に広げる
+          width: "100vw",
+          height: "100%",
+          bgcolor: "primary.main",
+          zIndex: -1,
+        },
+      }}
+    >
+      <FlexColumnBox
+        sx={{
+          flex: 1,
+          bgcolor: "primary.main",
+          maxWidth: "480px",
+          p: 8,
+          gap: 4,
+        }}
+      >
+        <Typography variant="h3" component="h4" gutterBottom>
+          {props.title}
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          {props.caption}
+        </Typography>
+        <LinkButton
+          linkHref={props.linkHref}
+          linkText={props.linkText}
+          sx={{
+            backgroundColor: "primary.contrastText",
+            color: "primary.main",
+            mt: 2,
+            maxWidth: "none",
+            minWidth: "none",
+            width: "90%",
+            borderRadius: 20,
+          }}
+        />
+      </FlexColumnBox>
+      <Image.MediaImage
+        media={props.media}
+        imgProps={{
+          style: {
+            flex: "0 0 auto",
+            maxWidth: "800px",
+            maxHeight: "600px",
+          },
+        }}
+      />
+    </FlexBox>
+  );
+}

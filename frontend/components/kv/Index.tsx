@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 import * as Image from "@/packages/core/media/Index";
 import * as ContextCommon from "@/packages/core/context/Common";
 import { tMedia } from "@/packages/core/media/type";
-import { getResponsiveValue } from "@/packages/core/function/responsiveValue/Index";
+import { getResponsiveValue } from "@/packages/core/function/responsiveValue/index";
 import { Responsive } from "@/packages/core/function/responsiveValue/type";
 import { IMAGE_DEFAULT } from "@/const/Image";
 import { SxProps, Theme } from "@mui/material/styles";
@@ -199,14 +199,16 @@ const LatestNews = (props: { sx?: SxProps<Theme> }) => {
         variant="contained"
         size="small"
         className="link-button"
+        sx={{
+          difplay: "flex",
+          flexDirection: "row",
+          color: (theme: Theme) => theme.palette.primary.contrastText, // contrastTextを直指定
+          fontFamily: (theme: Theme) => theme.typography.h5.fontFamily,
+          fontSize: (theme: Theme) => theme.typography.h5.fontSize,
+          "&::after": { ml: 1, content: '">"' },
+        }}
       >
-        <Typography
-          component="span"
-          variant="h5"
-          sx={{ "&::after": { marginLeft: 1, content: '">"' } }}
-        >
-          一覧
-        </Typography>
+        一覧
       </LinkButton>
     </Box>
   );

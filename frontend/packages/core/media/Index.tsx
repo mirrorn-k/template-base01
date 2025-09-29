@@ -25,7 +25,6 @@ export const MediaImage: React.FC<MediaImageProps> = ({
 }) => {
   if (!media?.url) return null;
 
-  // fill 指定なら width/height を無効化して fill を有効化
   const finalImgProps: Omit<NextImageProps, "src" | "alt"> = {
     ...imgProps,
     ...(fill ? { fill: true, width: undefined, height: undefined } : {}),
@@ -36,6 +35,16 @@ export const MediaImage: React.FC<MediaImageProps> = ({
       ...imgProps?.style,
     },
   };
+
+  // fillじゃない場合のみ、width/height を media の値で補完
+  if (!fill) {
+    if (!finalImgProps.width && media.width) {
+      finalImgProps.width = media.width;
+    }
+    if (!finalImgProps.height && media.height) {
+      finalImgProps.height = media.height;
+    }
+  }
 
   return (
     <BaseImage

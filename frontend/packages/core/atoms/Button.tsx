@@ -21,7 +21,6 @@ export const CircularButton = styled(Button)(({}) => ({
 
 export const LinkButton = styled(Button)(({}) => ({
   textDecoration: "none",
-  color: "inherit",
   fontWeight: "bold",
   display: "flex",
   flexDirection: "column",

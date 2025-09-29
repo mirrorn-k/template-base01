@@ -9,6 +9,8 @@ import * as ContextCommon from "@/packages/core/context/Common";
 import * as ContextMapInfo from "@/packages/core/context/MapData";
 import ModalContact from "@/packages/core/modal/Contact";
 import MenuModal from "@/packages/core/modal/Menu";
+import getThemeOptions from "@/functions/api/themeOptions";
+import * as GtmScript from "@/packages/core/google/GtmScript";
 
 export default async function RootLayout({
   children,
@@ -22,12 +24,19 @@ export default async function RootLayout({
     process.env.NODE_ENV === "production"
       ? "https"
       : headersList.get("x-forwarded-proto") || "https";
+
+  const options = await getThemeOptions();
+
   return (
     <html lang="ja">
       <head>
         {process.env.NODE_ENV !== "production" && (
           <meta name="robots" content="noindex" />
         )}
+
+        {/* GTMタグスクリプト */}
+        <GtmScript.Header tag={""} />
+
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="mapttnou-domain" content={process.env.TTNOU_DOMAIN} />
@@ -51,7 +60,10 @@ export default async function RootLayout({
         <ContextMapInfo.Provider>
           {/* パッケージ共通：トトノウMA＋共通データ */}
           <body className={`bg-white text-black`}>
-            <BaseThemeProvider>
+            {/* GTMタグスクリプト */}
+            <GtmScript.Body tag={""} />
+
+            <BaseThemeProvider options={options}>
               <Header />
               <main>{children}</main>
               <Footer />
