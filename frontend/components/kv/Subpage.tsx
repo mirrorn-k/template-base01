@@ -45,7 +45,7 @@ export default function Main(props: Props) {
           component="h1"
           className={"font-text"}
           sx={{
-            textAlign: "left",
+            textAlign: "center",
             p: { xs: 2, sm: 8, md: 15, lg: 20 },
             width: "100%",
           }}
@@ -58,7 +58,7 @@ export default function Main(props: Props) {
             component="h2"
             className={"font-text"}
             sx={{
-              textAlign: "left",
+              textAlign: "center",
               width: "100%",
             }}
           >

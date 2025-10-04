@@ -20,7 +20,7 @@ interface DataContextProps {
 
 // デフォルト値を定義
 const defaultValue: DataContextProps = {
-  screenSize: "xs",
+  screenSize: "lg",
 
   flgChange: () => {},
   selectView: 0,
@@ -70,7 +70,7 @@ export const Provider = (props: DataProviderProps) => {
   const isLg = useMediaQuery(theme.breakpoints.only("lg"));
   const isXl = useMediaQuery(theme.breakpoints.only("xl"));
 
-  let screenSize: "xs" | "sm" | "md" | "lg" | "xl" = "xs";
+  let screenSize: "xs" | "sm" | "md" | "lg" | "xl" = "lg";
   if (isXs) screenSize = "xs";
   else if (isSm) screenSize = "sm";
   else if (isMd) screenSize = "md";

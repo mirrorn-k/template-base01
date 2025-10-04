@@ -25,6 +25,7 @@
     "node-fetch": "3.3.2",
     "react": "19.0.0",
     "react-dom": "19.0.0",
+    "swr": "^2.3.6",
     "tsconfig-paths": "4.2.0"
   },
   "devDependencies": {

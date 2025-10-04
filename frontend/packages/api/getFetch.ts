@@ -1,10 +1,13 @@
-type CacheOptions = {
+import { tParams } from "@/packages/api/type";
+
+export type CacheOptions = {
   cache?: RequestCache; // "no-store" | "force-cache" など
   next?: { revalidate?: number }; // ISR の秒数指定
 };
 
 export default async function getFetch(
   url: string,
+  params?: RequestInit,
   options: CacheOptions = {
     next: { revalidate: 3600 },
   } // デフォルト: 一時間に一回再検証
@@ -15,11 +18,27 @@ export default async function getFetch(
   if (env_cache) options.cache = "no-store"; // no-store 優先
   if (env_revalidate) options.next = { revalidate: Number(env_revalidate) };
 
-  const u = url.replace("localhost:8102", "backend");
+  const u = url.replace("localhost:8102", "backend:80");
 
+  console.log(`[Fetch] ${u} `);
   const res = await fetch(u, options);
 
   if (!res.ok) throw new Error(`取得に失敗しました: ${res.status}`);
 
   return res.json();
+}
+
+// fetcher.ts
+export function fetchWithParams<T>(url: string, params?: tParams<T>): string {
+  const u = new URL(url);
+
+  if (params) {
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        u.searchParams.append(key, String(value));
+      }
+    });
+  }
+
+  return u.toString();
 }

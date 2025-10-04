@@ -7,6 +7,9 @@ import Content02 from "@/components/contents/Content02";
 import { Box } from "@mui/material";
 import Contact01 from "@/components/contact/Contact01";
 import Title from "@/atoms/Title";
+import getNotices from "@/functions/api/notices";
+import getKv from "@/functions/api/kv";
+import * as tMapKv from "@/types/mapKv";
 
 // メタデータを設定
 export async function generateMetadata({
@@ -18,10 +21,16 @@ export async function generateMetadata({
   return {};
 }
 
+// KVの取得
+const kv: tMapKv.KvContent | undefined = await getKv();
+
+// お知らせ最新一件のみを取得
+const notices = await getNotices({ page: 1, limit: 1 });
+
 export default function Home() {
   return (
     <>
-      <KV />
+      <KV notice={notices[0]} kv={kv} />
       <ResponsiveBox
         maxWidth="lg"
         sx={{

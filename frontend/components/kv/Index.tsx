@@ -9,9 +9,35 @@ import { IMAGE_DEFAULT } from "@/const/Image";
 import { SxProps, Theme } from "@mui/material/styles";
 import { LinkButton } from "@/packages/core/atoms/Button";
 import { TypographyProps } from "@mui/material";
+import * as tMapKv from "@/types/mapKv";
+import { tMediaContent } from "@/types/mapMediaContent";
 
-export default function Mian(kv: Responsive<tMedia>) {
+type tNotice = {
+  kbn: string;
+  title: string;
+  uuid: string;
+  released_at: string;
+};
+
+export default function Main({
+  kv,
+  notice,
+}: {
+  kv?: tMapKv.KvContent;
+  notice: tNotice;
+}) {
   const { screenSize } = ContextCommon.useContents();
+
+  const kvImg = kv?.content_items.find((item) => item.label === "KV")
+    ?.content as tMediaContent;
+  const catchcopy = kv?.content_items.find(
+    (item) => item.label === "キャッチコピー"
+  )?.raw_value;
+  const logoImg = kv?.content_items.find((item) => item.label === "ロゴ")
+    ?.content as tMediaContent;
+
+  console.log("kvImg", kvImg);
+  console.log("logoImg", logoImg);
 
   return (
     <Box
@@ -29,16 +55,20 @@ export default function Mian(kv: Responsive<tMedia>) {
       }}
     >
       <Image.MediaImage
-        media={getResponsiveValue<tMedia>(
-          kv,
-          screenSize,
-          undefined,
-          undefined,
-          "down",
-          true,
-          true,
-          IMAGE_DEFAULT
-        )}
+        media={
+          kvImg
+            ? getResponsiveValue<tMedia>(
+                kvImg,
+                screenSize,
+                "xs",
+                "xl",
+                "down",
+                true,
+                true,
+                IMAGE_DEFAULT
+              )
+            : IMAGE_DEFAULT
+        }
         objectFit="cover"
         fill={true}
         imgProps={{
@@ -49,11 +79,22 @@ export default function Mian(kv: Responsive<tMedia>) {
       />
 
       <Image.MediaImage
-        media={IMAGE_DEFAULT}
+        media={
+          logoImg
+            ? getResponsiveValue<tMedia>(
+                logoImg,
+                screenSize,
+                undefined,
+                undefined,
+                "down",
+                true,
+                true,
+                IMAGE_DEFAULT
+              )
+            : IMAGE_DEFAULT
+        }
         fill={false}
         imgProps={{
-          width: IMAGE_DEFAULT.width,
-          height: IMAGE_DEFAULT.height,
           style: {
             objectFit: "contain",
             maxWidth: "300px",
@@ -62,17 +103,21 @@ export default function Mian(kv: Responsive<tMedia>) {
         }}
       />
 
-      <Catchcopy
-        catchcopy="ここにキャッチコピーが入ります"
-        sx={{
-          display: { xs: "none", sm: "block" },
-          position: "absolute",
-          bottom: { xs: "30vh", sm: "27vh", md: "25vh" },
-          width: "90%",
-          maxWidth: 680,
-        }}
-      />
+      {catchcopy && (
+        <Catchcopy
+          catchcopy={catchcopy}
+          sx={{
+            display: { xs: "none", sm: "block" },
+            position: "absolute",
+            bottom: { xs: "30vh", sm: "27vh", md: "25vh" },
+            width: "90%",
+            maxWidth: 680,
+          }}
+        />
+      )}
+
       <LatestNews
+        notice={notice}
         sx={{
           position: "absolute",
           bottom: "10vh",
@@ -88,7 +133,7 @@ export default function Mian(kv: Responsive<tMedia>) {
  * 最新ニュース表示
  * @returns
  */
-const LatestNews = (props: { sx?: SxProps<Theme> }) => {
+const LatestNews = (props: { notice: tNotice; sx?: SxProps<Theme> }) => {
   const style: SxProps<Theme> = {
     bgcolor: "rgba(255, 255, 255, 0.7)",
     boxShadow: 3,
@@ -96,40 +141,43 @@ const LatestNews = (props: { sx?: SxProps<Theme> }) => {
     display: "flex",
     flexDirection: {
       xs: "column", // スマホでは縦並び
-      sm: "column", // タブレットも縦並び
+      sm: "row", // タブレットも縦並び
       md: "row", // PCでは横並び
     },
     alignItems: {
       xs: "flex-start",
-      sm: "flex-start",
+      sm: "center",
       md: "center",
     },
     gap: 0,
 
     "& .news-box": {
       flex: 1,
-      padding: { xs: 1, sm: 1, md: 2 },
+      width: "100%",
+      padding: { xs: 1, sm: 2, md: 2 },
 
       display: "flex",
       flexDirection: {
         xs: "column", // モバイルは縦積み
-        sm: "column",
+        sm: "row",
         md: "row", // PCは横並び
       },
       alignItems: {
         xs: "flex-start",
-        sm: "flex-start",
+        sm: "center",
         md: "center",
       },
-      gap: { xs: 1, sm: 1, md: 2 },
+      gap: { xs: 1, sm: 2, md: 2 },
 
       "& .news-title": {
         fontWeight: "bold",
-        mb: { xs: 1, sm: 1, md: 0 },
+        mb: { xs: 1, sm: 0, md: 0 },
+        width: { xs: "100%", sm: "auto" },
+        textAlign: { xs: "center", sm: "left", md: "left" },
       },
 
       "& .divider": {
-        display: { xs: "none", sm: "none", md: "block" }, // スマホ/タブレットでは非表示
+        display: { xs: "none", sm: "block", md: "block" }, // スマホ/タブレットでは非表示
         borderRight: "1px solid black",
         alignSelf: "stretch",
         mx: 2,
@@ -144,21 +192,21 @@ const LatestNews = (props: { sx?: SxProps<Theme> }) => {
         },
         alignItems: {
           xs: "flex-start",
-          sm: "flex-start",
+          sm: "center",
           md: "center",
         },
-        gap: { xs: 0.5, sm: 1, md: 2 },
+        gap: { xs: 0.5, sm: 2, md: 2 },
 
         "& span:nth-of-type(1)": {
           fontWeight: "bold",
-          fontSize: { xs: "0.8rem", sm: "0.9rem", md: "1rem" },
+          fontSize: { xs: "0.8rem", sm: "1.0rem", md: "1rem" },
         },
         "& span:nth-of-type(2)": {
           fontWeight: "bold",
           whiteSpace: "nowrap",
           overflow: "hidden",
           textOverflow: "ellipsis",
-          maxWidth: { xs: "100%", sm: "100%", md: "60vw" },
+          maxWidth: { xs: "100%", sm: "60vw", md: "60vw" },
         },
       },
     },
@@ -167,12 +215,12 @@ const LatestNews = (props: { sx?: SxProps<Theme> }) => {
       alignSelf: "stretch", // Flex 親の中で縦方向に広げる
       minHeight: "auto",
 
-      mt: { xs: 1, sm: 1, md: 0 },
-      ml: { xs: 0, sm: 0, md: "auto" },
+      mt: { xs: 1, sm: 0, md: 0 },
+      ml: { xs: 0, sm: "auto", md: "auto" },
       fontWeight: "bold",
       borderRadius: 0,
 
-      alignItems: { xs: "flex-end", sm: "flex-end", md: "center" },
+      alignItems: { xs: "flex-end", sm: "center", md: "center" },
     },
 
     ...props.sx,
@@ -187,10 +235,10 @@ const LatestNews = (props: { sx?: SxProps<Theme> }) => {
         <Box className="divider"></Box>
         <Box className="news-latest">
           <Typography component="span" variant="body2">
-            2025-08-31
+            {props.notice.released_at.split(" ")[0]}
           </Typography>
           <Typography component="span" variant="body1">
-            サイトオープンしました
+            {props.notice.title}
           </Typography>
         </Box>
       </Box>

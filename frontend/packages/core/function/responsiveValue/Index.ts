@@ -11,6 +11,10 @@ export function getResponsiveValue<T>(
   searchUp: boolean = true,
   defaultValue: T | undefined = undefined
 ): T | undefined {
+  if (!values) {
+    return defaultValue;
+  }
+
   const idx = BREAK_POINT.indexOf(bp);
   const minIdx = BREAK_POINT.indexOf(minBp);
   const maxIdx = BREAK_POINT.indexOf(maxBp);
@@ -23,7 +27,7 @@ export function getResponsiveValue<T>(
   if (idx < from || idx > to) return defaultValue;
 
   // 1. 指定bp
-  if (values[bp] !== undefined) return values[bp]!;
+  if (values[bp] != null) return values[bp]!;
 
   // 2. 探索順を prefer で切り替え
   const directions: ("down" | "up")[] =
@@ -33,13 +37,13 @@ export function getResponsiveValue<T>(
     if (dir === "down" && searchDown) {
       for (let i = idx - 1; i >= from; i--) {
         const val = values[BREAK_POINT[i]];
-        if (val !== undefined) return val;
+        if (val != null) return val;
       }
     }
     if (dir === "up" && searchUp) {
       for (let i = idx + 1; i <= to; i++) {
         const val = values[BREAK_POINT[i]];
-        if (val !== undefined) return val;
+        if (val != null) return val;
       }
     }
   }
