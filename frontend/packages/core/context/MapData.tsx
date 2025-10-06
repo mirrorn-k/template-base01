@@ -1,21 +1,22 @@
 "use client";
-import { createContext, useState, ReactNode, useContext } from "react";
-import { useMediaQuery, useTheme } from "@mui/material";
-import * as TypeForm from "../form/type";
+import {
+  createContext,
+  useState,
+  ReactNode,
+  useContext,
+  useEffect,
+} from "react";
 import { tOrganize } from "../organize/type";
+import getOrganize from "../organize/api";
 
 interface DataContextProps {
-  ContactFormItems: TypeForm.tFormItem[]; // お問い合わせフォームの項目
   Organize: tOrganize | null; // 会社情報
 }
 
 // デフォルト値を定義
 const defaultValue: DataContextProps = {
-  ContactFormItems: [],
   Organize: null,
 };
-
-const maxSelectView = 1;
 
 export const DataContext = createContext<DataContextProps>(defaultValue);
 
@@ -23,12 +24,25 @@ interface DataProviderProps {
   children: ReactNode;
 }
 export const Provider = (props: DataProviderProps) => {
-  const [ContactFormItems, setContactFormItems] = useState<
-    TypeForm.tFormItem[]
-  >([]);
   const [Organize, setOrganize] = useState<tOrganize | null>(null);
+
+  useEffect(() => {
+    console.log("[MapData] useEffect");
+
+    /**
+     * 会社情報の取得とコンバート処理
+     */
+    /*
+    const fetchOrg = async () => {
+      const org: tOrganize | null = await getOrganize();
+      setOrganize(org);
+    };
+    fetchOrg();
+    */
+  }, []);
+
   return (
-    <DataContext.Provider value={{ ContactFormItems, Organize }}>
+    <DataContext.Provider value={{ Organize }}>
       {props.children}
     </DataContext.Provider>
   );

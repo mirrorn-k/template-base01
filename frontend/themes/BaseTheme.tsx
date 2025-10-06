@@ -1,4 +1,5 @@
 "use client";
+import { useMemo } from "react";
 import {
   createTheme,
   ThemeProvider,
@@ -117,7 +118,10 @@ interface ThemeProps {
 
 const BaseThemeProvider: React.FC<ThemeProps> = ({ options, children }) => {
   console.log("BaseThemeProvider options:", options);
-  const themeOptions = createTheme(options);
+
+  // themeをuseMemoで生成
+  const themeOptions = useMemo(() => createTheme(options), []);
+
   const mergedTheme = createTheme(theme, themeOptions);
   return (
     <ThemeProvider theme={mergedTheme}>

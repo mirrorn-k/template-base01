@@ -10,6 +10,9 @@ import Title from "@/atoms/Title";
 import getNotices from "@/functions/api/notices";
 import getKv from "@/functions/api/kv";
 import * as tMapKv from "@/types/mapKv";
+import * as tMapContent from "@/types/mapContent";
+import getContents from "@/functions/api/contents";
+import { tMedia } from "@/packages/core/media/type";
 
 // メタデータを設定
 export async function generateMetadata({
@@ -23,6 +26,14 @@ export async function generateMetadata({
 
 // KVの取得
 const kv: tMapKv.KvContent | undefined = await getKv();
+
+// TOPページコンテンツ
+const contents: tMapContent.Content[] | [] = await getContents({
+  url: `${process.env.NEXT_PUBLIC_MAP_API_CONTENT_TOP}?${process.env.NEXT_PUBLIC_MAP_API_CONTENT_TOP_PARAMS}`,
+  terms: {},
+});
+
+console.log("contents[0]", contents[0]);
 
 // お知らせ最新一件のみを取得
 const notices = await getNotices({ page: 1, limit: 1 });
@@ -41,27 +52,50 @@ export default function Home() {
           gap: 8,
         }}
       >
-        <Content01
-          media={IMAGE_DEFAULT}
-          caption="ここに説明文"
-          linkHref="/"
-          linkText="リンク"
-        />
+        {contents.map((content) => {
+          const style = content.content_items.find(
+            (ci) => ci.label === "スタイル"
+          );
+          if (!style) return <></>;
+          const c = content.content_items.find(
+            (ci) => ci.label === "コンテンツ"
+          );
+          if (!c) return <></>;
 
-        <Box>
-          <Title
-            text={["見出しタイトル"]} // 配列で渡すと改行される
-            component={"h2"}
-          />
-          <Content02
-            media={IMAGE_DEFAULT}
-            title={"Title"}
-            caption={
-              "ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文"
-            }
-          />
-        </Box>
-
+          if (style.raw_value === "Content01") {
+            return (
+              <Content01
+                key={`top-content-${c.id}`}
+                media={c.content?.イメージ１ as tMedia}
+                caption={
+                  content.content_items.find(
+                    (ci) => ci.label === "キャプション"
+                  )?.raw_value ?? ""
+                }
+                linkHref={c.content?.リンク as string}
+                linkText={c.content?.リンクラベル as string}
+              />
+            );
+          } else if (style.raw_value === "Content02") {
+            return (
+              <Box key={`top-content-${c.id}`}>
+                <Title
+                  text={["見出しタイトル"]} // 配列で渡すと改行される
+                  component={"h2"}
+                />
+                <Content02
+                  key={c.id}
+                  media={c.content?.イメージ１ as tMedia}
+                  title={c.content?.タイトル as string}
+                  caption={c.content?.キャプション as string}
+                />
+              </Box>
+            );
+          } else {
+            console.log("未対応のスタイル TOP", style.raw_value);
+            return <></>;
+          }
+        })}
         <Contact01 />
       </ResponsiveBox>
     </>

@@ -5,7 +5,7 @@
  */
 
 import { FlexBox, FlexColumnBox } from "@/packages/core/atoms/Box";
-import { Typography } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import * as Image from "@/packages/core/media/Index";
 import { tMedia } from "@/packages/core/media/type";
 import LinkButton from "@/atoms/LinkButton";
@@ -22,7 +22,9 @@ export default function Main(props: {
       color={"primary.contrastText"}
       sx={{
         justifyContent: "center",
+        alignItems: "center",
         position: "relative",
+        flexDirection: { xs: "column", lg: "row" },
         "&::before": {
           content: '""',
           position: "absolute",
@@ -40,7 +42,8 @@ export default function Main(props: {
         sx={{
           flex: 1,
           bgcolor: "primary.main",
-          maxWidth: "480px",
+          width: "100%",
+          maxWidth: { xs: "600px", lg: "50%" },
           p: 8,
           gap: 4,
         }}
@@ -65,16 +68,29 @@ export default function Main(props: {
           }}
         />
       </FlexColumnBox>
-      <Image.MediaImage
-        media={props.media}
-        imgProps={{
-          style: {
-            flex: "0 0 auto",
-            maxWidth: "800px",
-            maxHeight: "600px",
-          },
+      <Box
+        sx={{
+          flex: "1 1 50%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          maxWidth: { xs: "100%", lg: "50%" },
+          boxSizing: "border-box",
         }}
-      />
+      >
+        <Image.MediaImage
+          media={props.media}
+          imgProps={{
+            style: {
+              flex: "0 0 auto",
+              width: "100%",
+              height: "auto",
+              maxWidth: "600px",
+              maxHeight: "600px",
+            },
+          }}
+        />
+      </Box>
     </FlexBox>
   );
 }

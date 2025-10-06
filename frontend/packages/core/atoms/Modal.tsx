@@ -35,7 +35,7 @@ export default function Main({
       disableScrollLock
       //sx={{ p: theme.spacing(8) }}
     >
-      <DialogTitle component={"h3"} variant="h3" sx={{ textAlign: "left" }}>
+      <DialogTitle component={"h3"} variant="h5" sx={{ textAlign: "left" }}>
         {title}
       </DialogTitle>
       <DialogContent>{children}</DialogContent>

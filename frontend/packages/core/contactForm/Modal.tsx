@@ -9,7 +9,8 @@ import { Typography } from "@mui/material";
 import * as TypeForm from "../form/type";
 import * as apiEndInput from "../../api/map/endInput";
 import * as ContextCommon from "../context/Common";
-import * as ContextMap from "../context/MapData";
+import { tFormItem } from "./type";
+import { SmallSelect } from "../atoms/Select";
 
 /**
  * Hash型の入力フォームの変更を処理する関数
@@ -30,10 +31,9 @@ const handleChangeValues = (
   }));
 };
 
-const Main = () => {
+const Main = ({ items = [] }: { items: tFormItem[] }) => {
   const searchParams = useSearchParams();
   const { flgContactModal, setFlgContactModal } = ContextCommon.useContents();
-  const { ContactFormItems } = ContextMap.Contents();
   const [values, setValues] = useState<Record<string, TypeForm.tInputValue>>(
     {}
   );
@@ -42,19 +42,18 @@ const Main = () => {
     //console.log(inputData);
 
     // postデータの作成
-    const inputs: TypeForm.tInputItem[] = ContactFormItems.map((item) => {
+    const inputs: TypeForm.tInputItem[] = items.map((item) => {
       return {
-        name: item.system_name,
+        name: item.systemName,
         required: item.required,
         label: item.label,
         mulitiLine: item.type === "textarea" ? true : false,
-        value: values[item.system_name],
+        value: values[item.label],
       };
     });
 
     apiEndInput
       .post({
-        type: "contact",
         input: inputs,
         referrer: window.location.href,
       })
@@ -93,47 +92,92 @@ const Main = () => {
       title={"お問い合わせ"}
       open={flgContactModal}
       onClose={handleClose}
-      actions={
-        <atomBtn.Main
-          variant="contained"
-          color={"primary"}
-          onClick={() => {
-            console.log(values);
-            handleOnClick();
-          }}
-        >
-          <Typography variant="h5" className="font-text">
-            送信
-          </Typography>
-        </atomBtn.Main>
-      }
       width={"md"}
     >
       <Grid container spacing={2}>
-        {ContactFormItems.map((item: TypeForm.tFormItem, index) => (
+        {items.map((item: TypeForm.tFormItem, index) => (
           <Grid key={index} size={{ xs: 12 }}>
-            <SmallTextField
-              label={item.label}
-              required={item.required}
-              props={{
-                type: item.type,
-                multiline: item.type === "textarea",
-                rows: item.row,
-                name: item.system_name,
-                value: values[item.system_name],
-                onChange: (e) =>
-                  handleChangeValues(
-                    e.target.value,
-                    item.system_name,
-                    setValues
-                  ),
-              }}
-            />
+            <InputComponent item={item} values={values} setValues={setValues} />
           </Grid>
         ))}
+        <Grid
+          size={{ xs: 12 }}
+          sx={{ display: "flex", justifyContent: "flex-end" }}
+        >
+          <atomBtn.Main
+            variant="contained"
+            color={"primary"}
+            onClick={() => {
+              console.log(values);
+              handleOnClick();
+            }}
+          >
+            <Typography variant="h5" className="font-text">
+              送信
+            </Typography>
+          </atomBtn.Main>
+        </Grid>
       </Grid>
     </Modal>
   );
 };
 
 export default Main;
+
+const InputComponent = ({
+  item,
+  values,
+  setValues,
+}: {
+  item: tFormItem;
+  values: Record<string, TypeForm.tInputValue>;
+  setValues: React.Dispatch<
+    React.SetStateAction<Record<string, TypeForm.tInputValue>>
+  >;
+}) => {
+  if (item.type === "select") {
+    return <Select item={item} values={values} setValues={setValues} />;
+  } else {
+    return <TextItem item={item} values={values} setValues={setValues} />;
+  }
+};
+
+interface inputProps {
+  item: tFormItem;
+  values: Record<string, TypeForm.tInputValue>;
+  setValues: React.Dispatch<
+    React.SetStateAction<Record<string, TypeForm.tInputValue>>
+  >;
+}
+
+const TextItem = ({ item, values, setValues }: inputProps) => {
+  return (
+    <SmallTextField
+      label={item.label}
+      required={item.required}
+      props={{
+        type: item.type,
+        multiline: item.type === "textarea",
+        rows: item.row,
+        value: values[item.label],
+        onChange: (e) =>
+          handleChangeValues(e.target.value, item.label, setValues),
+      }}
+    />
+  );
+};
+
+const Select = ({ item, values, setValues }: inputProps) => {
+  return (
+    <SmallSelect
+      id={"select-" + item.uuid}
+      flgNoSelect={!item.required}
+      label={item.label}
+      items={item.options?.map((opt) => ({ id: opt, label: opt })) || []}
+      value={values[item.label] ? String(values[item.label]) : ""}
+      cbValueChange={(val) => {
+        handleChangeValues(val, item.label, setValues);
+      }}
+    />
+  );
+};

@@ -8,10 +8,8 @@ import { create } from "../../core/axios";
  */
 export function post(params: TypeForm.tPostMapEndInput) {
   const API_URL = process.env.NEXT_PUBLIC_MAP_TTNOU_ENDINPUT_STORE || "";
-  const domain = document.querySelector("meta[name='mapttnou-domain']");
   const ins = create();
   return ins.post(API_URL, {
     ...params,
-    domain: domain?.getAttribute("content"),
   });
 }

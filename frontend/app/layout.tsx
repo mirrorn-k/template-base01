@@ -7,10 +7,12 @@ import { CssBaseline } from "@mui/material";
 import { headers } from "next/headers";
 import * as ContextCommon from "@/packages/core/context/Common";
 import * as ContextMapInfo from "@/packages/core/context/MapData";
-import ModalContact from "@/packages/core/modal/Contact";
 import MenuModal from "@/packages/core/modal/Menu";
 import getThemeOptions from "@/functions/api/themeOptions";
 import * as GtmScript from "@/packages/core/google/GtmScript";
+import getFormContent from "@/packages/core/contactForm/api";
+import ContactModal from "@/packages/core/contactForm/Modal";
+import getMenus from "@/functions/api/menus";
 
 export default async function RootLayout({
   children,
@@ -25,7 +27,11 @@ export default async function RootLayout({
       ? "https"
       : headersList.get("x-forwarded-proto") || "https";
 
-  const options = await getThemeOptions();
+  // APIから共通データを取得
+  const { options, cfItems, menus } = await api();
+
+  console.log("[Layout] menus", menus);
+  console.log("[Layout] cfItems", cfItems);
 
   return (
     <html lang="ja">
@@ -55,24 +61,36 @@ export default async function RootLayout({
         <script src={`${process.env.MAP_JS_EVENTDATA}`} async></script>
       </head>
       <CssBaseline />
-      <ContextCommon.Provider>
-        {/* パッケージ共通 */}
-        <ContextMapInfo.Provider>
+      {/* パッケージ共通 */}
+      <ContextMapInfo.Provider>
+        <ContextCommon.Provider>
           {/* パッケージ共通：トトノウMA＋共通データ */}
           <body className={`bg-white text-black`}>
             {/* GTMタグスクリプト */}
             <GtmScript.Body tag={""} />
 
             <BaseThemeProvider options={options}>
-              <Header />
+              <Header menus={menus} />
               <main>{children}</main>
               <Footer />
             </BaseThemeProvider>
-            <ModalContact />
             <MenuModal menus={[{ label: "について", href: "/about" }]} />
+            <ContactModal items={cfItems} />
           </body>
-        </ContextMapInfo.Provider>
-      </ContextCommon.Provider>
+        </ContextCommon.Provider>
+      </ContextMapInfo.Provider>
     </html>
   );
+}
+
+async function api() {
+  const options = await getThemeOptions();
+
+  const cfItems = await getFormContent({
+    url: `${process.env.NEXT_PUBLIC_MAP_API_CONTACT_FORM}?${process.env.NEXT_PUBLIC_MAP_API_CONTACT_FORM_PARAM}`,
+  });
+
+  const menus = await getMenus();
+
+  return { options, cfItems, menus };
 }
