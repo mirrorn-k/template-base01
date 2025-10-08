@@ -3,13 +3,24 @@
 import { useTheme } from "@mui/material/styles";
 import { Box, Typography, Link } from "@mui/material";
 import ResponsiveBox from "@/packages/core/atoms/Box";
-import * as Image from "@/packages/core/media/Index";
-import { IMAGE_DEFAULT } from "@/const/Image";
-import Menu01 from "@/components/menu/Menu01";
+import * as Image from "@/packages/component/media/Index";
 import HtmlText from "@/packages/core/atoms/Typography";
+import React from "react";
+import { tFooterItem } from "@/types/mapFooter";
+import * as ContextCommon from "@/packages/core/context/Common";
+import { getResponsiveValue } from "@/packages/core/function/responsiveValue/index";
 
-export default function FooterBar() {
+interface Props {
+  // 追加のpropsがあればここに定義
+  contents: tFooterItem;
+}
+export default function FooterBar(props: Props) {
   const theme = useTheme();
+  const { screenSize } = ContextCommon.useContents();
+
+  const logo = props.contents.logo
+    ? getResponsiveValue(props.contents.logo, screenSize)
+    : undefined;
   return (
     <Box
       component={"footer"}
@@ -32,16 +43,27 @@ export default function FooterBar() {
           alignItems: "center",
         }}
       >
-        <Image.MediaImage
-          media={IMAGE_DEFAULT}
-          imgProps={{ style: { maxWidth: "380px", maxHeight: "280px" } }}
-        />
-        <HtmlText
-          sx={{ textAlign: "center" }}
-          text="This is a sample footer text with <strong>HTML</strong> content."
-        />
+        {logo && (
+          <Image.MediaImage
+            media={logo}
+            imgProps={{ style: { maxWidth: "380px", maxHeight: "280px" } }}
+          />
+        )}
 
-        <Menu01 flgContact={false} />
+        <Box
+          sx={{
+            width: "100%",
+            borderTop: "1px solid",
+            borderColor: theme.palette.primary.contrastText,
+          }}
+        />
+        {props.contents.text && (
+          <HtmlText
+            sx={{ textAlign: "center" }}
+            text={props.contents.text || ""}
+          />
+        )}
+
         <Typography variant="body2" align="center">
           © {new Date().getFullYear()} addonem llc. All rights reserved.{" "}
           <Link href="/privacy" color="inherit">

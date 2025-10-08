@@ -1,6 +1,6 @@
 "use client";
-import * as Image from "@/packages/core/media/Index";
-import { tMedia } from "@/packages/core/media/type";
+import * as Image from "@/packages/component/media/Index";
+import { tMedia } from "@/packages/component/media/type";
 import { FlexColumnBox } from "@/packages/core/atoms/Box";
 import HtmlText from "@/packages/core/atoms/Typography";
 import ResponsiveBox from "@/packages/core/atoms/Box";
@@ -34,9 +34,9 @@ export default function Content01(props: Content01Props) {
       }}
     >
       <Image.MediaImage media={props.media} />
-      <ResponsiveBox maxWidth="md" sx={{ mt: 2 }}>
+      <ResponsiveBox maxWidth="sm" sx={{ mt: 2 }}>
         <HtmlText
-          text="ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文ここに説明文"
+          text={props.caption}
           variant="body1"
           sx={{
             mt: 2,

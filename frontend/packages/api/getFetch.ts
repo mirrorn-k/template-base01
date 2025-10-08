@@ -7,7 +7,6 @@ export type CacheOptions = {
 
 export default async function getFetch(
   url: string,
-  params?: RequestInit,
   options: CacheOptions = {
     next: { revalidate: 3600 },
   } // デフォルト: 一時間に一回再検証
@@ -20,7 +19,6 @@ export default async function getFetch(
 
   const u = url.replace("localhost:8102", "backend:80");
 
-  console.log(`[Fetch] ${u} `);
   const res = await fetch(u, options);
 
   if (!res.ok) throw new Error(`取得に失敗しました: ${res.status}`);

@@ -1,4 +1,4 @@
-import { PaginatedResponse } from "@/packages/core/list/type";
+import { PaginatedResponse } from "@/packages/component/list/type";
 import { Responsive } from "@/packages/core/function/responsiveValue/type";
 
 export type tMedia = {

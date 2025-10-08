@@ -1,16 +1,25 @@
 "use client";
 import { Box, Typography } from "@mui/material";
-import * as Image from "@/packages/core/media/Index";
-import { tMedia } from "@/packages/core/media/type";
+import * as Image from "@/packages/component/media/Index";
+import { tMedia } from "@/packages/component/media/type";
+import { Responsive } from "@/packages/core/function/responsiveValue/type";
+import { getResponsiveValue } from "@/packages/core/function/responsiveValue/index";
+import { IMAGE_SUBPAGE_KV } from "@/const/Image";
+import * as ContextCommon from "@/packages/core/context/Common";
 
 interface Props {
-  media: tMedia;
+  medias: Responsive<tMedia> | undefined;
   title: string;
   subtitle?: string;
 }
 
 export default function Main(props: Props) {
-  //const { screenSize } = ContextCommon.useContents();
+  const { screenSize } = ContextCommon.useContents();
+
+  // mediasがあり、screenSizeに対応する画像があればそれを使い、なければデフォルト画像を使う
+  const media = props.medias
+    ? getResponsiveValue(props.medias, screenSize) || IMAGE_SUBPAGE_KV
+    : IMAGE_SUBPAGE_KV;
 
   return (
     <Box
@@ -18,13 +27,13 @@ export default function Main(props: Props) {
       sx={{
         position: "relative",
         maxWidth: "100%",
-        maxHeight: "100%",
+        maxHeight: { xs: 300, sm: 400, md: 500, lg: 600 },
         width: "100%",
         height: "auto",
-        aspectRatio: `${props.media.width} / ${props.media.height}`,
+        aspectRatio: `${media.width} / ${media.height}`,
       }}
     >
-      <Image.MediaImage media={props.media} fill={true} objectFit="contain" />
+      <Image.MediaImage media={media} fill={true} objectFit="contain" />
       <Box
         sx={{
           position: "absolute",

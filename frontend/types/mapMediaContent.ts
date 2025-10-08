@@ -1,4 +1,4 @@
-import { tMedia } from "@/packages/core/media/type";
+import { tMedia } from "@/packages/component/media/type";
 import { Responsive } from "@/packages/core/function/responsiveValue/type";
 
 export type tMediaContent = {

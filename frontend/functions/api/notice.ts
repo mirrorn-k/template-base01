@@ -1,8 +1,8 @@
 import getFetch from "@/packages/api/getFetch";
 import * as tMapNotice from "@/types/mapNotice";
-import { tList01 } from "@/packages/core/list/List01";
+import { tList01 } from "@/packages/component/list/List01";
 
-import normalizeMediaUrl from "@/packages/core/media/lib/nomalizeMediaUrl";
+import normalizeMediaUrl from "@/packages/component/media/lib/nomalizeMediaUrl";
 
 export default async function ItemPage({ uuid }: { uuid: string }) {
   // パスパラメータ利用

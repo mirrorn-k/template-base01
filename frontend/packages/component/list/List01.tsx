@@ -1,9 +1,14 @@
 "use client";
 
+/**
+ * 日時を使ったリスト表示
+ * 詳細ページへのリンク付き
+ */
+
 import { Button, Box, Typography } from "@mui/material";
-import * as Image from "@/packages/core/media/Index";
+import * as Image from "@/packages/component/media/Index";
 import { FlexColumnBox } from "@/packages/core/atoms/Box";
-import { tMedia } from "@/packages/core/media/type";
+import { tMedia } from "@/packages/component/media/type";
 import React from "react";
 import Link from "next/link";
 import { Responsive } from "@/packages/core/function/responsiveValue/type";
@@ -11,7 +16,16 @@ import * as ContextCommon from "@/packages/core/context/Common";
 import { getResponsiveValue } from "@/packages/core/function/responsiveValue/index";
 
 /**
- * お知らせ形式
+ * 日付を使ったリスト表示
+ * 詳細ページへのリンク付き
+ * @remarks
+ * 画像は任意
+ * @example
+ * <List01 list={list} route="news" />
+ * @param list リストデータ
+ * @param route 詳細ページのルート（例: news, events）
+ * @return リスト表示コンポーネント
+ *
  */
 export type tList01 = {
   uuid: string;

@@ -1,8 +1,8 @@
 import * as tMapNotice from "@/types/mapNotice";
-import { tList01 } from "@/packages/core/list/List01";
+import { tList01 } from "@/packages/component/list/List01";
 import { tParams } from "@/packages/api/type";
 import getFetch, { fetchWithParams } from "@/packages/api/getFetch";
-import normalizeMediaUrl from "@/packages/core/media/lib/nomalizeMediaUrl";
+import normalizeMediaUrl from "@/packages/component/media/lib/nomalizeMediaUrl";
 import { NoticesApiResponse } from "@/types/mapNotice";
 
 export type tTerms = {

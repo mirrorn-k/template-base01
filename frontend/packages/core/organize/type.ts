@@ -15,7 +15,11 @@ export type tOrganize = {
   email: string; // メールアドレス
   google_map: string; // Google Map URL
   google_map_link: string; // Google Mapリンク
-  google_tm_script: string; // Google Tag Manager Script
-  google_tm_script_body: string; // Google Tag Manager Script Body
   caption: string; // キャッチコピー
+  gtm_tag: string; // Google Tag Manager タグID
+
+  // 廃止
+
+  //google_tm_script: string; // Google Tag Manager Script
+  //google_tm_script_body: string; // Google Tag Manager Script Body
 };

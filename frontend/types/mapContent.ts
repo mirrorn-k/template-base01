@@ -1,4 +1,4 @@
-import { tMedia } from "@/packages/core/media/type";
+import { tMedia } from "@/packages/component/media/type";
 
 /**
  * 「イメージ1〜3」を含む構造化されたコンテンツ

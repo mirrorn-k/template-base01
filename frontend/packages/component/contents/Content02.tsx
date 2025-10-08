@@ -1,14 +1,18 @@
+"use client";
+
 /**
- * メニューのリストコンポーネント
+ * タイトルをリンク付きで表示するコンポーネント
+ * 主にメニューのリストコンポーネント
  *　画像のMAXは横幅800px、縦幅600px
  *
  */
 
 import { FlexBox, FlexColumnBox } from "@/packages/core/atoms/Box";
 import { Typography, Box } from "@mui/material";
-import * as Image from "@/packages/core/media/Index";
-import { tMedia } from "@/packages/core/media/type";
+import * as Image from "@/packages/component/media/Index";
+import { tMedia } from "@/packages/component/media/type";
 import LinkButton from "@/atoms/LinkButton";
+import HtmlText from "@/packages/core/atoms/Typography";
 
 export default function Main(props: {
   media: tMedia;
@@ -51,9 +55,7 @@ export default function Main(props: {
         <Typography variant="h3" component="h4" gutterBottom>
           {props.title}
         </Typography>
-        <Typography variant="body1" gutterBottom>
-          {props.caption}
-        </Typography>
+        <HtmlText text={props.caption} variant="body1" />
         <LinkButton
           linkHref={props.linkHref}
           linkText={props.linkText}

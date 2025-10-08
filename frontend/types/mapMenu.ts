@@ -1,18 +1,15 @@
 // packages/api/type.ts
+import { tMedia } from "@/packages/component/media/type";
+import { tMediaContent } from "@/types/mapMediaContent";
+import { Responsive } from "@/packages/core/function/responsiveValue/type";
 
-export interface MediaContent {
-  name: string;
-  caption: string;
-  file: string;
-  width: number;
-  height: number;
-  url: string;
-}
+export type ImgContentValue = null | tMedia | tMediaContent;
 
 export interface MenuItem {
-  label: string; // 名称
-  slug: string; // スラッグ
-  img?: MediaContent; // KV 画像
+  uuid: string;
+  label: string;
+  slug: string;
+  img?: Responsive<tMedia>;
 }
 
 export interface ContentItem {
@@ -27,9 +24,9 @@ export interface ContentItem {
   type: string; // string | media | etc
   raw_value: string | null;
   options: string[] | null;
-  type_kbn: number;
+  type_kbn: number | string;
   type_options: string[] | null;
-  content: MediaContent | null;
+  content: ImgContentValue;
 }
 
 export interface ListContent {

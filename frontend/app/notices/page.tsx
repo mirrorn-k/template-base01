@@ -1,16 +1,15 @@
 import { Typography } from "@mui/material";
 import ResponsiveBox from "@/packages/core/atoms/Box";
 import * as Contents from "./Content";
-import { Metadata } from "next";
+import getMeta from "@/functions/api/meta";
 
 // メタデータを設定
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug?: string[] }>;
-}): Promise<Metadata> {
-  const resolved = await params;
-  return {};
+  params: { slug: string };
+}) {
+  return await getMeta({ slug: params.slug || "" });
 }
 
 export default async function Main() {

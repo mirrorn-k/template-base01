@@ -7,7 +7,9 @@ type HtmlTextProps = TypographyProps & {
   sx?: SxProps<Theme>;
 };
 
-const HtmlTypography = styled(Typography)({});
+const HtmlTypography = styled(Typography)({
+  whiteSpace: "pre-line",
+});
 
 export default function HtmlText({ text, sx, ...props }: HtmlTextProps) {
   return (

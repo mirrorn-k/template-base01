@@ -1,4 +1,4 @@
-import { tMedia } from "@/packages/core/media/type";
+import { tMedia } from "@/packages/component/media/type";
 import { tMediaContent } from "@/types/mapMediaContent";
 
 export type KvContentValue = null | tMedia | tMediaContent;

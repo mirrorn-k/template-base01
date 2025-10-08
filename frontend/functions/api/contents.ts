@@ -1,13 +1,13 @@
 import { tParams } from "@/packages/api/type";
 import getFetch, { fetchWithParams } from "@/packages/api/getFetch";
-import normalizeMediaUrl from "@/packages/core/media/lib/nomalizeMediaUrl";
+import normalizeMediaUrl from "@/packages/component/media/lib/nomalizeMediaUrl";
 import {
   ContentListApiResponse,
   Content,
   Item,
   ContentValue,
 } from "@/types/mapContent";
-import { tMedia } from "@/packages/core/media/type";
+import { tMedia } from "@/packages/component/media/type";
 
 /**
  * content_items[].content の「イメージ1〜3」を tMedia に変換する
@@ -100,4 +100,33 @@ export default async function getContents(props: {
   const list = extractListContent(data);
 
   return convert(list);
+}
+
+/**
+ * SSR 用：下層ページコンテンツ取得
+ */
+export async function getSubpageContents(props: {
+  slug: string;
+}): Promise<Content[]> {
+  const u = fetchWithParams<{ slug: string }>(
+    `${process.env.NEXT_PUBLIC_MAP_API_CONTENT_SUBPAGE}`
+  );
+  const data: ContentListApiResponse = await getFetch(u);
+
+  // 1️⃣ 一旦そのまま抽出（生データ）
+  const list = extractListContent(data);
+
+  // 2️⃣ slug で対象ページを絞り込み
+  const filtered = list.filter((content) =>
+    content.content_items.some((item) => {
+      if (item.label !== "対象ページ" || !item.content) return false;
+      const targetSlug =
+        (item.content["スラッグ"] as string) ||
+        (item.content["slug"] as string);
+      return targetSlug === props.slug;
+    })
+  );
+
+  // 3️⃣ 絞り込んだデータだけ変換
+  return convert(filtered);
 }

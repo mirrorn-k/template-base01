@@ -1,19 +1,16 @@
 import getFetch from "@/packages/api/getFetch";
 import { Responsive } from "@/packages/core/function/responsiveValue/type";
-import { tMedia } from "@/packages/core/media/type";
-import { tMapContent, Content } from "@/packages/core/media/type";
-import normalizeMediaUrl from "@/packages/core/media/lib/nomalizeMediaUrl";
+import { tMedia } from "@/packages/component/media/type";
+import { tMapContent, Content } from "@/packages/component/media/type";
+import normalizeMediaUrl from "@/packages/component/media/lib/nomalizeMediaUrl";
 
 export default async function getContentItem({
-  uuid,
+  url,
 }: {
-  uuid: string;
+  url: string;
 }): Promise<tMapContent | undefined> {
   // API呼び出し
-  const data = await getFetch(
-    `${process.env.NEXT_PUBLIC_MAP_API_BASE_MEDIA}${uuid}`,
-    { cache: "no-store" }
-  );
+  const data = await getFetch(`${url}`);
 
   return convert(data);
 }

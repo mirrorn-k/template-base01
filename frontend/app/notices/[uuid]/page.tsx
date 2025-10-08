@@ -1,25 +1,24 @@
-import { Metadata } from "next";
 import ResponsiveBox from "@/packages/core/atoms/Box";
 import { Typography } from "@mui/material";
-import { Detail } from "@/packages/core/list/List01";
-
+import { Detail } from "@/packages/component/list/List01";
 import getNotice from "@/functions/api/notice";
+import getMeta from "@/functions/api/meta";
 
 // メタデータを設定
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ uuid?: string[] }>;
-}): Promise<Metadata> {
-  const resolved = await params;
-  return {};
+  params: { slug: string };
+}) {
+  return await getMeta({ slug: params.slug || "" });
 }
+
 export default async function Main({ params }: { params: { uuid?: string } }) {
   // URLパラメータ（/notice/aaa/bbb → ["aaa","bbb"]）
   const uuid = params.uuid ?? "unknown";
 
   // サーバサイドでAPIコール
-  const notice = await getNotice({ uuid: uuid });
+  const [notice] = await Promise.all([getNotice({ uuid: uuid })]);
 
   if (!notice) {
     return (

@@ -1,48 +1,27 @@
 "use client";
-import {
-  createContext,
-  useState,
-  ReactNode,
-  useContext,
-  useEffect,
-} from "react";
+import { createContext, useState, ReactNode, useContext } from "react";
 import { tOrganize } from "../organize/type";
-import getOrganize from "../organize/api";
 
 interface DataContextProps {
-  Organize: tOrganize | null; // 会社情報
+  organize: tOrganize | null; // 会社情報
 }
 
 // デフォルト値を定義
 const defaultValue: DataContextProps = {
-  Organize: null,
+  organize: null,
 };
 
 export const DataContext = createContext<DataContextProps>(defaultValue);
 
 interface DataProviderProps {
+  initialOrganize?: tOrganize | null;
   children: ReactNode;
 }
 export const Provider = (props: DataProviderProps) => {
-  const [Organize, setOrganize] = useState<tOrganize | null>(null);
-
-  useEffect(() => {
-    console.log("[MapData] useEffect");
-
-    /**
-     * 会社情報の取得とコンバート処理
-     */
-    /*
-    const fetchOrg = async () => {
-      const org: tOrganize | null = await getOrganize();
-      setOrganize(org);
-    };
-    fetchOrg();
-    */
-  }, []);
+  const [organize] = useState<tOrganize | null>(props.initialOrganize ?? null);
 
   return (
-    <DataContext.Provider value={{ Organize }}>
+    <DataContext.Provider value={{ organize }}>
       {props.children}
     </DataContext.Provider>
   );

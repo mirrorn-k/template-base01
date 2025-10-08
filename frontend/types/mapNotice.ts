@@ -1,5 +1,5 @@
-import { tMedia } from "@/packages/core/media/type";
-import { PaginatedResponse } from "@/packages/core/list/type";
+import { tMedia } from "@/packages/component/media/type";
+import { PaginatedResponse } from "@/packages/component/list/type";
 
 // 個々のアイテム
 export interface NoticeContentItem {

@@ -1,8 +1,8 @@
 "use client";
 import { Box, Typography } from "@mui/material";
-import * as Image from "@/packages/core/media/Index";
+import * as Image from "@/packages/component/media/Index";
 import * as ContextCommon from "@/packages/core/context/Common";
-import { tMedia } from "@/packages/core/media/type";
+import { tMedia } from "@/packages/component/media/type";
 import { getResponsiveValue } from "@/packages/core/function/responsiveValue/index";
 import { Responsive } from "@/packages/core/function/responsiveValue/type";
 import { IMAGE_DEFAULT } from "@/const/Image";
@@ -243,7 +243,7 @@ const LatestNews = (props: { notice: tNotice; sx?: SxProps<Theme> }) => {
         </Box>
       </Box>
       <LinkButton
-        href="/news"
+        href="/notices"
         variant="contained"
         size="small"
         className="link-button"

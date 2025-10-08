@@ -1,15 +1,13 @@
 import { tOrganize } from "../../core/organize/type";
 import INIT from "../../core/organize/const";
 import convert from "../convert";
-import getContents from "../getContents";
+import getFetch from "../getFetch";
 
 /**
  * 会社情報
  * @returns
  */
-export default async function Main(
-  flgCacheClear?: boolean
-): Promise<tOrganize> {
+export default async function Main(): Promise<tOrganize> {
   const apiUrl = convert(
     `${process.env.NEXT_PUBLIC_META_API_URL ?? ""}?${
       process.env.NEXT_PUBLIC_META_API_URL_PARAM ?? ""
@@ -20,5 +18,5 @@ export default async function Main(
     return INIT;
   }
 
-  return await getContents(apiUrl, flgCacheClear);
+  return await getFetch(apiUrl);
 }
