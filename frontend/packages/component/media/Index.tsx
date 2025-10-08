@@ -1,5 +1,5 @@
 import React from "react";
-import { BaseImage } from "../atoms/Image";
+import { BaseImage } from "@/packages/core/atoms/Image";
 import { tMedia } from "./type";
 import Image from "next/image";
 import { IMAGE_DEFAULT } from "@/const/Image";

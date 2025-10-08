@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useState, ReactNode, useContext } from "react";
-import { tOrganize } from "../organize/type";
+import { tOrganize } from "@/packages/core/organize/type";
 
 interface DataContextProps {
   organize: tOrganize | null; // 会社情報

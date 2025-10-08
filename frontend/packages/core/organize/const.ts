@@ -14,9 +14,8 @@ const INIT: type.tOrganize = {
   email: "", // メールアドレス
   google_map: "", // Google Map URL
   google_map_link: "", // Google Mapリンク
-  google_tm_script: "", // Google Tag Manager Script
-  google_tm_script_body: "", // Google Tag Manager Script Body
   caption: "", // キャッチコピー
+  gtm_tag: "", // Google Tag Managerタグ
 };
 
 export default INIT;

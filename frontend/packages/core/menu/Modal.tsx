@@ -2,7 +2,7 @@
 import Modal from "@/packages/core/atoms/Modal";
 import { Typography } from "@mui/material";
 import { LinkBox } from "@/packages/core/atoms/Link";
-import { FlexColumnBox, FlexBox } from "@/packages/core/atoms/Box";
+import { FlexColumnBox } from "@/packages/core/atoms/Box";
 import { useTheme } from "@mui/material/styles";
 import * as ContextCommon from "@/packages/core/context/Common";
 

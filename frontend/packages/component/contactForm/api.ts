@@ -4,13 +4,12 @@ import { FormApiResponse, ListContent, tFormItem } from "./type";
 
 interface Props {
   url: string;
-  options?: RequestInit;
 }
 
 export default async function getFormContent(
   props: Props
 ): Promise<tFormItem[]> {
-  const res: FormApiResponse = await getFetch(props.url, props.options);
+  const res: FormApiResponse = await getFetch(props.url);
   return convert(res.listContent as ListContent[]);
 }
 

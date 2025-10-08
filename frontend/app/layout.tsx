@@ -5,7 +5,7 @@ import "./globals.css";
 import { CssBaseline } from "@mui/material";
 import * as ContextCommon from "@/packages/core/context/Common";
 import * as ContextMapInfo from "@/packages/core/context/MapData";
-import MenuModal from "@/packages/core/modal/Menu";
+import MenuModal from "@/packages/core/menu/Modal";
 import getThemeOptions from "@/functions/api/themeOptions";
 import * as GtmScript from "@/packages/component/google/GtmScript";
 import getFormContent from "@/packages/component/contactForm/api";

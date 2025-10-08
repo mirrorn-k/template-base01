@@ -1,4 +1,4 @@
-import * as SoundPlayer from "../../../ui/components/media/SoundPlayer";
+import * as SoundPlayer from "@/packages/component/media/SoundPlayer";
 
 export default function Main(props: SoundPlayer.Props) {
   const newProps = { ...props };

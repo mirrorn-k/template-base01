@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { MediaImage } from "./Index";
 import { tMedia } from "./type";
-import * as ContextCommon from "../context/Common";
+import * as ContextCommon from "@/packages/core/context/Common";
 import { useState, useEffect } from "react";
 import { Fade } from "@mui/material";
 

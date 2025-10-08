@@ -1,16 +1,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Modal from "../atoms/Modal";
+import Modal from "@/packages/core/atoms/Modal";
 import Grid from "@mui/material/Grid2";
-import { SmallTextField } from "../atoms/TextField";
-import * as atomBtn from "../atoms/Button";
+import { SmallTextField } from "@/packages/core/atoms/TextField";
+import * as atomBtn from "@/packages/core/atoms/Button";
 import { useSearchParams } from "next/navigation";
 import { Typography } from "@mui/material";
-import * as TypeForm from "../form/type";
-import * as apiEndInput from "../../api/map/endInput";
-import * as ContextCommon from "../context/Common";
+import * as TypeForm from "@/packages/core/form/type";
+import * as apiEndInput from "@/packages/api/map/endInput";
+import * as ContextCommon from "@/packages/core/context/Common";
 import { tFormItem } from "./type";
-import { SmallSelect } from "../atoms/Select";
+import { SmallSelect } from "@/packages/core/atoms/Select";
 
 /**
  * Hash型の入力フォームの変更を処理する関数

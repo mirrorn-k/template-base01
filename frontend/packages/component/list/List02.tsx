@@ -7,7 +7,7 @@ import * as Image from "@/packages/component/media/Index";
 import { FlexColumnBox } from "@/packages/core/atoms/Box";
 import React from "react";
 import { useRouter } from "next/navigation";
-import Hashtags from "@/packages/core/hashtag/Hashtag01";
+import Hashtags from "@/packages/component/hashtag/Hashtag01";
 import { tMedia } from "@/packages/component/media/type";
 
 /**
