@@ -1,4 +1,4 @@
-import getFetch from "@/packages/api/getFetch";
+import getFetch from "@/packages/core/api/getFetch";
 import {
   tAboutApiResponse,
   tAboutListContent,

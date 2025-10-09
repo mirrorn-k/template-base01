@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import KV from "@/components/kv/Index";
 import ResponsiveBox from "@/packages/core/atoms/Box";
 import Contact01 from "@/components/contact/Contact01";
@@ -5,15 +6,11 @@ import getNotices from "@/functions/api/notices";
 import getKv from "@/functions/api/kv";
 import getContents from "@/functions/api/contents";
 import ContentsSelecter from "@/packages/component/contents/Index";
-import getMeta from "@/functions/api/meta";
+import getMeta from "@/packages/core/meta/api";
 
 // メタデータを設定
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  return await getMeta({ slug: params.slug || "" });
+export async function generateMetadata() {
+  return await getMeta({ slug: "" });
 }
 
 export default async function Home() {

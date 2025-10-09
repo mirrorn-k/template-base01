@@ -8,7 +8,6 @@ import { MenuButton } from "@/packages/core/atoms/Button";
 import { Link } from "@mui/material";
 
 const Main = (props: { menus: MenuItem[]; organizeName: string }) => {
-  console.log("[Header] render", props.menus);
   return (
     <>
       <AppBar className="appbar">

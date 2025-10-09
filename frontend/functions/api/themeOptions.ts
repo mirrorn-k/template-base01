@@ -1,13 +1,18 @@
-import getFetch from "@/packages/api/getFetch";
+import getFetch from "@/packages/core/api/getFetch";
 import { ThemeOptions } from "@mui/material/styles";
 import { ThemeApiResponse } from "@/types/mapTheme";
 
 export default async function getTheme(): Promise<ThemeOptions> {
-  const dataSetting: ThemeApiResponse = await getFetch(
-    `${process.env.NEXT_PUBLIC_MAP_API_THEME}`
-  );
+  try {
+    const dataSetting: ThemeApiResponse = await getFetch(
+      `${process.env.NEXT_PUBLIC_MAP_API_THEME}`
+    );
 
-  return convert(dataSetting);
+    return convert(dataSetting);
+  } catch (e) {
+    console.error("[getTheme] fetch error", e);
+    return {};
+  }
 }
 
 /**

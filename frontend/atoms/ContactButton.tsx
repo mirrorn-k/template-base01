@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import { useContents } from "@/packages/core/context/Common";
 
 type Props = {

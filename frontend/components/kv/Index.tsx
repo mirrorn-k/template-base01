@@ -36,9 +36,6 @@ export default function Main({
   const logoImg = kv?.content_items.find((item) => item.label === "ロゴ")
     ?.content as tMediaContent;
 
-  console.log("kvImg", kvImg);
-  console.log("logoImg", logoImg);
-
   return (
     <Box
       id="kv"

@@ -1,15 +1,12 @@
+export const dynamic = "force-dynamic";
 import { Typography } from "@mui/material";
 import ResponsiveBox from "@/packages/core/atoms/Box";
 import * as Contents from "./Content";
-import getMeta from "@/functions/api/meta";
+import getMeta from "@/packages/core/meta/api";
 
 // メタデータを設定
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  return await getMeta({ slug: params.slug || "" });
+export async function generateMetadata() {
+  return await getMeta({ slug: "notices" });
 }
 
 export default async function Main() {

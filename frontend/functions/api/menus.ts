@@ -1,5 +1,5 @@
 // packages/api/getMenu.ts
-import getFetch from "@/packages/api/getFetch";
+import getFetch from "@/packages/core/api/getFetch";
 import {
   MenuItem,
   MenuApiResponse,
@@ -14,10 +14,15 @@ import { tMedia } from "@/packages/component/media/type";
  * メニュー情報を API から取得する
  */
 export default async function getMenus(): Promise<MenuItem[]> {
-  const res: MenuApiResponse = await getFetch(
-    `${process.env.NEXT_PUBLIC_MAP_API_MENU}?${process.env.NEXT_PUBLIC_MAP_API_MENU_PARAMS}`
-  );
-  return convert(res);
+  try {
+    const res: MenuApiResponse = await getFetch(
+      `${process.env.NEXT_PUBLIC_MAP_API_MENU}?${process.env.NEXT_PUBLIC_MAP_API_MENU_PARAMS}`
+    );
+    return convert(res);
+  } catch (e) {
+    console.error("[getMenus] fetch error", e);
+    return [];
+  }
 }
 
 /**

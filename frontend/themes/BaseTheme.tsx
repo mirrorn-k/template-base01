@@ -117,8 +117,6 @@ interface ThemeProps {
 }
 
 const BaseThemeProvider: React.FC<ThemeProps> = ({ options, children }) => {
-  console.log("BaseThemeProvider options:", options);
-
   // themeをuseMemoで生成
   const themeOptions = useMemo(() => createTheme(options), []);
 

@@ -1,5 +1,5 @@
 // functions/api/meta/getMeta.ts
-import getFetch from "@/packages/api/getFetch";
+import getFetch from "@/packages/core/api/getFetch";
 import { Metadata } from "next";
 import { tMedia } from "@/packages/component/media/type";
 import {
@@ -7,7 +7,7 @@ import {
   MetaLinkedContent,
   MetaListContent,
   MetaContentItem,
-} from "@/types/mapMeta";
+} from "./type";
 
 /* ===================== 基本型・定数 ===================== */
 

@@ -7,7 +7,7 @@ import * as atomBtn from "@/packages/core/atoms/Button";
 import { useSearchParams } from "next/navigation";
 import { Typography } from "@mui/material";
 import * as TypeForm from "@/packages/core/form/type";
-import * as apiEndInput from "@/packages/api/map/endInput";
+import * as apiEndInput from "@/packages/core/api/endInput";
 import * as ContextCommon from "@/packages/core/context/Common";
 import { tFormItem } from "./type";
 import { SmallSelect } from "@/packages/core/atoms/Select";
@@ -108,7 +108,6 @@ const Main = ({ items = [] }: { items: tFormItem[] }) => {
             variant="contained"
             color={"primary"}
             onClick={() => {
-              console.log(values);
               handleOnClick();
             }}
           >

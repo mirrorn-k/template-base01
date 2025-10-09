@@ -4,7 +4,7 @@ import useSWR from "swr";
 import axios from "axios";
 import * as tMapNotice from "@/types/mapNotice";
 import { tList01 } from "@/packages/component/list/List01";
-import { tParams } from "@/packages/api/type";
+import { tParams } from "@/packages/core/api/type";
 import { PaginationMeta } from "@/packages/component/list/type";
 import normalizeMediaUrl from "@/packages/component/media/lib/nomalizeMediaUrl";
 

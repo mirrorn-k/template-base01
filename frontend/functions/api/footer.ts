@@ -1,4 +1,4 @@
-import getFetch from "@/packages/api/getFetch";
+import getFetch from "@/packages/core/api/getFetch";
 import {
   FooterApiResponse,
   FooterListContent,
@@ -13,11 +13,18 @@ import normalizeMediaUrl from "@/packages/component/media/lib/nomalizeMediaUrl";
  * フッター用コンテンツを取得
  */
 export default async function getFooterContent(): Promise<tFooterItem> {
-  const res: FooterApiResponse = await getFetch(
-    `${process.env.NEXT_PUBLIC_MAP_API_FOOTER}?${process.env.NEXT_PUBLIC_MAP_API_FOOTER_PARAM}`
-  );
-  console.log("res", res.listContent[0].content_items);
-  return convert(res.listContent[0]);
+  try {
+    const res: FooterApiResponse = await getFetch(
+      `${process.env.NEXT_PUBLIC_MAP_API_FOOTER}?${process.env.NEXT_PUBLIC_MAP_API_FOOTER_PARAM}`
+    );
+    return convert(res.listContent[0]);
+  } catch (e) {
+    console.error("[getFooterContent] fetch error", e);
+    return {
+      uuid: "",
+      text: "",
+    };
+  }
 }
 
 /**

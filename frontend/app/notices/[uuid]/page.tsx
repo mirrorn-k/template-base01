@@ -1,31 +1,43 @@
+export const dynamic = "force-dynamic";
 import ResponsiveBox from "@/packages/core/atoms/Box";
 import { Typography } from "@mui/material";
 import { Detail } from "@/packages/component/list/List01";
 import getNotice from "@/functions/api/notice";
-import getMeta from "@/functions/api/meta";
+import getMeta from "@/packages/core/meta/api";
 
 // メタデータを設定
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug?: string | string[] }>;
 }) {
-  return await getMeta({ slug: params.slug || "" });
+  const resolved = await params; // 👈 awaitが必須
+  const slug = Array.isArray(resolved.slug)
+    ? resolved.slug[0]
+    : resolved.slug ?? "";
+  return await getMeta({ slug });
 }
 
-export default async function Main({ params }: { params: { uuid?: string } }) {
+export default async function Main({
+  params,
+}: {
+  params: Promise<{ slug?: string | string[] }>;
+}) {
   // URLパラメータ（/notice/aaa/bbb → ["aaa","bbb"]）
-  const uuid = params.uuid ?? "unknown";
+  const resolved = await params; // 👈 awaitが必須
+  const uuid = Array.isArray(resolved.slug)
+    ? resolved.slug[0]
+    : resolved.slug ?? "";
+
+  if (!uuid) {
+    return <NotFound />;
+  }
 
   // サーバサイドでAPIコール
   const [notice] = await Promise.all([getNotice({ uuid: uuid })]);
 
   if (!notice) {
-    return (
-      <ResponsiveBox maxWidth="lg">
-        <Typography variant="h3">お知らせが見つかりません</Typography>
-      </ResponsiveBox>
-    );
+    return <NotFound />;
   }
 
   return (
@@ -49,3 +61,11 @@ export default async function Main({ params }: { params: { uuid?: string } }) {
     </ResponsiveBox>
   );
 }
+
+const NotFound = () => {
+  return (
+    <ResponsiveBox maxWidth="lg">
+      <Typography variant="h3">お知らせが見つかりません</Typography>
+    </ResponsiveBox>
+  );
+};

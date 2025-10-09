@@ -1,10 +1,9 @@
 # =========================
 # 設定
 # =========================
-PROJECTS   := frontend
-CUSTOMERS  := frontend
+PROJECTS   := frontend kimotokk.com three-good.co.jp
+CUSTOMERS  := frontend kimotokk.com three-good.co.jp
 NPM        ?= npm
-PORT       ?= 8150   # プロジェクト単体起動時のデフォルト公開ポート
 
 # =========================
 # プロジェクト単位（開発・共通）
@@ -15,6 +14,9 @@ setup:
 
 build:
 	docker compose build frontend
+
+npm-build: 
+	docker compose run --rm frontend sh -c "npm run build"
 
 build-no-cache:
 	docker compose build frontend --no-cache
@@ -35,18 +37,17 @@ cache-clear:
 
 # =========================
 # 本番：プロジェクト単位（本番と同じ compose で起動確認）
-# 例: make prod-cp01-build && make prod-cp01-up PORT=8001
+# 例: make prod-cp01-build && make prod-cp01-up 
 # =========================
 $(PROJECTS:%=prod-%-build):
 	COMPOSE_FILE=docker-compose.yml docker compose build $*
 
 $(PROJECTS:%=prod-%-up):
-	# PORT は docker-compose.yml の "${PORT:-8001}:3000" を上書き
-	COMPOSE_FILE=docker-compose.yml PORT=$(PORT) docker compose up $*
+	# PORT は docker-compose.yml の を上書き
+	COMPOSE_FILE=docker-compose.yml docker compose up $*
 
 $(PROJECTS:%=prod-%-upd):
-	# PORT は docker-compose.yml の "${PORT:-8001}:3000" を上書き
-	COMPOSE_FILE=docker-compose.yml PORT=$(PORT) docker compose up -d $*
+	COMPOSE_FILE=docker-compose.yml docker compose up -d $*
 
 $(PROJECTS:%=prod-%-logs):
 	COMPOSE_FILE=docker-compose.yml docker compose logs -f $*

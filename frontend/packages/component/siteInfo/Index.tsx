@@ -8,7 +8,6 @@ export default async function SiteInfoHead({
 }) {
   if (!info) return null;
 
-  console.log("SiteInfoHead render", info);
   return (
     <>
       {/* favicon */}

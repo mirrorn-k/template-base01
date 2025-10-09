@@ -1,4 +1,4 @@
-import getFetch from "@/packages/api/getFetch";
+import getFetch from "@/packages/core/api/getFetch";
 import { Responsive } from "@/packages/core/function/responsiveValue/type";
 import { tMedia } from "@/packages/component/media/type";
 import { tMapContent, Content } from "@/packages/component/media/type";

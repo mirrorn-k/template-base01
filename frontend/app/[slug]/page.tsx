@@ -1,20 +1,33 @@
+export const dynamic = "force-dynamic";
 import SubpageKv from "@/components/kv/Subpage";
 import getMenus from "@/functions/api/menus";
 import ContentsSelecter from "@/packages/component/contents/Index";
 import { getSubpageContents } from "@/functions/api/contents";
-import getMeta from "@/functions/api/meta";
+import getMeta from "@/packages/core/meta/api";
 
 // メタデータを設定
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug?: string | string[] }>;
 }) {
-  return await getMeta({ slug: params.slug || "" });
+  const resolved = await params; // 👈 awaitが必須
+  const slug = Array.isArray(resolved.slug)
+    ? resolved.slug[0]
+    : resolved.slug ?? "";
+  return await getMeta({ slug });
 }
 
-export default async function Home({ params }: { params: { slug: string } }) {
-  const { menu, contents } = await api({ slug: params.slug });
+export default async function Home({
+  params,
+}: {
+  params: Promise<{ slug?: string | string[] }>;
+}) {
+  const resolved = await params; // 👈 awaitが必須
+  const slug = Array.isArray(resolved.slug)
+    ? resolved.slug[0]
+    : resolved.slug ?? "";
+  const { menu, contents } = await api({ slug });
   if (!menu) {
     return (
       <>

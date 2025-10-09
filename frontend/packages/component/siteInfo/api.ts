@@ -1,5 +1,5 @@
 // functions/api/siteInfo.ts
-import getFetch from "@/packages/api/getFetch";
+import getFetch from "@/packages/core/api/getFetch";
 import { tSiteInfo, tSiteInfoContent } from "./type";
 
 /**

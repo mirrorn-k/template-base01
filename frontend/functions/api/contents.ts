@@ -1,5 +1,5 @@
-import { tParams } from "@/packages/api/type";
-import getFetch, { fetchWithParams } from "@/packages/api/getFetch";
+import { tParams } from "@/packages/core/api/type";
+import getFetch, { fetchWithParams } from "@/packages/core/api/getFetch";
 import normalizeMediaUrl from "@/packages/component/media/lib/nomalizeMediaUrl";
 import {
   ContentListApiResponse,

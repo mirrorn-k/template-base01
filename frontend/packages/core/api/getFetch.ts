@@ -1,4 +1,4 @@
-import { tParams } from "@/packages/api/type";
+import { tParams } from "./type";
 
 export type CacheOptions = {
   cache?: RequestCache; // "no-store" | "force-cache" など

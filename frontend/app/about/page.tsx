@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import SubpageKv from "@/components/kv/Subpage";
 import getMenus from "@/functions/api/menus";
 import ContentsSelecter from "@/packages/component/contents/Index";
@@ -6,15 +7,11 @@ import Table01, { column } from "@/packages/component/table/Table01";
 import ResponsiveBox, { FlexColumnBox } from "@/packages/core/atoms/Box";
 import getAboutList from "@/functions/api/about";
 import Contact01 from "@/components/contact/Contact01";
-import getMeta from "@/functions/api/meta";
+import getMeta from "@/packages/core/meta/api";
 
 // メタデータを設定
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  return await getMeta({ slug: params.slug || "" });
+export async function generateMetadata() {
+  return await getMeta({ slug: "about" });
 }
 
 export default async function Home() {

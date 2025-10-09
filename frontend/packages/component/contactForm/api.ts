@@ -1,5 +1,5 @@
 // packages/api/getFormContent.ts
-import getFetch from "@/packages/api/getFetch";
+import getFetch from "@/packages/core/api/getFetch";
 import { FormApiResponse, ListContent, tFormItem } from "./type";
 
 interface Props {
@@ -9,8 +9,13 @@ interface Props {
 export default async function getFormContent(
   props: Props
 ): Promise<tFormItem[]> {
-  const res: FormApiResponse = await getFetch(props.url);
-  return convert(res.listContent as ListContent[]);
+  try {
+    const res: FormApiResponse = await getFetch(props.url);
+    return convert(res.listContent as ListContent[]);
+  } catch (error) {
+    console.error("Error fetching form content:", error);
+    return [];
+  }
 }
 
 function convert(contentList?: ListContent[]): tFormItem[] {
@@ -55,7 +60,6 @@ function convert(contentList?: ListContent[]): tFormItem[] {
         row: Number(findValue("行数")),
         options: findOptions("オプション"),
       };
-      console.log("item", item);
       return item;
     });
 
