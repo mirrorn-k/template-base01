@@ -93,13 +93,18 @@ export default async function getContents(props: {
   terms: tParams<{ id?: number }>;
   url: string;
 }): Promise<Content[]> {
-  const u = fetchWithParams<{ id?: number }>(props.url, props.terms);
+  try {
+    const u = fetchWithParams<{ id?: number }>(props.url, props.terms);
 
-  const data: ContentListApiResponse = await getFetch(u);
+    const data: ContentListApiResponse = await getFetch(u);
 
-  const list = extractListContent(data);
+    const list = extractListContent(data);
 
-  return convert(list);
+    return convert(list);
+  } catch (e) {
+    console.error("[getContents] fetch error", e);
+    return [];
+  }
 }
 
 /**

@@ -32,13 +32,20 @@ function convert(contentList?: tMapNotice.NoticeContent[]): tList01[] {
 }
 
 // SSR 用
-export default async function getNotices(props: tParams<tTerms>) {
-  const u = fetchWithParams<tTerms>(
-    `${process.env.NEXT_PUBLIC_MAP_API_NOTICES}`,
-    props
-  );
+export default async function getNotices(
+  props: tParams<tTerms>
+): Promise<tList01[] | []> {
+  try {
+    const u = fetchWithParams<tTerms>(
+      `${process.env.NEXT_PUBLIC_MAP_API_NOTICES}`,
+      props
+    );
 
-  const dataSetting: NoticesApiResponse = await getFetch(u);
+    const dataSetting: NoticesApiResponse = await getFetch(u);
 
-  return convert(dataSetting.listContent.data);
+    return convert(dataSetting.listContent.data);
+  } catch (e) {
+    console.error("[getNotices] fetch error", e);
+    return [];
+  }
 }

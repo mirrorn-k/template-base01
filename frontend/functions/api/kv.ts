@@ -12,15 +12,20 @@ export type tTerms = {
 export default async function getKv(
   props?: tParams<tTerms>
 ): Promise<tMapKv.KvContent | undefined> {
-  const u = fetchWithParams<tTerms>(
-    `${process.env.NEXT_PUBLIC_MAP_API_KV}?${process.env.NEXT_PUBLIC_MAP_API_KV_PARAMS}`, // .env に定義
-    props
-  );
+  try {
+    const u = fetchWithParams<tTerms>(
+      `${process.env.NEXT_PUBLIC_MAP_API_KV}?${process.env.NEXT_PUBLIC_MAP_API_KV_PARAMS}`, // .env に定義
+      props
+    );
 
-  const dataSetting: tMapKv.KvListApiResponse = await getFetch(u);
+    const dataSetting: tMapKv.KvListApiResponse = await getFetch(u);
 
-  // 複数件ある場合は先頭のみ返す
-  return convertOne(dataSetting.listContent);
+    // 複数件ある場合は先頭のみ返す
+    return convertOne(dataSetting.listContent);
+  } catch (e) {
+    console.error("[getKv] fetch error", e);
+    return undefined;
+  }
 }
 
 function convertOne(list: tMapKv.KvContent[]): tMapKv.KvContent | undefined {

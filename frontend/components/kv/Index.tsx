@@ -113,15 +113,17 @@ export default function Main({
         />
       )}
 
-      <LatestNews
-        notice={notice}
-        sx={{
-          position: "absolute",
-          bottom: "10vh",
-          width: "90%",
-          maxWidth: 680,
-        }}
-      />
+      {notice && (
+        <LatestNews
+          notice={notice}
+          sx={{
+            position: "absolute",
+            bottom: "10vh",
+            width: "90%",
+            maxWidth: 680,
+          }}
+        />
+      )}
     </Box>
   );
 }

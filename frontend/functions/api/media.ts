@@ -9,10 +9,15 @@ export default async function getContentItem({
 }: {
   url: string;
 }): Promise<tMapContent | undefined> {
-  // API呼び出し
-  const data = await getFetch(`${url}`);
+  try {
+    // API呼び出し
+    const data = await getFetch(`${url}`);
 
-  return convert(data);
+    return convert(data);
+  } catch (e) {
+    console.error("[getContentItem] fetch error", e);
+    return undefined;
+  }
 }
 
 function convert(content?: Content): tMapContent | undefined {

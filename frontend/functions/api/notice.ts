@@ -5,12 +5,17 @@ import { tList01 } from "@/packages/component/list/List01";
 import normalizeMediaUrl from "@/packages/component/media/lib/nomalizeMediaUrl";
 
 export default async function ItemPage({ uuid }: { uuid: string }) {
-  // パスパラメータ利用
-  const data = await getFetch(
-    `${process.env.NEXT_PUBLIC_MAP_API_BASE_NOTICE}${uuid}`
-  );
+  try {
+    // パスパラメータ利用
+    const data = await getFetch(
+      `${process.env.NEXT_PUBLIC_MAP_API_BASE_NOTICE}${uuid}`
+    );
 
-  return convert(data);
+    return convert(data);
+  } catch (e) {
+    console.error("[ItemPage] fetch error", e);
+    return undefined;
+  }
 }
 
 function convert(content?: tMapNotice.NoticeContent): tList01 | undefined {

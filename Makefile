@@ -34,29 +34,39 @@ login:
 cache-clear:
 	docker compose down --volumes --rmi all --remove-orphans
 
-
 # =========================
 # 本番：プロジェクト単位（本番と同じ compose で起動確認）
-# 例: make prod-cp01-build && make prod-cp01-up 
 # =========================
 $(PROJECTS:%=prod-%-build):
-	COMPOSE_FILE=docker-compose.yml docker compose build $*
+	@name=$(patsubst prod-%-build,%,$@); \
+	echo "▶️ Building $$name"; \
+	COMPOSE_FILE=docker-compose.yml docker compose build $$name
 
 $(PROJECTS:%=prod-%-up):
-	# PORT は docker-compose.yml の を上書き
-	COMPOSE_FILE=docker-compose.yml docker compose up $*
+	@name=$(patsubst prod-%-up,%,$@); \
+	echo "▶️ Starting $$name"; \
+	COMPOSE_FILE=docker-compose.yml docker compose up $$name
 
 $(PROJECTS:%=prod-%-upd):
-	COMPOSE_FILE=docker-compose.yml docker compose up -d $*
+	@name=$(patsubst prod-%-upd,%,$@); \
+	echo "▶️ Starting $$name (detached)"; \
+	COMPOSE_FILE=docker-compose.yml docker compose up -d $$name
 
 $(PROJECTS:%=prod-%-logs):
-	COMPOSE_FILE=docker-compose.yml docker compose logs -f $*
+	@name=$(patsubst prod-%-logs,%,$@); \
+	echo "▶️ Showing logs for $$name"; \
+	COMPOSE_FILE=docker-compose.yml docker compose logs -f $$name
 
 $(PROJECTS:%=prod-%-down):
-	COMPOSE_FILE=docker-compose.yml docker compose stop $*
+	@name=$(patsubst prod-%-down,%,$@); \
+	echo "🛑 Stopping $$name"; \
+	COMPOSE_FILE=docker-compose.yml docker compose stop $$name
 
 $(PROJECTS:%=prod-%-login):
-	COMPOSE_FILE=docker-compose.yml docker compose run --rm $* sh 
+	@name=$(patsubst prod-%-login,%,$@); \
+	echo "💻 Logging into $$name"; \
+	COMPOSE_FILE=docker-compose.yml docker compose run --rm $$name sh
+
 
 # =========================
 # 本番：お客様 × プロジェクト（スタック分離 & env ファイル）

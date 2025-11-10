@@ -21,7 +21,7 @@ export default async function getFetch(
 
   const res = await fetch(u, options);
 
-  if (!res.ok) throw new Error(`取得に失敗しました: ${res.status}`);
+  if (!res.ok) throw new Error(`取得に失敗しました: ${res.status} ${u}`);
 
   return res.json();
 }

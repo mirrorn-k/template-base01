@@ -1,7 +1,7 @@
 services:
   frontend:
     ports:
-      - "${PORT:-8260}:3000"
+      - "${HOST_PORT:-8260}:3000"
     build:
       context: ./frontend
       dockerfile: ../Dockerfile
@@ -17,33 +17,15 @@ services:
     environment:
       NODE_ENV: production
 
-  kimotokk.com:
+  good-therapy.co.jp:
     ports:
-      - "${PORT:-8261}:3000"
+      - "${HOST_PORT:-8261}:3000"
     build:
       context: ./frontend
       dockerfile: ../Dockerfile
     working_dir: /app
     env_file:
-      - ${ENV_FILE:-./env/kimotokk.com.env}
-    command: sh -c "npm run build && npm run start"
-    volumes:
-      # ソースコードはホストと同期
-      - ./frontend:/app
-      # node_modules はコンテナ専用（ホストに上書きされないようにする）
-      #- /app/node_modules
-    environment:
-      NODE_ENV: production
-
-  three-good.co.jp:
-    ports:
-      - "${PORT:-8261}:3000"
-    build:
-      context: ./frontend
-      dockerfile: ../Dockerfile
-    working_dir: /app
-    env_file:
-      - ${ENV_FILE:-./env/three-good.co.jp.env}
+      - ${ENV_FILE:-./env/good-therapy.co.jp.env}
     command: sh -c "npm run build && npm run start"
     volumes:
       # ソースコードはホストと同期
