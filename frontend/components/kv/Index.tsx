@@ -1,16 +1,16 @@
 "use client";
 import { Box, Typography } from "@mui/material";
-import * as Image from "@/packages/component/media/Index";
-import * as ContextCommon from "@/packages/core/context/Common";
-import { tMedia } from "@/packages/component/media/type";
-import { getResponsiveValue } from "@/packages/core/function/responsiveValue/index";
-import { Responsive } from "@/packages/core/function/responsiveValue/type";
+import * as Image from "@/components/media/Index";
+import * as ContextCommon from "@/contexts/Common";
+import { tMedia } from "@/types/ttnouMap";
+import { getResponsiveValue } from "@/lib/responsiveValue/index";
+import { Responsive } from "@/lib/responsiveValue/type";
 import { IMAGE_DEFAULT } from "@/const/Image";
 import { SxProps, Theme } from "@mui/material/styles";
-import { LinkButton } from "@/packages/core/atoms/Button";
+import { LinkButton } from "@/atoms/Button";
 import { TypographyProps } from "@mui/material";
-import * as tMapKv from "@/types/mapKv";
-import { tMediaContent } from "@/types/mapMediaContent";
+import * as tMapKv from "@/lib/api/kv/type";
+import { tResponsiveMediaContent } from "@/lib/api/media/type";
 
 type tNotice = {
   kbn: string;
@@ -29,12 +29,12 @@ export default function Main({
   const { screenSize } = ContextCommon.useContents();
 
   const kvImg = kv?.content_items.find((item) => item.label === "KV")
-    ?.content as tMediaContent;
+    ?.content as tResponsiveMediaContent;
   const catchcopy = kv?.content_items.find(
     (item) => item.label === "キャッチコピー"
   )?.raw_value;
   const logoImg = kv?.content_items.find((item) => item.label === "ロゴ")
-    ?.content as tMediaContent;
+    ?.content as tResponsiveMediaContent;
 
   return (
     <Box
@@ -55,7 +55,7 @@ export default function Main({
         media={
           kvImg
             ? getResponsiveValue<tMedia>(
-                kvImg,
+                kvImg.content_items,
                 screenSize,
                 "xs",
                 "xl",
@@ -79,7 +79,7 @@ export default function Main({
         media={
           logoImg
             ? getResponsiveValue<tMedia>(
-                logoImg,
+                logoImg.content_items,
                 screenSize,
                 undefined,
                 undefined,
@@ -102,7 +102,7 @@ export default function Main({
 
       {catchcopy && (
         <Catchcopy
-          catchcopy={catchcopy}
+          catchcopy={catchcopy as string}
           sx={{
             display: { xs: "none", sm: "block" },
             position: "absolute",

@@ -1,34 +1,33 @@
 export const dynamic = "force-dynamic";
 import BaseThemeProvider from "@/themes/BaseTheme";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Header from "@/components/header/Index";
+import Footer from "@/components/footer/Index";
 import "./globals.css";
 import { CssBaseline } from "@mui/material";
-import * as ContextCommon from "@/packages/core/context/Common";
-import * as ContextMapInfo from "@/packages/core/context/MapData";
-import MenuModal from "@/packages/core/menu/Modal";
-import getThemeOptions from "@/functions/api/themeOptions";
-import * as GtmScript from "@/packages/component/google/GtmScript";
-import getFormContent from "@/packages/component/contactForm/api";
-import ContactModal from "@/packages/component/contactForm/Modal";
-import getMenus from "@/functions/api/menus";
-import getOrganize from "@/packages/core/organize/api";
-import getFooter from "@/functions/api/footer";
+import Box from "@mui/material/Box";
+import * as ContextCommon from "@/contexts/Common";
+import * as ContextMapInfo from "@/contexts/MapData";
+import MenuModal from "@/components/menu/Modal";
+import getThemeOptions from "@/lib/api/themeOption/index";
+import * as GtmScript from "@/components/google/GtmScript";
+import getFormContent from "@/lib/api/contactForm/api";
+import ContactModal from "@/components/contactForm/Modal";
+import getMenus from "@/lib/api/menu/index";
+import getOrganize from "@/lib/api/organize/index";
 import { Suspense } from "react";
-import HeadSiteInfo from "@/packages/component/siteInfo/Index";
+import ScriptContainer from "@/app/Script";
 import Loading from "./loading";
-import getSiteInfo from "@/packages/component/siteInfo/api";
-import { tOrganize } from "@/packages/core/organize/type";
+import getSiteInfo from "@/lib/api/siteInfo/index";
+import { tOrganize } from "@/lib/api/organize/type";
+import { tSiteInfo } from "@/lib/api/siteInfo/type";
 
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [organize, siteInfo] = await Promise.all([
-    getOrganize(),
-    getSiteInfo(),
-  ]);
+  // ✅ 共通データの取得
+  const { organize, siteInfo, options, cfItems, menus } = await api();
 
   if (!organize) {
     <p>準備中</p>;
@@ -40,21 +39,31 @@ export default async function RootLayout({
           <meta name="robots" content="noindex" />
         )}
 
-        {organize?.gtm_tag && <GtmScript.Header tag={organize.gtm_tag} />}
-        <HeadSiteInfo info={siteInfo} />
+        <ScriptContainer info={siteInfo} />
+        <SiteInfoHead info={siteInfo} />
+
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="mapttnou-domain" content={process.env.TTNOU_DOMAIN} />
         <meta
           name="mapttnou-wdc-api"
-          content={process.env.MAP_JS_EVENTDATA_POST_API}
+          content={process.env.NEXT_PUBLIC_MAP_JS_EVENTDATA_POST_API}
         />
-        <script src={`${process.env.MAP_JS_EVENTDATA}`} async></script>
       </head>
 
-      <Suspense fallback={<Loading />}>
-        <AsyncLayoutContent organize={organize}>{children}</AsyncLayoutContent>
-      </Suspense>
+      <ContextMapInfo.Provider
+        initialOrganize={organize}
+        menus={menus}
+        cfItems={cfItems}
+      >
+        <ContextCommon.Provider>
+          <BaseThemeProvider options={options}>
+            <AsyncLayoutContent organize={organize}>
+              {children}
+            </AsyncLayoutContent>
+          </BaseThemeProvider>
+        </ContextCommon.Provider>
+      </ContextMapInfo.Provider>
     </html>
   );
 }
@@ -66,41 +75,66 @@ async function AsyncLayoutContent({
   organize: tOrganize | null;
   children: React.ReactNode;
 }) {
-  // ✅ 共通データの取得
-  const { options, cfItems, menus, footer } = await api();
-
   return (
     <body className="bg-white text-black">
-      <CssBaseline />
-      {organize?.gtm_tag && <GtmScript.Body tag={organize.gtm_tag} />}
-      <ContextMapInfo.Provider initialOrganize={organize}>
-        <ContextCommon.Provider>
-          <BaseThemeProvider options={options}>
-            <Header
-              menus={menus}
-              organizeName={organize?.organization_name ?? ""}
-            />
-            <main>{children}</main> <Footer contents={footer} />
-            <MenuModal menus={[{ label: "について", href: "/about" }]} />
-            <ContactModal items={cfItems} />
-          </BaseThemeProvider>
-        </ContextCommon.Provider>
-      </ContextMapInfo.Provider>
+      <Suspense fallback={<Loading />}>
+        <CssBaseline />
+        {organize?.gtm_tag && <GtmScript.Body tag={organize.gtm_tag} />}
+        <Header />
+        <Box
+          component="main"
+          sx={{
+            m: "auto",
+            p: 0,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 8,
+          }}
+        >
+          {children}
+        </Box>
+        <Footer />
+        <MenuModal menus={[{ label: "について", href: "/about" }]} />
+        <ContactModal />
+      </Suspense>
     </body>
   );
 }
 
 async function api() {
   // 並列で取得（最速化）
-  const [siteInfo, options, cfItems, menus, footer] = await Promise.all([
+  const [organize, siteInfo, options, cfItems, menus] = await Promise.all([
+    getOrganize(),
     getSiteInfo(),
     getThemeOptions(),
     getFormContent({
       url: `${process.env.NEXT_PUBLIC_MAP_API_CONTACT_FORM}?${process.env.NEXT_PUBLIC_MAP_API_CONTACT_FORM_PARAM}`,
     }),
     getMenus(),
-    getFooter(),
   ]);
 
-  return { siteInfo, options, cfItems, menus, footer };
+  return { organize, siteInfo, options, cfItems, menus };
 }
+
+const SiteInfoHead = ({ info }: { info: tSiteInfo | null }) => {
+  if (!info) return null;
+  return (
+    <>
+      {/* favicon */}
+      {info.favicon?.url && (
+        <link rel="icon" href={info.favicon.url} sizes="any" />
+      )}
+
+      {/* Apple Touch Icon */}
+      {info.appleTouchIcon?.url && (
+        <link rel="apple-touch-icon" href={info.appleTouchIcon.url} />
+      )}
+
+      {/* 外部CSS */}
+      {info.externalCss && (
+        <style dangerouslySetInnerHTML={{ __html: info.externalCss }} />
+      )}
+    </>
+  );
+};

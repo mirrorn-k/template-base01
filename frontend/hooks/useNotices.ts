@@ -2,11 +2,11 @@
 
 import useSWR from "swr";
 import axios from "axios";
-import * as tMapNotice from "@/types/mapNotice";
-import { tList01 } from "@/packages/component/list/List01";
-import { tParams } from "@/packages/core/api/type";
-import { PaginationMeta } from "@/packages/component/list/type";
-import normalizeMediaUrl from "@/packages/component/media/lib/nomalizeMediaUrl";
+import * as tMapNotice from "@/lib/api/notice/type";
+import { tList01 } from "@/components/list/List01";
+import { tParams, tMedia } from "@/types/ttnouMap";
+import { PaginationMeta } from "@/components/list/type";
+import normalizeMediaUrl from "@/components/media/lib/nomalizeMediaUrl";
 
 export type tTerms = {
   id?: number;
@@ -15,7 +15,7 @@ export type tTerms = {
 const fetcher = <T>(url: string, params?: tParams<tTerms>) =>
   axios.get<T>(url, { params }).then((res) => res.data);
 
-function convert(contentList?: tMapNotice.NoticeContent[]): tList01[] {
+function convert(contentList?: tMapNotice.tNoticeContent[]): tList01[] {
   if (!contentList) return [];
   return contentList.map((item) => {
     const findValue = (label: string) =>
@@ -28,10 +28,10 @@ function convert(contentList?: tMapNotice.NoticeContent[]): tList01[] {
 
     return {
       uuid: item.uuid,
-      kbn: findValue("区分"),
-      title: findValue("タイトル"),
-      caption: findValue("キャプション"),
-      img: findMedia("イメージ"),
+      kbn: findValue("区分") as string,
+      title: findValue("タイトル") as string,
+      caption: findValue("キャプション") as string,
+      img: findMedia("イメージ") as tMedia | undefined,
       released_at: item.released_at,
     };
   });
@@ -41,7 +41,7 @@ export function useNotices(props: tParams<tTerms>) {
   const baseUrl = process.env.NEXT_PUBLIC_MAP_API_NOTICES!;
 
   const { data, error, isLoading, mutate } = useSWR<
-    tMapNotice.NoticesApiResponse, // Data 型
+    tMapNotice.tNoticePaginatedApiResponse, // Data 型
     Error, // Error 型
     [string, tParams<tTerms>] // Key 型
   >([baseUrl, props], ([url, params]) => fetcher(url, params), {

@@ -1,8 +1,8 @@
 export const dynamic = "force-dynamic";
 import { Typography } from "@mui/material";
-import ResponsiveBox from "@/packages/core/atoms/Box";
+import ResponsiveBox from "@/atoms/Box";
 import * as Contents from "./Content";
-import getMeta from "@/packages/core/meta/api";
+import getMeta from "@/lib/api/meta/index";
 
 // メタデータを設定
 export async function generateMetadata() {

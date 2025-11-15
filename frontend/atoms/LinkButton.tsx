@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { LinkButton } from "@/packages/core/atoms/Button";
+import { LinkButton } from "@/atoms/Button";
 import { useTheme } from "@mui/material/styles";
 
 type Props = {

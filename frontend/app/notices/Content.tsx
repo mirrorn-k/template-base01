@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
-import * as NewsList from "@/packages/component/list/List01";
-import ResponsiveBox from "@/packages/core/atoms/Box";
+import * as NewsList from "@/components/list/List01";
+import ResponsiveBox from "@/atoms/Box";
 import { useNotices } from "@/hooks/useNotices";
 
 export const List = () => {

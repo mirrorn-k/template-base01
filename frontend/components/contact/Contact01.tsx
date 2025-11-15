@@ -1,8 +1,8 @@
 "use client";
 import Title from "@/atoms/Title";
-import HtmlText from "@/packages/core/atoms/Typography";
+import HtmlText from "@/atoms/Typography";
 import { CONTACT_CAPTION } from "@/const/caption";
-import ResponsiveBox from "@/packages/core/atoms/Box";
+import ResponsiveBox from "@/atoms/Box";
 import ContactButton from "@/atoms/ContactButton";
 import { Theme } from "@mui/material/styles";
 import { Box } from "@mui/material";

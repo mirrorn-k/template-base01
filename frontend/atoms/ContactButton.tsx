@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Button } from "@mui/material";
-import { useContents } from "@/packages/core/context/Common";
+import { useContents } from "@/contexts/Common";
 
 type Props = {
   text?: string;

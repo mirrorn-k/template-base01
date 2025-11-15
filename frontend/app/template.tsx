@@ -1,4 +1,3 @@
-// app/template.tsx
 "use client";
 
 import { usePathname } from "next/navigation";

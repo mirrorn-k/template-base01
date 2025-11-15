@@ -1,9 +1,9 @@
 export const dynamic = "force-dynamic";
-import ResponsiveBox from "@/packages/core/atoms/Box";
+import ResponsiveBox from "@/atoms/Box";
 import { Typography } from "@mui/material";
-import { Detail } from "@/packages/component/list/List01";
-import getNotice from "@/functions/api/notice";
-import getMeta from "@/packages/core/meta/api";
+import { Detail } from "@/components/list/List01";
+import { getNotice } from "@/lib/api/notice/index";
+import getMeta from "@/lib/api/meta/index";
 
 // メタデータを設定
 export async function generateMetadata({

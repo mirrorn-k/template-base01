@@ -1,12 +1,12 @@
 export const dynamic = "force-dynamic";
 import KV from "@/components/kv/Index";
-import ResponsiveBox from "@/packages/core/atoms/Box";
+import Box from "@mui/material/Box";
 import Contact01 from "@/components/contact/Contact01";
-import getNotices from "@/functions/api/notices";
-import getKv from "@/functions/api/kv";
-import getContents from "@/functions/api/contents";
-import ContentsSelecter from "@/packages/component/contents/Index";
-import getMeta from "@/packages/core/meta/api";
+import { getNotices } from "@/lib/api/notice/index";
+import getKv from "@/lib/api/kv";
+import getContents from "@/lib/api/contents";
+import ContentsSelecter from "@/components/contents/Index";
+import getMeta from "@/lib/api/meta/index";
 
 // メタデータを設定
 export async function generateMetadata() {
@@ -24,21 +24,19 @@ export default async function Home() {
     getNotices({ page: 1, limit: 1 }),
   ]);
   return (
-    <>
+    <Box
+      sx={{
+        m: "auto",
+        p: 0,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 8,
+      }}
+    >
       <KV notice={notices[0]} kv={kv} />
-      <ResponsiveBox
-        maxWidth="lg"
-        sx={{
-          m: "auto",
-          p: 0,
-          display: "flex",
-          flexDirection: "column",
-          gap: 8,
-        }}
-      >
-        <ContentsSelecter contents={contents} />
-        <Contact01 />
-      </ResponsiveBox>
-    </>
+      <ContentsSelecter contents={contents} />
+      <Contact01 />
+    </Box>
   );
 }

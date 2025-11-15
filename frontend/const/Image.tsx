@@ -1,4 +1,4 @@
-import { tMedia } from "@/packages/component/media/type";
+import { tMedia } from "@/types/ttnouMap";
 
 export const IMAGE_DEFAULT: tMedia = {
   uuid: "00000000-0000-0000-0000-000000000000",

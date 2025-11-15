@@ -1,11 +1,11 @@
 "use client";
 import { Box, Typography } from "@mui/material";
-import * as Image from "@/packages/component/media/Index";
-import { tMedia } from "@/packages/component/media/type";
-import { Responsive } from "@/packages/core/function/responsiveValue/type";
-import { getResponsiveValue } from "@/packages/core/function/responsiveValue/index";
+import * as Image from "@/components/media/Index";
+import { tMedia } from "@/types/ttnouMap";
+import { Responsive } from "@/lib/responsiveValue/type";
+import { getResponsiveValue } from "@/lib/responsiveValue/index";
 import { IMAGE_SUBPAGE_KV } from "@/const/Image";
-import * as ContextCommon from "@/packages/core/context/Common";
+import * as ContextCommon from "@/contexts/Common";
 
 interface Props {
   medias: Responsive<tMedia> | undefined;

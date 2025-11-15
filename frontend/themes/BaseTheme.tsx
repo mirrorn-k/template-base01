@@ -63,14 +63,14 @@ export const baseTheme = createTheme({
       fontFamily: `'Noto Sans JP', sans-serif`,
       textAlign: "left",
       fontSize: "1rem",
-      letterSpacing: "0.05em",
+      letterSpacing: "0.1rem",
       lineHeight: 1.8,
     },
     body2: {
       fontFamily: `'Noto Sans JP', sans-serif`,
       fontSize: "0.8rem",
       textAlign: "left",
-      letterSpacing: "0.05em",
+      letterSpacing: "0.08rem",
       lineHeight: 1.8,
     },
   },
@@ -83,6 +83,13 @@ export const baseTheme = createTheme({
           top: 0,
           left: 0,
           boxShadow: "none",
+        },
+      },
+    },
+    MuiToolbar: {
+      styleOverrides: {
+        root: {
+          justifyContent: "space-between",
         },
       },
     },
@@ -109,8 +116,6 @@ export const baseTheme = createTheme({
   },
 });
 
-const theme = responsiveFontSizes(baseTheme);
-
 interface ThemeProps {
   options: ThemeOptions;
   children: React.ReactNode;
@@ -118,9 +123,11 @@ interface ThemeProps {
 
 const BaseThemeProvider: React.FC<ThemeProps> = ({ options, children }) => {
   // themeをuseMemoで生成
-  const themeOptions = useMemo(() => createTheme(options), []);
+  const mergedTheme = useMemo(
+    () => responsiveFontSizes(createTheme(baseTheme, options)),
+    [options]
+  );
 
-  const mergedTheme = createTheme(theme, themeOptions);
   return (
     <ThemeProvider theme={mergedTheme}>
       <CssBaseline />

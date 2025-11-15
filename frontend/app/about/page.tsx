@@ -1,13 +1,13 @@
 export const dynamic = "force-dynamic";
 import SubpageKv from "@/components/kv/Subpage";
-import getMenus from "@/functions/api/menus";
-import ContentsSelecter from "@/packages/component/contents/Index";
-import { getSubpageContents } from "@/functions/api/contents";
-import Table01, { column } from "@/packages/component/table/Table01";
-import ResponsiveBox, { FlexColumnBox } from "@/packages/core/atoms/Box";
-import getAboutList from "@/functions/api/about";
+import getMenus from "@/lib/api/menu/index";
+import ContentsSelecter from "@/components/contents/Index";
+import { getSubpageContents } from "@/lib/api/contents";
+import Table01, { column } from "@/components/table/Table01";
+import ResponsiveBox, { FlexColumnBox } from "@/atoms/Box";
+import getAboutList from "@/lib/api/about";
 import Contact01 from "@/components/contact/Contact01";
-import getMeta from "@/packages/core/meta/api";
+import getMeta from "@/lib/api/meta/index";
 
 // メタデータを設定
 export async function generateMetadata() {

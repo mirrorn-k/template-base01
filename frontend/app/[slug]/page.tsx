@@ -1,9 +1,10 @@
 export const dynamic = "force-dynamic";
 import SubpageKv from "@/components/kv/Subpage";
-import getMenus from "@/functions/api/menus";
-import ContentsSelecter from "@/packages/component/contents/Index";
-import { getSubpageContents } from "@/functions/api/contents";
-import getMeta from "@/packages/core/meta/api";
+import getMenus from "@/lib/api/menu/index";
+import ContentsSelecter from "@/components/contents/Index";
+import { getSubpageContents } from "@/lib/api/contents";
+import getMeta from "@/lib/api/meta/index";
+import Box from "@mui/material/Box";
 
 // メタデータを設定
 export async function generateMetadata({
@@ -36,10 +37,19 @@ export default async function Home({
     );
   }
   return (
-    <>
+    <Box
+      sx={{
+        m: "auto",
+        p: 0,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 8,
+      }}
+    >
       <SubpageKv medias={menu?.img} title={menu.label} />
       <ContentsSelecter contents={contents} />
-    </>
+    </Box>
   );
 }
 
