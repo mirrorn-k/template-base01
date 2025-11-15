@@ -83,6 +83,14 @@ export const baseTheme = createTheme({
           top: 0,
           left: 0,
           boxShadow: "none",
+          height: "64px",
+          "&.transparent": {
+            backgroundColor: "transparent",
+            boxShadow: "none",
+          },
+          "&.appbar-shadow": {
+            position: "static",
+          },
         },
       },
     },
