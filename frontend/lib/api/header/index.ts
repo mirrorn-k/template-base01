@@ -1,5 +1,5 @@
 import getFetch from "@/lib/api/getFetch";
-import { tFooterApiResponse, tFooterListContent, tFooterItem } from "./type";
+import { tHeaderApiResponse, tHeaderListContent, tHeaderItem } from "./type";
 import { tResponsiveMediaItem } from "@/lib/api/media/type";
 import { Responsive } from "@/lib/responsiveValue/type";
 import { tMedia } from "@/types/ttnouMap";
@@ -10,14 +10,14 @@ import isBoolean from "@/lib/converter/isBoolean";
 /**
  * フッター用コンテンツを取得
  */
-export default async function getFooterContent(): Promise<tFooterItem> {
+export default async function getHeaderContent(): Promise<tHeaderItem> {
   try {
-    const res: tFooterApiResponse = await getFetch(
-      `${process.env.NEXT_PUBLIC_MAP_API_FOOTER}?${process.env.NEXT_PUBLIC_MAP_API_FOOTER_PARAM}`
+    const res: tHeaderApiResponse = await getFetch(
+      `${process.env.NEXT_PUBLIC_MAP_API_HEADER}?${process.env.NEXT_PUBLIC_MAP_API_HEADER_PARAM}`
     );
     return convert(res.listContent[0]);
   } catch (e) {
-    console.error("[getFooterContent] fetch error", e);
+    console.error("[getHeaderContent] fetch error", e);
     return INIT;
   }
 }
@@ -25,11 +25,10 @@ export default async function getFooterContent(): Promise<tFooterItem> {
 /**
  * Footer構造変換関数
  */
-function convert(item: tFooterListContent): tFooterItem {
-  console.log("convert footer item", item);
+function convert(item: tHeaderListContent): tHeaderItem {
   const logoItem = item.content_items.find((i) => i.label === "ロゴ");
 
-  const logo: tFooterItem["logo"] = logoItem?.content
+  const logo: tHeaderItem["logo"] = logoItem?.content
     ? normalizeResponsiveMedia(logoItem.content as tResponsiveMediaItem)
     : undefined;
 
@@ -42,18 +41,16 @@ function convert(item: tFooterListContent): tFooterItem {
   return {
     uuid: item.uuid,
     type:
-      (item.content_items.find((i) => i.label === "フッタータイプ")
-        ?.raw_value as tFooterItem["type"]) ?? "Footer01",
-    flgAddress: toBoolean("住所表示"),
-    flgTel: toBoolean("電話番号表示"),
-    flgFax: toBoolean("FAQ番号表示"),
-    flgEmail: toBoolean("メールアドレス表示"),
+      (item.content_items.find((i) => i.label === "ヘッダタイプ")
+        ?.raw_value as tHeaderItem["type"]) ?? "Header01",
+    siteName:
+      (item.content_items.find((i) => i.label === "サイト名")
+        ?.raw_value as string) ?? "",
+    flg: toBoolean("ヘッダ非表示") ? false : true, // フラグが逆転するのに注意
     flgMenus: toBoolean("メニュー表示"),
+    flgContactButton: toBoolean("問い合わせ表示"),
     flgLogo: toBoolean("ロゴ表示"),
     logo,
-    text:
-      (item.content_items.find((i) => i.label === "テキスト")
-        ?.raw_value as string) ?? "",
   };
 }
 

@@ -20,6 +20,7 @@ import Loading from "./loading";
 import getSiteInfo from "@/lib/api/siteInfo/index";
 import { tOrganize } from "@/lib/api/organize/type";
 import { tSiteInfo } from "@/lib/api/siteInfo/type";
+import getHeader from "@/lib/api/header/index";
 
 export default async function RootLayout({
   children,
@@ -27,7 +28,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   // ✅ 共通データの取得
-  const { organize, siteInfo, options, cfItems, menus } = await api();
+  const { organize, siteInfo, options, cfItems, menus, header } = await api();
 
   if (!organize) {
     <p>準備中</p>;
@@ -52,9 +53,10 @@ export default async function RootLayout({
       </head>
 
       <ContextMapInfo.Provider
-        initialOrganize={organize}
+        organize={organize}
         menus={menus}
         cfItems={cfItems}
+        header={header}
       >
         <ContextCommon.Provider>
           <BaseThemeProvider options={options}>
@@ -95,7 +97,7 @@ async function AsyncLayoutContent({
           {children}
         </Box>
         <Footer />
-        <MenuModal menus={[{ label: "について", href: "/about" }]} />
+        <MenuModal />
         <ContactModal />
       </Suspense>
     </body>
@@ -104,17 +106,19 @@ async function AsyncLayoutContent({
 
 async function api() {
   // 並列で取得（最速化）
-  const [organize, siteInfo, options, cfItems, menus] = await Promise.all([
-    getOrganize(),
-    getSiteInfo(),
-    getThemeOptions(),
-    getFormContent({
-      url: `${process.env.NEXT_PUBLIC_MAP_API_CONTACT_FORM}?${process.env.NEXT_PUBLIC_MAP_API_CONTACT_FORM_PARAM}`,
-    }),
-    getMenus(),
-  ]);
+  const [organize, siteInfo, options, cfItems, menus, header] =
+    await Promise.all([
+      getOrganize(),
+      getSiteInfo(),
+      getThemeOptions(),
+      getFormContent({
+        url: `${process.env.NEXT_PUBLIC_MAP_API_CONTACT_FORM}?${process.env.NEXT_PUBLIC_MAP_API_CONTACT_FORM_PARAM}`,
+      }),
+      getMenus(),
+      getHeader(),
+    ]);
 
-  return { organize, siteInfo, options, cfItems, menus };
+  return { organize, siteInfo, options, cfItems, menus, header };
 }
 
 const SiteInfoHead = ({ info }: { info: tSiteInfo | null }) => {

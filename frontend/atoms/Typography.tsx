@@ -1,13 +1,14 @@
+"use client";
 import { Typography, TypographyProps } from "@mui/material";
 import { styled } from "@mui/system";
 import { SxProps, Theme } from "@mui/material/styles";
 
-type HtmlTextProps = TypographyProps & {
+type CunstomTypoProps = TypographyProps & {
   text: string;
   sx?: SxProps<Theme>;
 };
 
-export default function HtmlText({ text, sx, ...props }: HtmlTextProps) {
+export default function HtmlText({ text, sx, ...props }: CunstomTypoProps) {
   return (
     <Typography
       {...props}
@@ -28,3 +29,30 @@ export const ContentTitle = styled(Typography)<ContentTitleProps>({
     marginRight: "0.5rem",
   },
 });
+
+/**
+ * 左にマークを表示するTypographyコンポーネント
+ * @param param0
+ * @returns
+ */
+export function BeforeMark({
+  mark,
+  text,
+  sx,
+  ...props
+}: CunstomTypoProps & { mark: string }) {
+  return (
+    <Typography
+      {...props}
+      sx={{
+        "&::before": {
+          content: `"${mark}"`,
+          marginRight: "0.5rem",
+        },
+        ...sx,
+      }}
+    >
+      {text}
+    </Typography>
+  );
+}

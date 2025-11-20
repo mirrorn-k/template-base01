@@ -91,6 +91,10 @@ export const baseTheme = createTheme({
           "&.appbar-shadow": {
             position: "static",
           },
+          "&.un-viewable": {
+            position: "absolute",
+            top: "-100px",
+          },
         },
       },
     },

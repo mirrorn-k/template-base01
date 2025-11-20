@@ -5,16 +5,17 @@ import { LinkBox } from "@/atoms/Link";
 import { FlexColumnBox } from "@/atoms/Box";
 import { useTheme } from "@mui/material/styles";
 import * as ContextCommon from "@/contexts/Common";
+import * as ContextMap from "@/contexts/MapData";
+import { tMedia } from "@/types/ttnouMap";
+import * as Image from "@/components/media/Index";
+import { getResponsiveValue } from "@/lib/responsiveValue/index";
+import { IMAGE_DEFAULT } from "@/const/Image";
 
-interface Props {
-  menus: { label: string; href: string }[];
-  children?: React.ReactNode;
-}
-
-const Main = ({ menus, children }: Props) => {
+const Main = () => {
   const theme = useTheme();
 
-  const { flgMenus, setFlgMenus } = ContextCommon.useContents();
+  const { flgMenus, setFlgMenus, screenSize } = ContextCommon.useContents();
+  const { menus, organize, header } = ContextMap.Contents();
 
   const handleMenuClose = () => {
     console.log("handleMenuClose");
@@ -41,20 +42,49 @@ const Main = ({ menus, children }: Props) => {
           </Typography>
           <FlexColumnBox gapSize={0} sx={{ p: theme.spacing(2) }}>
             <LinkBox href={"/"}>
-              <Typography className={"font-tittle"}>HOME</Typography>
+              {header.flgLogo && header.logo ? (
+                <Image.MediaImage
+                  media={getResponsiveValue<tMedia>(
+                    header.logo,
+                    screenSize,
+                    "xs",
+                    "xl",
+                    "down",
+                    true,
+                    true,
+                    IMAGE_DEFAULT
+                  )}
+                  objectFit="contain"
+                  alt={header.siteName || organize?.organization_name || "Logo"}
+                  fill={false}
+                  imgProps={{
+                    style: {
+                      zIndex: -1,
+                      objectPosition: "left center",
+                      width: "auto",
+                      height: "100%",
+                      maxWidth: "250px",
+                      maxHeight: "64px",
+                    },
+                  }}
+                />
+              ) : (
+                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                  {organize?.organization_name}
+                </Typography>
+              )}
             </LinkBox>
             {menus.map((menu, index) => (
               <LinkBox
                 key={`head-navi-sp-${index}`}
                 onClick={handleMenuClose}
-                href={menu.href}
+                href={menu.slug ? `/${menu.slug}` : "/"}
               >
                 {menu.label}
               </LinkBox>
             ))}
           </FlexColumnBox>
         </FlexColumnBox>
-        {children}
       </FlexColumnBox>
     </Modal>
   );

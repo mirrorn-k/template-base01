@@ -2,24 +2,27 @@
 
 import { useTheme } from "@mui/material/styles";
 import { Box, Typography, Link } from "@mui/material";
-import ResponsiveBox from "@/atoms/Box";
+import { BeforeMark } from "@/atoms/Typography";
+import ResponsiveBox, { FlexColumnBox, FlexBox } from "@/atoms/Box";
 import * as Image from "@/components/media/Index";
 import HtmlText from "@/atoms/Typography";
 import React from "react";
 import { tFooterItem } from "@/lib/api/footer/type";
 import * as ContextCommon from "@/contexts/Common";
 import { getResponsiveValue } from "@/lib/responsiveValue/index";
+import * as ContextMap from "@/contexts/MapData";
 
 interface Props {
   // 追加のpropsがあればここに定義
-  contents: tFooterItem;
+  content: tFooterItem;
 }
-export default function FooterBar(props: Props) {
+export default function FooterBar({ content }: Props) {
   const theme = useTheme();
   const { screenSize } = ContextCommon.useContents();
+  const { organize } = ContextMap.Contents();
 
-  const logo = props.contents.logo
-    ? getResponsiveValue(props.contents.logo, screenSize)
+  const logo = content.logo
+    ? getResponsiveValue(content.logo, screenSize)
     : undefined;
   return (
     <Box
@@ -57,11 +60,33 @@ export default function FooterBar(props: Props) {
             borderColor: theme.palette.primary.contrastText,
           }}
         />
-        {props.contents.text && (
-          <HtmlText
-            sx={{ textAlign: "center" }}
-            text={props.contents.text || ""}
-          />
+        <FlexColumnBox gapSize={1}>
+          {content.flgAddress && organize?.address && (
+            <Typography variant="h6" align="center">
+              {organize.address}
+            </Typography>
+          )}
+          <FlexBox>
+            {content.flgTel && organize?.tell && (
+              <BeforeMark
+                variant="h6"
+                align="center"
+                mark={"〒"}
+                text={organize.tell}
+              />
+            )}
+            {content.flgFax && organize?.fax && (
+              <BeforeMark
+                variant="h6"
+                align="center"
+                mark={"〒"}
+                text={organize.fax}
+              />
+            )}
+          </FlexBox>
+        </FlexColumnBox>
+        {content.text && (
+          <HtmlText sx={{ textAlign: "center" }} text={content.text || ""} />
         )}
 
         <Typography variant="body2" align="center">

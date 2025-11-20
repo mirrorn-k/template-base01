@@ -3,9 +3,6 @@ import React from "react";
 import { Button } from "@mui/material";
 import { styled } from "@mui/system";
 import * as Sound from "./Sound";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import * as ContextCommon from "@/contexts/Common";
 
 export const Main = styled(Button)(() => ({
   borderRadius: 5,
@@ -61,18 +58,3 @@ export function SoundUnlockButton() {
     </button>
   );
 }
-
-export const MenuButton = () => {
-  const { flgMenus, setFlgMenus } = ContextCommon.useContents();
-  return (
-    <IconButton
-      size="large"
-      edge="end"
-      aria-label="menu"
-      sx={{ color: "inherit", backgroundColor: "transparent" }}
-      onClick={() => setFlgMenus(!flgMenus)}
-    >
-      <MenuIcon />
-    </IconButton>
-  );
-};

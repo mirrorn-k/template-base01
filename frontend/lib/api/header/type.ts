@@ -13,42 +13,38 @@ export type tMediaContent = {
 /**
  * フッター項目（例: ロゴ、テキスト）
  */
-export type tFooterContentItem = tMap.tMapContentItem<tMediaContent>;
+export type tHeaderContentItem = tMap.tMapContentItem<tMediaContent>;
 
 /**
  * 1つの listContent エントリ
  */
-export type tFooterListContent = tMap.tMapContent<tFooterContentItem>;
+export type tHeaderListContent = tMap.tMapContent<tHeaderContentItem>;
 
 /**
  * content_type の各アイテム定義
  */
-export type ttFooterContentTypeItem = tMap.tMapTypeItem;
+export type tHeaderContentTypeItem = tMap.tMapTypeItem;
 
 /**
  * content_type 情報
  */
-export type tFooterContentType = tMap.tMapContentType;
+export type tHeaderContentType = tMap.tMapContentType;
 
 /**
  * API全体レスポンス
  */
-export type tFooterApiResponse = tMap.tMapApiResponseList<tFooterListContent>;
+export type tHeaderApiResponse = tMap.tMapApiResponseList<tHeaderListContent>;
 
 /**
  * 整形後のフロント用シンプルデータ
  */
-export interface tFooterItem {
+export interface tHeaderItem {
   uuid: string;
-  type: "Footer01" | "Footer02" | "Footer03";
-  flgAddress: boolean;
-  flgTel: boolean;
-  flgFax: boolean;
-  flgEmail: boolean;
-  flgMenus: boolean;
-  text?: string;
+  type: "Header01" | "Header02" | "Header03";
+  siteName: string;
+  flg: boolean; // APIでは非表示フラグなので注意
   flgLogo: boolean;
   logo?: Responsive<tMap.tMedia>;
-  bgImg?: tMap.tMedia;
-  customStyle?: string;
+  flgMenus: boolean;
+  flgContactButton: boolean;
 }

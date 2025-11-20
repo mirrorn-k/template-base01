@@ -6,7 +6,6 @@ import { BoxProps } from "@mui/material/Box";
 import { tMenuItem } from "@/lib/api/menu/type";
 
 type Menu01Props = {
-  flgContact?: boolean;
   FlexBoxProps?: BoxProps;
   menus: tMenuItem[];
 };

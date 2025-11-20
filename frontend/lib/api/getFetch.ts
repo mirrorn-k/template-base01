@@ -14,10 +14,16 @@ export default async function getFetch(
   const env_cache = process.env.NEXT_PUBLIC_API_CACHE;
   const env_revalidate = process.env.NEXT_PUBLIC_API_REVALIDATE;
 
-  if (env_cache) options.cache = "no-store"; // no-store 優先
+  if (env_cache) {
+    options.cache = "no-store";
+  } else {
+    options.cache = "no-store";
+  } // no-store 優先
   if (env_revalidate) options.next = { revalidate: Number(env_revalidate) };
 
   const u = url.replace("localhost:8102", "backend:80");
+
+  console.log(`Fetching URL: ${u} with options:`, options);
 
   const res = await fetch(u, options);
 

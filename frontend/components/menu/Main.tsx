@@ -9,6 +9,7 @@ import * as ContextCommon from "@/contexts/Common";
 export default function Menu02(props: {
   menus: tMenuItem[];
   organizeName: string;
+  flgContactBtn?: boolean;
 }) {
   const { flgContactModal, setFlgContactModal } = ContextCommon.useContents();
   return (
@@ -17,16 +18,18 @@ export default function Menu02(props: {
         <Typography variant="h6">{props.organizeName}</Typography>
       </Link>
       {/* PCナビゲーション */}
-      <MenuItems flgContact={true} menus={props.menus} />
+      <MenuItems menus={props.menus} />
       {/* お問い合わせボタン */}
-      <Button
-        variant="contained"
-        color="secondary"
-        sx={{ borderRadius: 12, display: { xs: "none", md: "flex" } }}
-        onClick={() => setFlgContactModal(!flgContactModal)}
-      >
-        Contact
-      </Button>
+      {props.flgContactBtn && (
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={{ borderRadius: 12, display: { xs: "none", md: "flex" } }}
+          onClick={() => setFlgContactModal(!flgContactModal)}
+        >
+          Contact
+        </Button>
+      )}
     </>
   );
 }

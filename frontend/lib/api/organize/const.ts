@@ -1,6 +1,6 @@
 import * as type from "./type";
 
-const INIT: type.tOrganize = {
+export const INIT: type.tOrganize = {
   number: "", // 法人番号
   domain: "", // ドメイン名
   organization_name: "", // 組織名
@@ -17,5 +17,3 @@ const INIT: type.tOrganize = {
   caption: "", // キャッチコピー
   gtm_tag: "", // Google Tag Managerタグ
 };
-
-export default INIT;

@@ -7,6 +7,7 @@ import { IMAGE_DEFAULT } from "@/const/Image";
 type NextImageProps = React.ComponentProps<typeof Image>;
 interface MediaImageProps {
   media?: tMedia;
+  alt?: string;
   objectFit?: React.CSSProperties["objectFit"];
   fill?: boolean;
   imgProps?: Omit<NextImageProps, "src" | "alt">;
@@ -19,6 +20,7 @@ interface MediaImageProps {
  */
 export const MediaImage: React.FC<MediaImageProps> = ({
   media = IMAGE_DEFAULT,
+  alt,
   imgProps,
   objectFit = "contain",
   fill = false,
@@ -50,7 +52,7 @@ export const MediaImage: React.FC<MediaImageProps> = ({
     <BaseImage
       imgProps={{
         src: media.url,
-        alt: media.name || "alt",
+        alt: alt || media.name || "alt",
         ...finalImgProps,
       }}
     />
