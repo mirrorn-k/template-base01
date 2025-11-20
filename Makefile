@@ -1,96 +1,72 @@
 # =========================
-# 設定
+# PJ 指定（デフォルト develop）
 # =========================
-PROJECTS   := frontend kimotokk.com three-good.co.jp
-CUSTOMERS  := frontend kimotokk.com three-good.co.jp
-NPM        ?= npm
+PJ ?= develop
 
 # =========================
-# プロジェクト単位（開発・共通）
+# env/PJ.env は本番専用
+# =========================
+ENV_FILE := env/$(PJ).env
+ENV_OPT := $(if $(wildcard $(ENV_FILE)),--env-file $(ENV_FILE),)
+
+# =========================
+# セットアップ
 # =========================
 setup:
-	docker compose run --rm --entrypoint sh frontend -c "$(NPM) ci"
-	docker compose run --rm --entrypoint sh frontend -c "$(NPM) run build"
+	docker compose run --rm --entrypoint sh frontend -c "npm ci"
+	docker compose run --rm --entrypoint sh frontend -c "npm run build"
+	
+# =========================
+# ローカル（env を使わない）
+# =========================
+up:
+	docker compose up $(PJ)
+
+upd:
+	docker compose up -d $(PJ)
+
+logs:
+	docker compose logs -f $(PJ)
+
+down:
+	docker compose stop $(PJ)
 
 build:
-	docker compose build frontend
+	docker compose build $(PJ)
 
-npm-build: 
-	docker compose run --rm frontend sh -c "npm run build"
+# Next.js キャッシュ削除（.next）
+next-cache-clear:
+	docker compose run --rm $(PJ) sh -c "rm -rf .next"
 
-build-no-cache:
-	docker compose build frontend --no-cache
+# node_modules の再インストール前に使う
+node-cache:
+	docker compose run --rm $(PJ) sh -c "npm cache clean --force"
 
-up:
-	docker compose up frontend
-upd:
-	docker compose up -d frontend
-logs:
-	docker compose logs -f frontend
-down:
-	docker compose stop frontend
-login:
-	docker compose run --rm frontend sh
-cache-clear:
+# Docker ボリューム/イメージのキャッシュ削除
+docker-cache:
 	docker compose down --volumes --rmi all --remove-orphans
+	docker system prune -f
 
 # =========================
-# 本番：プロジェクト単位（本番と同じ compose で起動確認）
+# 本番（env/PJ.env を使う）
 # =========================
-$(PROJECTS:%=prod-%-build):
-	@name=$(patsubst prod-%-build,%,$@); \
-	echo "▶️ Building $$name"; \
-	COMPOSE_FILE=docker-compose.yml docker compose build $$name
+prod-up:
+	COMPOSE_FILE=docker-compose.yml docker compose $(ENV_OPT) up -d $(PJ)
 
-$(PROJECTS:%=prod-%-up):
-	@name=$(patsubst prod-%-up,%,$@); \
-	echo "▶️ Starting $$name"; \
-	COMPOSE_FILE=docker-compose.yml docker compose up $$name
+prod-build:
+	COMPOSE_FILE=docker-compose.yml docker compose $(ENV_OPT) build $(PJ)
 
-$(PROJECTS:%=prod-%-upd):
-	@name=$(patsubst prod-%-upd,%,$@); \
-	echo "▶️ Starting $$name (detached)"; \
-	COMPOSE_FILE=docker-compose.yml docker compose up -d $$name
+prod-logs:
+	COMPOSE_FILE=docker-compose.yml docker compose $(ENV_OPT) logs -f $(PJ)
 
-$(PROJECTS:%=prod-%-logs):
-	@name=$(patsubst prod-%-logs,%,$@); \
-	echo "▶️ Showing logs for $$name"; \
-	COMPOSE_FILE=docker-compose.yml docker compose logs -f $$name
+prod-down:
+	COMPOSE_FILE=docker-compose.yml docker compose $(ENV_OPT) stop $(PJ)
 
-$(PROJECTS:%=prod-%-down):
-	@name=$(patsubst prod-%-down,%,$@); \
-	echo "🛑 Stopping $$name"; \
-	COMPOSE_FILE=docker-compose.yml docker compose stop $$name
+# Next.js のビルドキャッシュ削除（本番）
+prod-next-cache-clear:
+	COMPOSE_FILE=docker-compose.yml docker compose $(ENV_OPT) run --rm $(PJ) sh -c "rm -rf .next"
 
-$(PROJECTS:%=prod-%-login):
-	@name=$(patsubst prod-%-login,%,$@); \
-	echo "💻 Logging into $$name"; \
-	COMPOSE_FILE=docker-compose.yml docker compose run --rm $$name sh
-
-
-# =========================
-# 本番：お客様 × プロジェクト（スタック分離 & env ファイル）
-# 例: make prod-cp01-userA-up  -> env/cp01.userA.env を読込
-# =========================
-define GEN_PROD
-prod-$(1)-$(2)-build:
-	COMPOSE_FILE=docker-compose.yml docker compose -p $(2)-$(1) --env-file env/$(1).$(2).env build $(1)
-prod-$(1)-$(2)-up:
-	COMPOSE_FILE=docker-compose.yml docker compose -p $(2)-$(1) --env-file env/$(1).$(2).env up -d $(1)
-prod-$(1)-$(2)-logs:
-	COMPOSE_FILE=docker-compose.yml docker compose -p $(2)-$(1) --env-file env/$(1).$(2).env logs -f $(1)
-prod-$(1)-$(2)-down:
-	COMPOSE_FILE=docker-compose.yml docker compose -p $(2)-$(1) --env-file env/$(1).$(2).env stop $(1)
-endef
-$(foreach P,$(PROJECTS),$(foreach C,$(CUSTOMERS),$(eval $(call GEN_PROD,$(P),$(C)))))
-
-# =========================
-# おまけ
-# =========================
-ps:
-	docker compose ps
-
-.PHONY: $(PROJECTS:%=%-setup) \
-        $(PROJECTS:%=dev-%-build) $(PROJECTS:%=dev-%-up) $(PROJECTS:%=dev-%-upd) $(PROJECTS:%=dev-%-logs) $(PROJECTS:%=dev-%-down) \
-        $(PROJECTS:%=prod-%-build) $(PROJECTS:%=prod-%-up) $(PROJECTS:%=prod-%-logs) $(PROJECTS:%=prod-%-down) \
-        ps
+# Dockerキャッシュ全削除（本番）
+prod-docker-cache:
+	COMPOSE_FILE=docker-compose.yml docker compose $(ENV_OPT) down --volumes --rmi all --remove-orphans
+	COMPOSE_FILE=docker-compose.yml docker system prune -f
