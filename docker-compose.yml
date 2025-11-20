@@ -1,5 +1,6 @@
 services:
-  frontend:
+  develop:
+    container_name: template-base01-develop
     ports:
       - "${HOST_PORT:-8260}:3000"
     build:
@@ -17,9 +18,29 @@ services:
     environment:
       NODE_ENV: production
 
-  good-therapy.co.jp:
+  template-base01.ttnou.com:
+    container_name: template-base01.ttnou.com
     ports:
       - "${HOST_PORT:-8261}:3000"
+    build:
+      context: ./frontend
+      dockerfile: ../Dockerfile
+    working_dir: /app
+    env_file:
+      - ${ENV_FILE:-./env/template-base01.env}
+    command: sh -c "npm run build && npm run start"
+    volumes:
+      # ソースコードはホストと同期
+      - ./frontend:/app
+      # node_modules はコンテナ専用（ホストに上書きされないようにする）
+      #- /app/node_modules
+    environment:
+      NODE_ENV: production
+
+  good-therapy.co.jp:
+    container_name: template-base01-good-therapy.co.jp
+    ports:
+      - "${HOST_PORT:-8262}:3000"
     build:
       context: ./frontend
       dockerfile: ../Dockerfile
