@@ -15,6 +15,10 @@ ENV_OPT := $(if $(wildcard $(ENV_FILE)),--env-file $(ENV_FILE),)
 setup:
 	docker compose run --rm --entrypoint sh frontend -c "npm ci"
 	docker compose run --rm --entrypoint sh frontend -c "npm run build"
+
+prod-setup:
+	COMPOSE_FILE=docker-compose.yml docker compose run --rm --entrypoint sh frontend -c "npm ci"
+	COMPOSE_FILE=docker-compose.yml docker compose run --rm --entrypoint sh frontend -c "npm run build"
 	
 # =========================
 # ローカル（env を使わない）
