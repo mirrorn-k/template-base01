@@ -29,11 +29,6 @@ services:
     env_file:
       - ${ENV_FILE:-./env/template-base01.env}
     command: sh -c "npm run build && npm run start"
-    volumes:
-      # ソースコードはホストと同期
-      - ./frontend:/app
-      # node_modules はコンテナ専用（ホストに上書きされないようにする）
-      #- /app/node_modules
     environment:
       NODE_ENV: production
 
