@@ -10,7 +10,7 @@ import { SxProps, Theme } from "@mui/material/styles";
 import { LinkButton } from "@/atoms/Button";
 import { TypographyProps } from "@mui/material";
 import * as tMapKv from "@/lib/api/kv/type";
-import { tResponsiveMediaContent } from "@/lib/api/media/type";
+import { tResponsiveMediaItem } from "@/lib/api/media/type";
 
 type tNotice = {
   kbn: string;
@@ -28,13 +28,17 @@ export default function Main({
 }) {
   const { screenSize } = ContextCommon.useContents();
 
+  console.log("[KV] render start", { kv, notice });
+
   const kvImg = kv?.content_items.find((item) => item.label === "KV")
-    ?.content as tResponsiveMediaContent;
+    ?.content as tResponsiveMediaItem;
   const catchcopy = kv?.content_items.find(
     (item) => item.label === "キャッチコピー"
   )?.raw_value;
   const logoImg = kv?.content_items.find((item) => item.label === "ロゴ")
-    ?.content as tResponsiveMediaContent;
+    ?.content as tResponsiveMediaItem;
+
+  console.log("[KV] render", { kvImg, catchcopy, logoImg });
 
   return (
     <Box
@@ -55,7 +59,7 @@ export default function Main({
         media={
           kvImg
             ? getResponsiveValue<tMedia>(
-                kvImg.content_items,
+                kvImg,
                 screenSize,
                 "xs",
                 "xl",
@@ -79,7 +83,7 @@ export default function Main({
         media={
           logoImg
             ? getResponsiveValue<tMedia>(
-                logoImg.content_items,
+                logoImg,
                 screenSize,
                 undefined,
                 undefined,

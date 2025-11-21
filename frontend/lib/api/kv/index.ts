@@ -20,6 +20,8 @@ export default async function getKv(
 
     const dataSetting: tMapKv.KvListApiResponse = await getFetch(u);
 
+    console.log("[getKv] fetched", dataSetting.listContent);
+
     // 複数件ある場合は先頭のみ返す
     return convertOne(dataSetting.listContent);
   } catch (e) {
