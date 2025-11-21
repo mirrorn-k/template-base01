@@ -20,7 +20,7 @@ const Main = ({ content }: { content: tHeaderItem }) => {
   const { menus, organize } = ContextMap.Contents();
   return (
     <>
-      <Link href="/" color="inherit" underline="none">
+      <Link href="/" color="inherit" underline="none" sx={{ height: "100%" }}>
         {content.flgLogo && content.logo ? (
           <Image.MediaImage
             media={getResponsiveValue<tMedia>(

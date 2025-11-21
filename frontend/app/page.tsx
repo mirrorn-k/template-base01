@@ -24,7 +24,6 @@ export default async function Home() {
     getNotices({ page: 1, limit: 1 }),
   ]);
 
-  console.log("getKv", kv);
   return (
     <Box
       sx={{
