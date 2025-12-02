@@ -1,7 +1,6 @@
 export const dynamic = "force-dynamic";
 import KV from "@/components/kv/Index";
 import Box from "@mui/material/Box";
-import Contact01 from "@/components/contact/Contact01";
 import { getNotices } from "@/lib/api/notice/index";
 import getKv from "@/lib/api/kv";
 import getContents from "@/lib/api/contents";
@@ -37,7 +36,6 @@ export default async function Home() {
     >
       <KV notice={notices[0]} kv={kv} />
       <ContentsSelecter contents={contents} />
-      <Contact01 />
     </Box>
   );
 }

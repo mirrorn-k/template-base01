@@ -78,3 +78,15 @@ prod-next-cache-clear:
 prod-docker-cache:
 	COMPOSE_FILE=docker-compose.yml docker compose $(ENV_OPT) down --volumes --rmi all --remove-orphans
 	COMPOSE_FILE=docker-compose.yml docker system prune -f
+
+
+# =========================
+
+prod-customer-build:
+	COMPOSE_FILE=docker-compose.yml docker compose kimotokk.env build kimotokk
+
+prod-customer-upd:
+	COMPOSE_FILE=docker-compose.yml docker compose kimotokk.env up -d kimotokk
+
+prod-customer-down:
+	COMPOSE_FILE=docker-compose.yml docker compose kimotokk.env stop $(PJ) kimotokk

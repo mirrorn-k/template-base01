@@ -53,7 +53,7 @@ function convert(contentList?: tListContent[]): tFormItem[] {
       const item: tFormItem = {
         uuid: lc.uuid,
         systemName: findValue("システム名") as string,
-        label: findValue("項目名") as string,
+        label: lc.name as string,
         type: findType("入力形式"),
         required: findValue("必須") === "true" ? true : false,
         placeholder: findValue("プレースホルダー") as string,

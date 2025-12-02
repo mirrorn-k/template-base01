@@ -16,7 +16,7 @@ export default async function Main() {
       <Footer02 key={`footer-Footer02-${content.uuid}`} content={content} />
     );
   } else {
-    console.log("未対応のスタイル TOP", content);
+    console.log("未対応のスタイル", content);
     return <></>;
   }
 }

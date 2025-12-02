@@ -1,6 +1,12 @@
 // next.config.ts
 import type { NextConfig } from "next";
-const isProd = process.env.NODE_ENV === "production";
+
+let isProd = process.env.NODE_ENV === "production";
+const isAPIProd = process.env.API_ENV;
+
+if (isAPIProd) {
+  isProd = isAPIProd === "production";
+}
 
 const nextConfig: NextConfig = {
   async rewrites() {

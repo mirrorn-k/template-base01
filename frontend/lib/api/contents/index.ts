@@ -114,7 +114,7 @@ export async function getSubpageContents(props: {
   slug: string;
 }): Promise<tContent[]> {
   const u = fetchWithParams<{ slug: string }>(
-    `${process.env.NEXT_PUBLIC_MAP_API_CONTENT_SUBPAGE}`
+    `${process.env.NEXT_PUBLIC_MAP_API_CONTENT_SUBPAGE}?${process.env.NEXT_PUBLIC_MAP_API_CONTENT_SUBPAGE_PARAMS}`
   );
   const data: tContentListApiResponse = await getFetch(u);
 

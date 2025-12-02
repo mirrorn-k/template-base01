@@ -27,10 +27,11 @@ export default function Main(props: {
       maxWidth={"lg"}
       color={"primary.contrastText"}
       sx={{
+        width: "100%",
         justifyContent: "center",
         alignItems: "center",
         position: "relative",
-        flexDirection: { xs: "column", lg: "row" },
+        flexDirection: { xs: "column", md: "row" },
         "&::before": {
           content: '""',
           position: "absolute",
@@ -49,36 +50,36 @@ export default function Main(props: {
           flex: 1,
           bgcolor: "primary.main",
           width: "100%",
-          maxWidth: { xs: "600px", lg: "50%" },
-          p: 8,
           gap: 4,
         }}
       >
-        <Typography variant="h3" component="h4" gutterBottom>
-          {props.title}
-        </Typography>
-        <HtmlText text={props.caption} variant="body1" />
-        <LinkButton
-          linkHref={props.linkHref}
-          linkText={props.linkText}
-          sx={{
-            backgroundColor: "primary.contrastText",
-            color: "primary.main",
-            mt: 2,
-            maxWidth: "none",
-            minWidth: "none",
-            width: "90%",
-            borderRadius: 20,
-          }}
-        />
+        <Box sx={{ p: 8 }}>
+          <Typography variant="h3" component="h4" gutterBottom>
+            {props.title}
+          </Typography>
+          <HtmlText text={props.caption} variant="body1" />
+          <LinkButton
+            linkHref={props.linkHref}
+            linkText={props.linkText}
+            sx={{
+              backgroundColor: "primary.contrastText",
+              color: "primary.main",
+              mt: 2,
+              maxWidth: "none",
+              minWidth: "none",
+              width: "90%",
+              borderRadius: 20,
+            }}
+          />
+        </Box>
       </FlexColumnBox>
       <Box
         sx={{
-          flex: "1 1 50%",
+          flex: 1,
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          maxWidth: { xs: "100%", lg: "50%" },
+          width: "100%",
           boxSizing: "border-box",
         }}
       >

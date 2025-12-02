@@ -8,6 +8,7 @@
 import React from "react";
 import styled from "@mui/material/styles/styled";
 import { Grid2 as Grid, Typography } from "@mui/material";
+import HtmlText from "@/atoms/Typography";
 
 // 親Gridコンテナのカスタムスタイル
 const GridContainer = styled(Grid)(({ theme }) => ({
@@ -64,10 +65,7 @@ const Main = ({ items }: MainProps) => {
               </Typography>
             </LabelGrid>
             <ValueGrid size={{ xs: 10, sm: 7, md: 8 }}>
-              <Typography
-                variant="body1"
-                dangerouslySetInnerHTML={{ __html: item.value }}
-              />
+              <HtmlText text={item.value} variant="body1" />
             </ValueGrid>
           </GridContainer>
         );

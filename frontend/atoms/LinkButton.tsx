@@ -2,6 +2,7 @@
 import * as React from "react";
 import { LinkButton } from "@/atoms/Button";
 import { useTheme } from "@mui/material/styles";
+import Link from "next/link";
 
 type Props = {
   linkHref?: string;
@@ -12,8 +13,13 @@ export default function Main({ linkHref, linkText, ...rest }: Props) {
   const theme = useTheme();
   const smValue = theme.breakpoints.values.sm; // デフォルトだと 600
 
+  if (!linkHref || linkHref.length === 0) {
+    return null;
+  }
+
   return (
     <LinkButton
+      LinkComponent={Link}
       href={linkHref || "#"}
       sx={{
         mt: 2,

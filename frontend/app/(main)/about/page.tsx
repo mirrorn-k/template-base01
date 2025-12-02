@@ -6,7 +6,6 @@ import { getSubpageContents } from "@/lib/api/contents";
 import Table01, { column } from "@/components/table/Table01";
 import ResponsiveBox, { FlexColumnBox } from "@/atoms/Box";
 import getAboutList from "@/lib/api/about";
-import Contact01 from "@/components/contact/Contact01";
 import getMeta from "@/lib/api/meta/index";
 
 // メタデータを設定
@@ -30,7 +29,6 @@ export default async function Home() {
         <Table01 items={convertedAboutList} />
       </ResponsiveBox>
       <ContentsSelecter contents={contents} />
-      <Contact01 />
     </FlexColumnBox>
   );
 }
