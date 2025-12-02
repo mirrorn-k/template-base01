@@ -20,7 +20,6 @@ export default function Menu01(props: Menu01Props) {
       sx={{
         gap: 3,
         alignItems: "center",
-        display: { xs: "none", md: "flex" },
         marginLeft: 3,
         marginRight: 3,
       }}

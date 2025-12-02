@@ -13,6 +13,7 @@ import * as ContextCommon from "@/contexts/Common";
 import * as Image from "@/components/media/Index";
 import { getResponsiveValue } from "@/lib/responsiveValue/index";
 import { IMAGE_DEFAULT } from "@/const/Image";
+import { useIsDesktop } from "@/lib/isDeviceSize";
 
 const Main = ({ content }: { content: tHeaderItem }) => {
   const { flgContactModal, setFlgContactModal, screenSize } =
@@ -49,25 +50,35 @@ const Main = ({ content }: { content: tHeaderItem }) => {
           />
         ) : (
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {organize?.organization_name}
+            {content.siteName || organize?.organization_name}
           </Typography>
         )}
       </Link>
-      {/* PCナビゲーション */}
-      {content.flgMenus && <MenuItems menus={menus} />}
-      {/* お問い合わせボタン */}
-      {content.flgContactButton && (
-        <Button
-          variant="contained"
-          color="secondary"
-          sx={{ borderRadius: 12, display: { xs: "none", md: "flex" } }}
-          onClick={() => setFlgContactModal(!flgContactModal)}
-        >
-          Contact
-        </Button>
+
+      {useIsDesktop() ? (
+        <>
+          {/* PCナビゲーション */}
+          {content.flgMenus && <MenuItems menus={menus} />}
+          {/* お問い合わせボタン */}
+          {content.flgContactButton ? (
+            <Button
+              variant="contained"
+              color="secondary"
+              sx={{ borderRadius: 12, display: { xs: "none", md: "flex" } }}
+              onClick={() => setFlgContactModal(!flgContactModal)}
+            >
+              Contact
+            </Button>
+          ) : (
+            <span> </span>
+          )}
+        </>
+      ) : (
+        <>
+          {/* モバイルナビゲーション */}
+          <MainMenuButton />
+        </>
       )}
-      {/* モバイルナビゲーション */}
-      <MainMenuButton />
     </Box>
   );
 };
