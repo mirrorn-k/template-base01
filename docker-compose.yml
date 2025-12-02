@@ -32,8 +32,8 @@ services:
     environment:
       NODE_ENV: production
 
-  good-therapy.co.jp:
-    container_name: template-base01-good-therapy.co.jp
+  good-therapy:
+    container_name: template-base01-good-therapy
     ports:
       - "${HOST_PORT:-8262}:3000"
     build:
@@ -41,7 +41,26 @@ services:
       dockerfile: ../Dockerfile
     working_dir: /app
     env_file:
-      - ${ENV_FILE:-./env/good-therapy.co.jp.env}
+      - ${ENV_FILE:-./env/good-therapy.env}
+    command: sh -c "npm run build && npm run start"
+    volumes:
+      # ソースコードはホストと同期
+      - ./frontend:/app
+      # node_modules はコンテナ専用（ホストに上書きされないようにする）
+      #- /app/node_modules
+    environment:
+      NODE_ENV: production
+
+  kimotokk:
+    container_name: template-base01-kimotokk
+    ports:
+      - "${HOST_PORT:-8263}:3000"
+    build:
+      context: ./frontend
+      dockerfile: ../Dockerfile
+    working_dir: /app
+    env_file:
+      - ${ENV_FILE:-./env/kimotokk.env}
     command: sh -c "npm run build && npm run start"
     volumes:
       # ソースコードはホストと同期

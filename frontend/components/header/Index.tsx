@@ -29,7 +29,7 @@ export default function Main() {
   return (
     <>
       <AppBar
-        className={`appbar ${isTop && !scrolled && "transparent"} ${
+        className={`header appbar ${isTop && !scrolled && "transparent"} ${
           !header.flg ? "un-viewable" : ""
         }`}
       >

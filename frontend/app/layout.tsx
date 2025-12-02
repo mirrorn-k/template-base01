@@ -1,26 +1,18 @@
-export const dynamic = "force-dynamic";
-import BaseThemeProvider from "@/themes/BaseTheme";
-import Header from "@/components/header/Index";
-import Footer from "@/components/footer/Index";
+//export const dynamic = "force-dynamic";
 import "./globals.css";
-import { CssBaseline } from "@mui/material";
-import Box from "@mui/material/Box";
 import * as ContextCommon from "@/contexts/Common";
 import * as ContextMapInfo from "@/contexts/MapData";
-import MenuModal from "@/components/menu/Modal";
 import getThemeOptions from "@/lib/api/themeOption/index";
-import * as GtmScript from "@/components/google/GtmScript";
 import getFormContent from "@/lib/api/contactForm/api";
-import ContactModal from "@/components/contactForm/Modal";
 import getMenus from "@/lib/api/menu/index";
 import getOrganize from "@/lib/api/organize/index";
-import { Suspense } from "react";
-import ScriptContainer from "@/app/Script";
-import Loading from "./loading";
+import ScriptContainer from "./Script";
 import getSiteInfo from "@/lib/api/siteInfo/index";
-import { tOrganize } from "@/lib/api/organize/type";
 import { tSiteInfo } from "@/lib/api/siteInfo/type";
 import getHeader from "@/lib/api/header/index";
+import BaseThemeProvider from "@/themes/BaseTheme";
+import { CssBaseline } from "@mui/material";
+import * as GtmScript from "@/components/google/GtmScript";
 
 export default async function RootLayout({
   children,
@@ -31,7 +23,7 @@ export default async function RootLayout({
   const { organize, siteInfo, options, cfItems, menus, header } = await api();
 
   if (!organize) {
-    <p>準備中</p>;
+    return <p>準備中</p>;
   }
   return (
     <html lang="ja">
@@ -52,24 +44,34 @@ export default async function RootLayout({
         />
       </head>
 
-      <ContextMapInfo.Provider
-        organize={organize}
-        menus={menus}
-        cfItems={cfItems}
-        header={header}
-      >
-        <ContextCommon.Provider>
+      <body>
+        <ContextMapInfo.Provider
+          organize={organize}
+          menus={menus}
+          cfItems={cfItems}
+          header={header}
+        >
+          <ContextCommon.Provider>
+            <BaseThemeProvider options={options}>
+              <CssBaseline />
+              {organize?.gtm_tag && <GtmScript.Body tag={organize.gtm_tag} />}
+              {children}
+            </BaseThemeProvider>
+            {/*
           <BaseThemeProvider options={options}>
             <AsyncLayoutContent organize={organize}>
               {children}
             </AsyncLayoutContent>
           </BaseThemeProvider>
-        </ContextCommon.Provider>
-      </ContextMapInfo.Provider>
+          */}
+          </ContextCommon.Provider>
+        </ContextMapInfo.Provider>
+      </body>
     </html>
   );
 }
 
+/*
 async function AsyncLayoutContent({
   organize,
   children,
@@ -103,22 +105,28 @@ async function AsyncLayoutContent({
     </body>
   );
 }
+*/
 
 async function api() {
-  // 並列で取得（最速化）
-  const [organize, siteInfo, options, cfItems, menus, header] =
-    await Promise.all([
-      getOrganize(),
-      getSiteInfo(),
-      getThemeOptions(),
-      getFormContent({
-        url: `${process.env.NEXT_PUBLIC_MAP_API_CONTACT_FORM}?${process.env.NEXT_PUBLIC_MAP_API_CONTACT_FORM_PARAM}`,
-      }),
-      getMenus(),
-      getHeader(),
-    ]);
+  try {
+    // 並列で取得（最速化）
+    const [organize, siteInfo, options, cfItems, menus, header] =
+      await Promise.all([
+        getOrganize(),
+        getSiteInfo(),
+        getThemeOptions(),
+        getFormContent({
+          url: `${process.env.NEXT_PUBLIC_MAP_API_CONTACT_FORM}?${process.env.NEXT_PUBLIC_MAP_API_CONTACT_FORM_PARAM}`,
+        }),
+        getMenus(),
+        getHeader(),
+      ]);
 
-  return { organize, siteInfo, options, cfItems, menus, header };
+    return { organize, siteInfo, options, cfItems, menus, header };
+  } catch (e) {
+    console.error("API ERROR IN LAYOUT:", e);
+    throw e; // ← build を確実に止める
+  }
 }
 
 const SiteInfoHead = ({ info }: { info: tSiteInfo | null }) => {

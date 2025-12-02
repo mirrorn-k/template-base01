@@ -6,7 +6,7 @@ import { MainMenuButton } from "./atoms/Button";
 import * as ContextMap from "@/contexts/MapData";
 import { tHeaderItem } from "@/lib/api/header/type";
 import Typography from "@mui/material/Typography";
-import MenuItems from "@/components/menu/Items";
+import MenuItems from "./atoms/MenuItems";
 import { Link } from "@mui/material";
 import Button from "@mui/material/Button";
 import * as ContextCommon from "@/contexts/Common";
@@ -19,7 +19,7 @@ const Main = ({ content }: { content: tHeaderItem }) => {
     ContextCommon.useContents();
   const { menus, organize } = ContextMap.Contents();
   return (
-    <>
+    <Box className="Header01" sx={{ display: "contents" }}>
       <Link href="/" color="inherit" underline="none" sx={{ height: "100%" }}>
         {content.flgLogo && content.logo ? (
           <Image.MediaImage
@@ -67,10 +67,8 @@ const Main = ({ content }: { content: tHeaderItem }) => {
         </Button>
       )}
       {/* モバイルナビゲーション */}
-      <Box sx={{ display: { xs: "flex", md: "none" }, marginLeft: "auto" }}>
-        <MainMenuButton />
-      </Box>
-    </>
+      <MainMenuButton />
+    </Box>
   );
 };
 export default Main;

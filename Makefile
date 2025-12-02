@@ -36,6 +36,9 @@ down:
 build:
 	docker compose build $(PJ)
 
+npm-build:
+	docker compose exec $(PJ) sh -c "npm run build"
+
 # Next.js キャッシュ削除（.next）
 next-cache-clear:
 	docker compose run --rm $(PJ) sh -c "rm -rf .next"

@@ -16,6 +16,7 @@ export default function Menu01(props: Menu01Props) {
   }
   return (
     <FlexBox
+      className="menu-items Menu01"
       sx={{
         gap: 3,
         alignItems: "center",
