@@ -6,16 +6,18 @@ import { FlexColumnBox } from "@/atoms/Box";
 import { useTheme } from "@mui/material/styles";
 import * as ContextCommon from "@/contexts/Common";
 import * as ContextMap from "@/contexts/MapData";
-import { tMedia } from "@/types/ttnouMap";
-import * as Image from "@/components/media/Index";
-import { getResponsiveValue } from "@/lib/responsiveValue/index";
-import { IMAGE_DEFAULT } from "@/const/Image";
 
 const Main = () => {
   const theme = useTheme();
 
-  const { flgMenus, setFlgMenus, screenSize } = ContextCommon.useContents();
-  const { menus, organize, header } = ContextMap.Contents();
+  const { flgMenus, setFlgMenus } = ContextCommon.useContents();
+  const { menus } = ContextMap.Contents();
+
+  const flgMenuInTop = menus.some(
+    (menu) => menu.slug === "" || menu.slug === "/"
+  )
+    ? true
+    : false;
 
   const handleMenuClose = () => {
     console.log("handleMenuClose");
@@ -41,6 +43,7 @@ const Main = () => {
             MENU
           </Typography>
           <FlexColumnBox gapSize={0} sx={{ p: theme.spacing(2) }}>
+            {/*
             <LinkBox href={"/"}>
               {header.flgLogo && header.logo ? (
                 <Image.MediaImage
@@ -59,7 +62,6 @@ const Main = () => {
                   fill={false}
                   imgProps={{
                     style: {
-                      zIndex: -1,
                       objectPosition: "left center",
                       width: "auto",
                       height: "100%",
@@ -74,6 +76,12 @@ const Main = () => {
                 </Typography>
               )}
             </LinkBox>
+            */}
+            {!flgMenuInTop && (
+              <LinkBox onClick={handleMenuClose} href={"/"}>
+                TOP
+              </LinkBox>
+            )}
             {menus.map((menu, index) => (
               <LinkBox
                 key={`head-navi-sp-${index}`}
