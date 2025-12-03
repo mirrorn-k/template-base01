@@ -21,7 +21,7 @@ services:
   template-base01.ttnou.com:
     container_name: template-base01.ttnou.com
     ports:
-      - "${HOST_PORT:-8261}:3000"
+      - "8261:3000"
     build:
       context: ./frontend
       dockerfile: ../Dockerfile
@@ -35,7 +35,7 @@ services:
   good-therapy:
     container_name: template-base01-good-therapy
     ports:
-      - "${HOST_PORT:-8262}:3000"
+      - "8262:3000"
     build:
       context: ./frontend
       dockerfile: ../Dockerfile
@@ -49,7 +49,7 @@ services:
   kimotokk:
     container_name: template-base01-kimotokk
     ports:
-      - "${HOST_PORT:-8263}:3000"
+      - "8263:3000"
     build:
       context: ./frontend
       dockerfile: ../Dockerfile
