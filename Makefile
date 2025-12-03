@@ -82,14 +82,36 @@ prod-docker-cache:
 
 # =========================
 
+SERVICES := good-therapy kimotokk
+
+# ============================
+# Build
+# ============================
 prod-customer-build:
-	COMPOSE_FILE=docker-compose.yml docker compose good-therapy.env build good-therapy
-	COMPOSE_FILE=docker-compose.yml docker compose kimotokk.env build kimotokk
+	@for service in $(SERVICES); do \
+		env_file="env/$$service.env"; \
+		echo "=== Building $$service (env: $$env_file) ==="; \
+		COMPOSE_FILE=docker-compose.yml docker compose --env-file $$env_file build $$service || exit 1; \
+	done
 
+
+# ============================
+# Up
+# ============================
 prod-customer-upd:
-	COMPOSE_FILE=docker-compose.yml docker compose good-therapy.env up -d good-therapy
-	COMPOSE_FILE=docker-compose.yml docker compose kimotokk.env up -d kimotokk
+	@for service in $(SERVICES); do \
+		env_file="env/$$service.env"; \
+		echo "=== Up $$service (env: $$env_file) ==="; \
+		COMPOSE_FILE=docker-compose.yml docker compose --env-file $$env_file up -d $$service || exit 1; \
+	done
 
+
+# ============================
+# Down
+# ============================
 prod-customer-down:
-	COMPOSE_FILE=docker-compose.yml docker compose good-therapy.env stop $(PJ) good-therapy
-	COMPOSE_FILE=docker-compose.yml docker compose kimotokk.env stop $(PJ) kimotokk
+	@for service in $(SERVICES); do \
+		env_file="env/$$service.env"; \
+		echo "=== Down $$service (env: $$env_file) ==="; \
+		COMPOSE_FILE=docker-compose.yml docker compose --env-file $$env_file stop $$service || exit 1; \
+	done
