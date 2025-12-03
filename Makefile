@@ -83,10 +83,13 @@ prod-docker-cache:
 # =========================
 
 prod-customer-build:
+	COMPOSE_FILE=docker-compose.yml docker compose good-therapy.env build good-therapy
 	COMPOSE_FILE=docker-compose.yml docker compose kimotokk.env build kimotokk
 
 prod-customer-upd:
+	COMPOSE_FILE=docker-compose.yml docker compose good-therapy.env up -d good-therapy
 	COMPOSE_FILE=docker-compose.yml docker compose kimotokk.env up -d kimotokk
 
 prod-customer-down:
+	COMPOSE_FILE=docker-compose.yml docker compose good-therapy.env stop $(PJ) good-therapy
 	COMPOSE_FILE=docker-compose.yml docker compose kimotokk.env stop $(PJ) kimotokk
