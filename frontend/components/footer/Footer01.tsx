@@ -2,7 +2,6 @@
 
 import { useTheme } from "@mui/material/styles";
 import { Box, Typography, Link } from "@mui/material";
-import { BeforeMark } from "@/atoms/Typography";
 import ResponsiveBox, { FlexColumnBox, FlexBox } from "@/atoms/Box";
 import * as Image from "@/components/media/Index";
 import HtmlText from "@/atoms/Typography";
@@ -11,6 +10,8 @@ import { tFooterItem } from "@/lib/api/footer/type";
 import * as ContextCommon from "@/contexts/Common";
 import { getResponsiveValue } from "@/lib/responsiveValue/index";
 import * as ContextMap from "@/contexts/MapData";
+import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import FaxIcon from "@mui/icons-material/Fax";
 
 interface Props {
   // 追加のpropsがあればここに定義
@@ -68,20 +69,16 @@ export default function FooterBar({ content }: Props) {
           )}
           <FlexBox>
             {content.flgTel && organize?.tell && (
-              <BeforeMark
-                variant="h6"
-                align="center"
-                mark={"〒"}
-                text={organize.tell}
-              />
+              <FlexBox sx={{ alignItems: "center" }} gapSize={1}>
+                <LocalPhoneIcon />
+                <Typography variant="h6">{organize.tell}</Typography>
+              </FlexBox>
             )}
             {content.flgFax && organize?.fax && (
-              <BeforeMark
-                variant="h6"
-                align="center"
-                mark={"〒"}
-                text={organize.fax}
-              />
+              <FlexBox sx={{ alignItems: "center" }} gapSize={1}>
+                <FaxIcon />
+                <Typography variant="h6">{organize.fax}</Typography>
+              </FlexBox>
             )}
           </FlexBox>
         </FlexColumnBox>

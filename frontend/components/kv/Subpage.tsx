@@ -53,6 +53,7 @@ export default function Main(props: Props) {
           variant="h4"
           component="h1"
           className={"font-text"}
+          color="primary.contrastText"
           sx={{
             textAlign: "center",
             p: { xs: 2, sm: 8, md: 15, lg: 20 },
@@ -66,6 +67,7 @@ export default function Main(props: Props) {
             variant="h4"
             component="h2"
             className={"font-text"}
+            color="primary.contrastText"
             sx={{
               textAlign: "center",
               width: "100%",

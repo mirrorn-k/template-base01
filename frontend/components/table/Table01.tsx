@@ -59,12 +59,24 @@ const Main = ({ items }: MainProps) => {
       {items.map((item, index) => {
         return (
           <GridContainer container key={`table01-${index}-${item.uuid}`}>
-            <LabelGrid size={{ xs: 4, sm: 5, md: 4 }}>
-              <Typography variant="h6" component="h4" sx={{ fontWeight: 700 }}>
+            <LabelGrid size={{ xs: 10, sm: 4, md: 4 }}>
+              <Typography
+                variant="h6"
+                component="h4"
+                sx={(theme) => ({
+                  fontWeight: 700,
+                  whiteSpace: "normal",
+                  wordBreak: "keep-all",
+                  overflowWrap: "break-word",
+                  [theme.breakpoints.down("sm")]: {
+                    textAlign: "left",
+                  },
+                })}
+              >
                 {item.label}
               </Typography>
             </LabelGrid>
-            <ValueGrid size={{ xs: 10, sm: 7, md: 8 }}>
+            <ValueGrid size={{ xs: 10, sm: 8, md: 8 }}>
               <HtmlText text={item.value} variant="body1" />
             </ValueGrid>
           </GridContainer>

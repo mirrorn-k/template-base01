@@ -31,12 +31,13 @@ export default function Main(props: {
       className={"Content03"}
       sx={{
         width: "100vw",
-        height: { xs: "auto", md: `${height}px` },
+        maxHeight: { xs: "auto", md: `${height}px` },
         position: "relative",
         flexDirection: { xs: "column", lg: "row" },
       }}
     >
       <FlexColumnBox
+        className="caption-box"
         bgcolor="primary.contrastText"
         color="primary.main"
         sx={(theme: Theme) => ({
@@ -56,12 +57,15 @@ export default function Main(props: {
             transform: "translate(-50%, -50%)",
             zIndex: 10,
             width: "400px",
-            height: `${height * 0.7}px`,
+            minHeight: "65%",
+            /*maxHeight: `${height * 0.7}px`,*/
             maxHeight: "90%",
+            lineHeight: 1.4,
           },
         })}
       >
         <Typography
+          className="title"
           variant="h5"
           component="h4"
           gutterBottom
@@ -71,18 +75,25 @@ export default function Main(props: {
         </Typography>
         <HtmlText
           text={props.caption}
-          className="hide-scrollbar"
+          className="caption hide-scrollbar"
           variant="body1"
-          sx={{ overflow: "scroll" }}
+          sx={(theme: Theme) => ({
+            overflow: "scroll",
+            [theme.breakpoints.up("md")]: {
+              lineHeight: 2.5,
+            },
+          })}
         />
-        {props.linkHref && props.linkText && (
+        {props.linkHref && (
           <ArrowForwardlosLink href={props.linkHref} label={props.linkText} />
         )}
       </FlexColumnBox>
       <Box
+        className="media-box"
         sx={{
+          display: "contents",
           width: "100vw",
-          height: { xs: "auto", md: `${height}px` },
+          height: "auto",
           overflow: "hidden",
         }}
       >

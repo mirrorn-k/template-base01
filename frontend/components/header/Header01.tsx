@@ -14,6 +14,7 @@ import * as Image from "@/components/media/Index";
 import { getResponsiveValue } from "@/lib/responsiveValue/index";
 import { IMAGE_DEFAULT } from "@/const/Image";
 import { useIsDesktop } from "@/lib/isDeviceSize";
+import SendIcon from "@mui/icons-material/Send";
 
 const Main = ({ content }: { content: tHeaderItem }) => {
   const { flgContactModal, setFlgContactModal, screenSize } =
@@ -67,6 +68,7 @@ const Main = ({ content }: { content: tHeaderItem }) => {
               sx={{ borderRadius: 12, display: { xs: "none", md: "flex" } }}
               onClick={() => setFlgContactModal(!flgContactModal)}
             >
+              <SendIcon />
               Contact
             </Button>
           ) : (

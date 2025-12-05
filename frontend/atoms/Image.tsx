@@ -23,6 +23,7 @@ export const BaseImage: React.FC<BaseImageProps> = React.memo(
       return (
         // eslint-disable-next-line @next/next/no-img-element
         <img
+          className="BaseImage BaseImage-svg"
           src={replaceLocalhost(src)}
           alt={alt || "SVG"}
           {...rest}
@@ -33,6 +34,7 @@ export const BaseImage: React.FC<BaseImageProps> = React.memo(
 
     return (
       <Image
+        className="BaseImage"
         alt={alt || "Image"}
         unoptimized={false}
         {...rest}

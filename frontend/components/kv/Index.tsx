@@ -98,8 +98,10 @@ export default function Main({
         imgProps={{
           style: {
             objectFit: "contain",
-            maxWidth: "300px",
-            maxHeight: "300px",
+            width: "80%",
+            height: "60%",
+            maxWidth: "800px",
+            maxHeight: "400px",
           },
         }}
       />
@@ -108,7 +110,7 @@ export default function Main({
         <Catchcopy
           catchcopy={catchcopy as string}
           sx={{
-            display: { xs: "none", sm: "block" },
+            display: { sm: "block" },
             position: "absolute",
             bottom: { xs: "30vh", sm: "27vh", md: "25vh" },
             width: "90%",
@@ -279,7 +281,7 @@ const Catchcopy = (props: { catchcopy: string; sx?: SxProps<Theme> }) => {
       sx={{
         ...props.sx,
         textAlign: "center",
-        color: "white",
+        color: "primary.contrastText",
         textShadow: "2px 2px 4px rgba(0, 0, 0, 0.7)",
       }}
     >

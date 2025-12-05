@@ -26,6 +26,10 @@ export default function Main() {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
+  if ((isTop && !scrolled) || !header.flg) {
+    return null;
+  }
+
   return (
     <>
       <AppBar

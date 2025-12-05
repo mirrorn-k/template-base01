@@ -9,7 +9,7 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 interface MainProps {
   href: string;
-  label: string;
+  label?: string;
   props?: React.ComponentPropsWithoutRef<typeof MuiLink>;
 }
 
@@ -17,7 +17,7 @@ export const Main = ({ href, label, props }: MainProps) => {
   return (
     <MuiLink component={Link} href={href}>
       <Typography
-        sx={{ fontSize: "1.25rem" }}
+        variant="body1"
         underline="none"
         {...props}
         className={"atom-Link-Main"}
@@ -50,6 +50,7 @@ export const ArrowForwardlosLink = ({ href, label }: MainProps) => {
   const theme = useTheme();
   return (
     <Box
+      className="ArrowForwardIosLink"
       sx={{
         display: "flex",
         flexFlow: "row nowrap",
@@ -58,7 +59,7 @@ export const ArrowForwardlosLink = ({ href, label }: MainProps) => {
         gap: theme.spacing(0.5),
       }}
     >
-      <Main href={href} label={label} />
+      <Main href={href} label={label || "詳しくはコチラ"} />
       <ArrowForwardIosIcon />
     </Box>
   );

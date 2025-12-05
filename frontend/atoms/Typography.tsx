@@ -12,10 +12,10 @@ export default function HtmlText({ text, sx, ...props }: CunstomTypoProps) {
   return (
     <Typography
       {...props}
-      sx={{
-        whiteSpace: "pre-line",
-        ...sx,
-      }}
+      sx={[
+        { whiteSpace: "pre-line" }, // 最初に固定のスタイル
+        ...(Array.isArray(sx) ? sx : [sx]), // sx を配列化して展開
+      ]}
       dangerouslySetInnerHTML={{ __html: text }}
     />
   );
