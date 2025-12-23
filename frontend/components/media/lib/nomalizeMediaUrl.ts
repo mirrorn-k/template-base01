@@ -7,6 +7,8 @@ const normalizeMediaUrl = (media?: tMedia) => {
     return media;
   }
 
+  return media;
+
   if (idProd) {
     // 本番環境の場合
     media.url = media.url.replace("https://ma-plus-backend.ttnou.com", "");
