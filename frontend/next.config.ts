@@ -6,18 +6,32 @@ const nextConfig: NextConfig = {
     return [
       // ローカル backend
       {
-        source: "/storage/:path*",
+        source: "/local/storage/:path*",
         destination: "http://backend:80/storage/:path*",
       },
       // 本番 backend
       {
-        source: "/storage/:path*",
+        source: "/prod/storage/:path*",
         destination: "https://ma-plus-backend.ttnou.com/storage/:path*",
       },
     ];
   },
+
   images: {
-    // src="/storage/..." を使う前提
+    remotePatterns: [
+      // ローカル backend（Docker 内）
+      {
+        protocol: "http",
+        hostname: "backend",
+        pathname: "/storage/**",
+      },
+      // 本番 backend
+      {
+        protocol: "https",
+        hostname: "ma-plus-backend.ttnou.com",
+        pathname: "/storage/**",
+      },
+    ],
   },
 };
 

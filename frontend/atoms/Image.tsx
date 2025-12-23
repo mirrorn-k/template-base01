@@ -54,7 +54,23 @@ function replaceLocalhost(url: string) {
     }
 
     const u = new URL(url);
-    return u.pathname;
+
+    // 本番 backend 判定
+    if (u.hostname === "ma-plus-backend.ttnou.com") {
+      return `/prod${u.pathname}`;
+    }
+
+    // ローカル backend 判定
+    if (
+      u.hostname === "backend" ||
+      u.hostname === "localhost" ||
+      u.hostname.startsWith("127.")
+    ) {
+      return `/local${u.pathname}`;
+    }
+
+    // それ以外は加工しない
+    return url;
   } catch {
     // 想定外の文字列が来ても落とさない
     return url;
