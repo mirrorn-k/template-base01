@@ -1,32 +1,30 @@
 "use client";
-import MuiLink from "@mui/material/Link";
-import Link from "next/link";
+import MuiLink, { LinkProps as MuiLinkProps } from "@mui/material/Link";
+import NextLink from "next/link";
 import { Typography, Box } from "@mui/material";
 import ArrowIcon from "@/atoms/svg/ArrowIcon";
 import { useTheme } from "@mui/material";
 import styled from "@mui/system/styled";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
-interface MainProps {
+type MainProps = MuiLinkProps & {
   href: string;
-  label?: string;
-  props?: React.ComponentPropsWithoutRef<typeof MuiLink>;
-}
+  label: string | undefined;
+};
 
-export const Main = ({ href, label, props }: MainProps) => {
+export default function Main({ href, label, ...linkProps }: MainProps) {
   return (
-    <MuiLink component={Link} href={href}>
-      <Typography
-        variant="body1"
-        underline="none"
-        {...props}
-        className={"atom-Link-Main"}
-      >
-        {label}
-      </Typography>
+    <MuiLink
+      component={NextLink}
+      href={href}
+      underline="none"
+      className="atom-Link-Main"
+      {...linkProps}
+    >
+      <Typography variant="body1">{label}</Typography>
     </MuiLink>
   );
-};
+}
 
 export const ArrowLink = ({ href, label }: MainProps) => {
   const theme = useTheme();
@@ -66,7 +64,7 @@ export const ArrowForwardlosLink = ({ href, label }: MainProps) => {
 };
 
 // リンクを作成するスタイル付きコンポーネント
-export const LinkBox = styled(Link)(({ theme }) => ({
+export const LinkBox = styled(NextLink)(({ theme }) => ({
   textDecoration: "none",
   color: theme.palette.text?.primary || "blue",
   fontWeight: "bold",

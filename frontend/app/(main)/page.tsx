@@ -2,8 +2,7 @@ export const dynamic = "force-dynamic";
 import KV from "@/components/kv/Index";
 import Box from "@mui/material/Box";
 import { getNotices } from "@/lib/api/notice/index";
-import getKv from "@/lib/api/kv";
-import getContents from "@/lib/api/contents";
+import getPage from "@/lib/api/page/index";
 import ContentsSelecter from "@/components/contents/Index";
 import getMeta from "@/lib/api/meta/index";
 
@@ -14,14 +13,12 @@ export async function generateMetadata() {
 
 export default async function Home() {
   // ✅ Promiseを並列実行（効率アップ & Suspense可）
-  const [kv, contents, notices] = await Promise.all([
-    getKv(),
-    getContents({
-      url: `${process.env.NEXT_PUBLIC_MAP_API_CONTENT_TOP}?${process.env.NEXT_PUBLIC_MAP_API_CONTENT_TOP_PARAMS}`,
-      terms: {},
-    }),
+  const [page, notices] = await Promise.all([
+    getPage("/"),
     getNotices({ page: 1, limit: 1 }),
   ]);
+
+  console.log("[page] ", page);
 
   return (
     <Box
@@ -34,8 +31,12 @@ export default async function Home() {
         gap: 8,
       }}
     >
-      <KV notice={notices[0]} kv={kv} />
-      <ContentsSelecter contents={contents} />
+      <KV
+        notice={notices[0]}
+        kv={page.settings.kv}
+        catchcopy={page.settings.catchcopy}
+      />
+      <ContentsSelecter contents={page.contents} />
     </Box>
   );
 }

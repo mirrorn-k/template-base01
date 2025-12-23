@@ -1,16 +1,16 @@
 "use client";
 import * as Image from "@/components/media/Index";
-import { tMedia } from "@/types/ttnouMap";
 import { FlexColumnBox } from "@/atoms/Box";
 import HtmlText from "@/atoms/Typography";
 import ResponsiveBox from "@/atoms/Box";
 import LinkButton from "@/atoms/LinkButton";
+import { tContent01 } from "@/lib/api/page/type";
 
 interface Content01Props {
-  media?: tMedia;
-  caption: string;
-  linkHref?: string;
-  linkText?: string;
+  media: tContent01["media"];
+  caption: tContent01["caption"];
+  linkHref: tContent01["linkHref"];
+  linkText: tContent01["linkText"];
 }
 
 export default function Content01(props: Content01Props) {
@@ -35,7 +35,7 @@ export default function Content01(props: Content01Props) {
         },
       }}
     >
-      <Image.MediaImage media={props.media} />
+      {props.media && <Image.MediaImage media={props.media} />}
       <ResponsiveBox maxWidth="sm" sx={{ mt: 2 }}>
         <HtmlText
           text={props.caption}
@@ -45,12 +45,14 @@ export default function Content01(props: Content01Props) {
           }}
         />
       </ResponsiveBox>
-      <LinkButton
-        linkHref={props.linkHref}
-        linkText={props.linkText}
-        variant="contained"
-        color="primary"
-      />
+      {props.linkHref && (
+        <LinkButton
+          linkHref={props.linkHref}
+          linkText={props.linkHref || "リンク"}
+          variant="contained"
+          color="primary"
+        />
+      )}
     </FlexColumnBox>
   );
 }

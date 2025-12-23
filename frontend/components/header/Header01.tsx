@@ -8,6 +8,7 @@ import { tHeaderItem } from "@/lib/api/header/type";
 import Typography from "@mui/material/Typography";
 import MenuItems from "./atoms/MenuItems";
 import { Link } from "@mui/material";
+import NextLink from "next/link";
 import Button from "@mui/material/Button";
 import * as ContextCommon from "@/contexts/Common";
 import * as Image from "@/components/media/Index";
@@ -22,7 +23,13 @@ const Main = ({ content }: { content: tHeaderItem }) => {
   const { menus, organize } = ContextMap.Contents();
   return (
     <Box className="Header01" sx={{ display: "contents" }}>
-      <Link href="/" color="inherit" underline="none" sx={{ height: "100%" }}>
+      <Link
+        component={NextLink}
+        href="/"
+        color="inherit"
+        underline="none"
+        sx={{ height: "100%" }}
+      >
         {content.flgLogo && content.logo ? (
           <Image.MediaImage
             media={getResponsiveValue<tMedia>(

@@ -12,17 +12,17 @@
 import { FlexBox, FlexColumnBox } from "@/atoms/Box";
 import { Typography, Box } from "@mui/material";
 import * as Image from "@/components/media/Index";
-import { tMedia } from "@/types/ttnouMap";
 import { ArrowForwardlosLink } from "@/atoms/Link";
 import HtmlText from "@/atoms/Typography";
 import { Theme } from "@mui/material/styles";
+import { tContent03 } from "@/lib/api/page/type";
 
 export default function Main(props: {
-  media: tMedia;
-  title: string;
-  caption: string;
-  linkHref?: string;
-  linkText?: string;
+  media: tContent03["media"];
+  title: tContent03["title"];
+  caption: tContent03["caption"];
+  linkHref?: tContent03["linkHref"];
+  linkText?: tContent03["linkText"];
 }) {
   const height = 800;
 
@@ -88,21 +88,23 @@ export default function Main(props: {
           <ArrowForwardlosLink href={props.linkHref} label={props.linkText} />
         )}
       </FlexColumnBox>
-      <Box
-        className="media-box"
-        sx={{
-          display: "contents",
-          width: "100vw",
-          height: "auto",
-          overflow: "hidden",
-        }}
-      >
-        <Image.MediaImage
-          media={props.media}
-          objectFit="cover"
-          imgProps={{ style: { width: "100%", height: "auto" } }}
-        />
-      </Box>
+      {props.media && (
+        <Box
+          className="media-box"
+          sx={{
+            display: "contents",
+            width: "100vw",
+            height: "auto",
+            overflow: "hidden",
+          }}
+        >
+          <Image.MediaImage
+            media={props.media}
+            objectFit="cover"
+            imgProps={{ style: { width: "100%", height: "auto" } }}
+          />
+        </Box>
+      )}
     </FlexBox>
   );
 }

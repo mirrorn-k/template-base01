@@ -4,7 +4,6 @@ import * as ContextCommon from "@/contexts/Common";
 import * as ContextMapInfo from "@/contexts/MapData";
 import getThemeOptions from "@/lib/api/themeOption/index";
 import getFormContent from "@/lib/api/contactForm/api";
-import getMenus from "@/lib/api/menu/index";
 import getOrganize from "@/lib/api/organize/index";
 import ScriptContainer from "./Script";
 import getSiteInfo from "@/lib/api/siteInfo/index";
@@ -13,6 +12,7 @@ import getHeader from "@/lib/api/header/index";
 import BaseThemeProvider from "@/themes/BaseTheme";
 import { CssBaseline } from "@mui/material";
 import * as GtmScript from "@/components/google/GtmScript";
+import { getPages } from "@/lib/api/page/index";
 
 export default async function RootLayout({
   children,
@@ -20,7 +20,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   // ✅ 共通データの取得
-  const { organize, siteInfo, options, cfItems, menus, header } = await api();
+  const { organize, siteInfo, options, cfItems, header, pages } = await api();
 
   if (!organize) {
     return <p>準備中</p>;
@@ -47,9 +47,9 @@ export default async function RootLayout({
       <body>
         <ContextMapInfo.Provider
           organize={organize}
-          menus={menus}
           cfItems={cfItems}
           header={header}
+          pages={pages}
         >
           <ContextCommon.Provider>
             <BaseThemeProvider options={options}>
@@ -110,7 +110,7 @@ async function AsyncLayoutContent({
 async function api() {
   try {
     // 並列で取得（最速化）
-    const [organize, siteInfo, options, cfItems, menus, header] =
+    const [organize, siteInfo, options, cfItems, header, pages] =
       await Promise.all([
         getOrganize(),
         getSiteInfo(),
@@ -118,11 +118,11 @@ async function api() {
         getFormContent({
           url: `${process.env.NEXT_PUBLIC_MAP_API_CONTACT_FORM}?${process.env.NEXT_PUBLIC_MAP_API_CONTACT_FORM_PARAM}`,
         }),
-        getMenus(),
         getHeader(),
+        getPages(),
       ]);
 
-    return { organize, siteInfo, options, cfItems, menus, header };
+    return { organize, siteInfo, options, cfItems, header, pages };
   } catch (e) {
     console.error("API ERROR IN LAYOUT:", e);
     throw e; // ← build を確実に止める

@@ -2,15 +2,13 @@
 import { Box, Typography } from "@mui/material";
 import * as Image from "@/components/media/Index";
 import * as ContextCommon from "@/contexts/Common";
-import { tMedia } from "@/types/ttnouMap";
+import { tMedia, tResponsiveMedia } from "@/types/ttnouMap";
 import { getResponsiveValue } from "@/lib/responsiveValue/index";
 import { Responsive } from "@/lib/responsiveValue/type";
 import { IMAGE_DEFAULT } from "@/const/Image";
 import { SxProps, Theme } from "@mui/material/styles";
 import { LinkButton } from "@/atoms/Button";
 import { TypographyProps } from "@mui/material";
-import * as tMapKv from "@/lib/api/kv/type";
-import { tResponsiveMediaItem } from "@/lib/api/media/type";
 
 type tNotice = {
   kbn: string;
@@ -20,25 +18,22 @@ type tNotice = {
 };
 
 export default function Main({
-  kv,
+  kv = {
+    label: "NO IMAGE",
+    xs: null,
+    sm: null,
+    md: null,
+    lg: IMAGE_DEFAULT,
+    xl: null,
+  },
+  catchcopy,
   notice,
 }: {
-  kv?: tMapKv.KvContent;
+  kv?: tResponsiveMedia;
+  catchcopy: string;
   notice: tNotice;
 }) {
   const { screenSize } = ContextCommon.useContents();
-
-  console.log("[KV] render start", { kv, notice });
-
-  const kvImg = kv?.content_items.find((item) => item.label === "KV")
-    ?.content as tResponsiveMediaItem;
-  const catchcopy = kv?.content_items.find(
-    (item) => item.label === "キャッチコピー"
-  )?.raw_value;
-  const logoImg = kv?.content_items.find((item) => item.label === "ロゴ")
-    ?.content as tResponsiveMediaItem;
-
-  console.log("[KV] render", { kvImg, catchcopy, logoImg });
 
   return (
     <Box
@@ -56,20 +51,17 @@ export default function Main({
       }}
     >
       <Image.MediaImage
-        media={
-          kvImg
-            ? getResponsiveValue<tMedia>(
-                kvImg,
-                screenSize,
-                "xs",
-                "xl",
-                "down",
-                true,
-                true,
-                IMAGE_DEFAULT
-              )
-            : IMAGE_DEFAULT
-        }
+        media={getResponsiveValue<tMedia>(
+          kv as Responsive<tMedia>,
+          screenSize,
+          "xs",
+          "xl",
+          "down",
+          true,
+          true,
+          IMAGE_DEFAULT
+        )}
+        alt={kv?.label || "KV Image"}
         objectFit="cover"
         fill={true}
         imgProps={{
@@ -79,6 +71,7 @@ export default function Main({
         }}
       />
 
+      {/*
       <Image.MediaImage
         media={
           logoImg
@@ -105,6 +98,7 @@ export default function Main({
           },
         }}
       />
+      */}
 
       {catchcopy && (
         <Catchcopy

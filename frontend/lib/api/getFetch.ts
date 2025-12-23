@@ -30,11 +30,31 @@ export default async function getFetch(
 export function fetchWithParams<T>(url: string, params?: tParams<T>): string {
   const u = new URL(url);
 
-  if (params) {
-    Object.entries(params).forEach(([key, value]) => {
+  if (!params) return u.toString();
+
+  // page / limit
+  if (params.page !== undefined) {
+    u.searchParams.set("page", String(params.page));
+  }
+
+  if (params.limit !== undefined) {
+    u.searchParams.set("limit", String(params.limit));
+  }
+
+  // filter[key]=value
+  if (params.filter) {
+    Object.entries(params.filter).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
-        u.searchParams.append(key, String(value));
+        u.searchParams.set(`filter[${key}]`, String(value));
       }
+    });
+  }
+
+  // order[n][field], order[n][direction]
+  if (params.orderby) {
+    params.orderby.forEach((o, i) => {
+      u.searchParams.set(`order[${i}][field]`, o.field);
+      u.searchParams.set(`order[${i}][direction]`, o.direction);
     });
   }
 

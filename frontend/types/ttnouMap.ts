@@ -179,3 +179,12 @@ export interface tMapApiResponseItem<T> {
   content_type: tMapApiResponseCT;
   content: T;
 }
+
+export interface tResponsiveMedia {
+  label: string;
+  xs: tMedia | null;
+  sm: tMedia | null;
+  md: tMedia | null;
+  lg: tMedia | null;
+  xl: tMedia | null;
+}

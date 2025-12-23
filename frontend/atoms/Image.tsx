@@ -47,8 +47,16 @@ export const BaseImage: React.FC<BaseImageProps> = React.memo(
 BaseImage.displayName = "BaseImage";
 
 function replaceLocalhost(url: string) {
-  if (url.includes("localhost:8102")) {
-    return url.replace("localhost:8102", "backend");
+  try {
+    // すでに相対パスならそのまま返す
+    if (url.startsWith("/")) {
+      return url;
+    }
+
+    const u = new URL(url);
+    return u.pathname;
+  } catch {
+    // 想定外の文字列が来ても落とさない
+    return url;
   }
-  return url;
 }

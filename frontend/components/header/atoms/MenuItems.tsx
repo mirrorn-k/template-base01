@@ -1,9 +1,9 @@
 "use client";
-import Link from "@mui/material/Link";
+import Link from "@/atoms/Link";
 import { FlexBox } from "@/atoms/Box";
 import React from "react";
 import { BoxProps } from "@mui/material/Box";
-import { tMenuItem } from "@/lib/api/menu/type";
+import { tMenuItem } from "@/lib/api/page/type";
 
 type Menu01Props = {
   FlexBoxProps?: BoxProps;
@@ -26,9 +26,12 @@ export default function Menu01(props: Menu01Props) {
       {...props.FlexBoxProps}
     >
       {props.menus.map((menu) => (
-        <Link key={`menu-${menu.slug}`} color="inherit" href={`/${menu.slug}`}>
-          {menu.label}
-        </Link>
+        <Link
+          key={`menu-${menu.slug}`}
+          color="inherit"
+          href={`/${menu.slug}`}
+          label={menu.label}
+        />
       ))}
     </FlexBox>
   );

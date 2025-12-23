@@ -1,10 +1,6 @@
 export const dynamic = "force-dynamic";
-import SubpageKv from "@/components/kv/Subpage";
-import getMenus from "@/lib/api/menu/index";
-import ContentsSelecter from "@/components/contents/Index";
-import { getSubpageContents } from "@/lib/api/contents";
 import getMeta from "@/lib/api/meta/index";
-import Box from "@mui/material/Box";
+import Content from "./Content";
 
 // メタデータを設定
 export async function generateMetadata({
@@ -25,39 +21,11 @@ export default async function Home({
   params: Promise<{ slug?: string | string[] }>;
 }) {
   const resolved = await params; // 👈 awaitが必須
+
+  // 配列の場合は/で結合
   const slug = Array.isArray(resolved.slug)
-    ? resolved.slug[0]
+    ? "/" + resolved.slug.join("/")
     : resolved.slug ?? "";
-  const { menu, contents } = await api({ slug });
-  if (!menu) {
-    return (
-      <>
-        <SubpageKv medias={undefined} title={"メニューが見つかりません"} />
-      </>
-    );
-  }
-  return (
-    <Box
-      sx={{
-        m: "auto",
-        p: 0,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 8,
-      }}
-    >
-      <SubpageKv medias={menu?.img} title={menu.label} />
-      <ContentsSelecter contents={contents} />
-    </Box>
-  );
+
+  return <Content slug={slug} />;
 }
-
-const api = async (props: { slug: string }) => {
-  const menus = await getMenus();
-  const menu = menus.find((m) => m.slug === props.slug);
-
-  const contents = await getSubpageContents({ slug: props.slug });
-
-  return { menu, contents };
-};

@@ -2,16 +2,16 @@
 import HtmlText from "@/atoms/Typography";
 import ResponsiveBox from "@/atoms/Box";
 import { Box, Typography } from "@mui/material";
-import { tMedia } from "@/types/ttnouMap";
 import LinkButton from "@/atoms/LinkButton";
+import { tContent04 } from "@/lib/api/page/type";
 
 interface MainProps {
-  title1: string;
-  title2: string;
-  media?: tMedia;
-  caption: string;
-  linkHref?: string;
-  linkText?: string;
+  title1: tContent04["title1"];
+  title2: tContent04["title2"];
+  media?: tContent04["media"];
+  caption: tContent04["caption"];
+  linkHref?: tContent04["linkHref"];
+  linkText?: tContent04["linkText"];
 }
 
 export default function Main(props: MainProps) {

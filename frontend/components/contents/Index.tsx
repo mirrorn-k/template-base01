@@ -2,69 +2,62 @@ import Content01 from "./Content01";
 import Content02 from "./Content02";
 import Content03 from "./Content03";
 import Content04 from "./Content04";
-import * as tMapContent from "@/lib/api/contents/type";
-import { tMedia } from "@/types/ttnouMap";
+import { tPage } from "@/lib/api/page/type";
 
 interface Props {
-  contents: tMapContent.tContent[];
+  contents: tPage["contents"];
 }
 
 export default function Main({ contents }: Props) {
-  if (!Array.isArray(contents)) {
-    console.error("contents is not array", contents);
-    return null;
-  }
-  return contents.map((content) => {
-    const style = content.content_items.find((ci) => ci.label === "スタイル");
-    if (!style) return <></>;
-    const c = content.content_items.find((ci) => ci.label === "コンテンツ");
-    if (!c) return <></>;
+  console.log("Main contents", contents);
 
-    if (style.raw_value === "Content01") {
-      return (
-        <Content01
-          key={`top-content-${c.id}`}
-          media={c.content?.イメージ１ as tMedia}
-          caption={c.content?.キャプション１ as string | ""}
-          linkHref={c.content?.リンク as string}
-          linkText={c.content?.リンクラベル as string}
-        />
-      );
-    } else if (style.raw_value === "Content02") {
-      return (
-        <Content02
-          key={`top-content-${c.id}`}
-          media={c.content?.イメージ１ as tMedia}
-          title={c.content?.タイトル as string}
-          caption={c.content?.キャプション１ as string}
-        />
-      );
-    } else if (style.raw_value === "Content03") {
-      return (
-        <Content03
-          key={`top-content-${c.id}`}
-          media={c.content?.イメージ１ as tMedia}
-          title={c.content?.タイトル as string}
-          caption={c.content?.キャプション１ as string}
-          linkHref={c.content?.リンク as string}
-          linkText={c.content?.リンクラベル as string}
-        />
-      );
-    } else if (style.raw_value === "Content04") {
-      return (
-        <Content04
-          key={`top-content-${c.id}`}
-          title1={c.content?.タイトル as string}
-          title2={c.content?.サブタイトル as string}
-          media={c.content?.イメージ１ as tMedia}
-          caption={c.content?.キャプション１ as string}
-          linkHref={c.content?.リンク as string}
-          linkText={c.content?.リンクラベル as string}
-        />
-      );
-    } else {
-      console.log("未対応のスタイル ", style.raw_value);
-      return <></>;
+  return contents.map((data, index) => {
+    switch (data.type) {
+      case "content01":
+        return (
+          <Content01
+            key={`top-content-${index}`}
+            media={data.media}
+            caption={data.caption}
+            linkHref={data.linkHref}
+            linkText={data.linkText}
+          />
+        );
+      case "content02":
+        return (
+          <Content02
+            key={`top-content-${index}`}
+            media={data.media}
+            title={data.title}
+            caption={data.caption}
+          />
+        );
+      case "content03":
+        return (
+          <Content03
+            key={`top-content-${index}`}
+            media={data.media}
+            title={data.title}
+            caption={data.caption}
+            linkHref={data.linkHref}
+            linkText={data.linkText}
+          />
+        );
+      case "content04":
+        return (
+          <Content04
+            key={`top-content-${index}`}
+            media={data.media}
+            title1={data.title1}
+            title2={data.title2}
+            caption={data.caption}
+            linkHref={data.linkHref}
+            linkText={data.linkText}
+          />
+        );
+      default:
+        console.log("未対応のコンテンツタイプ ", data);
+        return <></>;
     }
   });
 }

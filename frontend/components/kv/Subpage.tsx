@@ -1,16 +1,16 @@
 "use client";
 import { Box, Typography } from "@mui/material";
 import * as Image from "@/components/media/Index";
-import { tMedia } from "@/types/ttnouMap";
-import { Responsive } from "@/lib/responsiveValue/type";
+import { tResponsiveMedia } from "@/types/ttnouMap";
 import { getResponsiveValue } from "@/lib/responsiveValue/index";
 import { IMAGE_SUBPAGE_KV } from "@/const/Image";
 import * as ContextCommon from "@/contexts/Common";
 
 interface Props {
-  medias: Responsive<tMedia> | undefined;
+  medias: tResponsiveMedia | undefined;
   title: string;
   subtitle?: string;
+  catchcopy?: string;
 }
 
 export default function Main(props: Props) {
