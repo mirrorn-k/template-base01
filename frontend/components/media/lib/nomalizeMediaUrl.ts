@@ -1,13 +1,14 @@
 import { tMedia } from "@/types/ttnouMap";
 
-const idProd = process.env.NODE_ENV === "production";
+//const idProd = process.env.NODE_ENV === "production";
 
 const normalizeMediaUrl = (media?: tMedia) => {
+  return media;
+
+  /*
   if (!media || !media.url) {
     return media;
   }
-
-  return media;
 
   if (idProd) {
     // 本番環境の場合
@@ -18,6 +19,7 @@ const normalizeMediaUrl = (media?: tMedia) => {
   }
 
   return media;
+  */
 };
 
 export default normalizeMediaUrl;
