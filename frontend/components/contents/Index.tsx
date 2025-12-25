@@ -47,7 +47,6 @@ export default function Main({ contents }: Props) {
         return (
           <Content04
             key={`top-content-${index}`}
-            media={data.media}
             title1={data.title1}
             title2={data.title2}
             caption={data.caption}

@@ -5,7 +5,7 @@ import {
   tPage,
   tPageContent,
 } from "./type";
-import { tParams, tMedia } from "@/types/ttnouMap";
+import { tParams, tResponsiveMedia } from "@/types/ttnouMap";
 
 /**
  * SSR/SSG 用：ページ情報を取得
@@ -83,7 +83,7 @@ function convert(res: tPageApiResponse): tPage {
   const content3 = res.content3;
   obj.contents = convertContent3(content3);
 
-  console.log("[convert] obj", obj);
+  console.log("[convert] obj", JSON.stringify(obj));
   return obj;
 }
 
@@ -104,8 +104,8 @@ function convertContent3(c3: tPageApiResponse["content3"]): tPage["contents"] {
         return [
           {
             type: "content01",
-            media: (pick("イメージ１")?.content as tMedia) ?? null,
-            caption: (pick("キャプション１")?.raw_value as string) ?? "",
+            media: (pick("イメージ")?.content as tResponsiveMedia) ?? null,
+            caption: (pick("キャプション")?.raw_value as string) ?? "",
             linkHref: (pick("リンク")?.raw_value as string) ?? null,
             linkText: (pick("リンクラベル")?.raw_value as string) ?? "",
           },
@@ -115,9 +115,9 @@ function convertContent3(c3: tPageApiResponse["content3"]): tPage["contents"] {
         return [
           {
             type: "content02",
-            media: (pick("イメージ１")?.content as tMedia) ?? null,
+            media: (pick("イメージ")?.content as tResponsiveMedia) ?? null,
             title: (pick("タイトル")?.raw_value as string) ?? "",
-            caption: (pick("キャプション１")?.raw_value as string) ?? "",
+            caption: (pick("キャプション")?.raw_value as string) ?? "",
           },
         ];
 
@@ -125,9 +125,9 @@ function convertContent3(c3: tPageApiResponse["content3"]): tPage["contents"] {
         return [
           {
             type: "content03",
-            media: (pick("イメージ１")?.content as tMedia) ?? null,
+            media: (pick("イメージ")?.content as tResponsiveMedia) ?? null,
             title: (pick("タイトル")?.raw_value as string) ?? "",
-            caption: (pick("キャプション１")?.raw_value as string) ?? "",
+            caption: (pick("キャプション")?.raw_value as string) ?? "",
             linkHref: (pick("リンク")?.raw_value as string) ?? null,
             linkText: (pick("リンクラベル")?.raw_value as string) ?? "",
           },
@@ -137,10 +137,9 @@ function convertContent3(c3: tPageApiResponse["content3"]): tPage["contents"] {
         return [
           {
             type: "content04",
-            media: (pick("イメージ１")?.content as tMedia) ?? null,
             title1: (pick("タイトル１")?.raw_value as string) ?? "",
             title2: (pick("タイトル２")?.raw_value as string) ?? "",
-            caption: (pick("キャプション１")?.raw_value as string) ?? "",
+            caption: (pick("キャプション")?.raw_value as string) ?? "",
             linkHref: (pick("リンク")?.raw_value as string) ?? null,
             linkText: (pick("リンクラベル")?.raw_value as string) ?? "",
           },

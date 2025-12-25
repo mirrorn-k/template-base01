@@ -1,4 +1,3 @@
-import { tMedia } from "@/types/ttnouMap";
 import * as tMap from "@/types/ttnouMap";
 
 /**
@@ -27,14 +26,14 @@ export type tPageContent =
   | ({ type: "content04" } & tContent04);
 
 export interface tContent01 {
-  media: tMedia | null;
+  media: tMap.tResponsiveMedia | null;
   caption: string;
   linkHref?: string | null;
   linkText?: string;
 }
 
 export interface tContent02 {
-  media: tMedia | null;
+  media: tMap.tResponsiveMedia | null;
   title: string;
   caption: string;
   linkHref?: string | null;
@@ -42,7 +41,7 @@ export interface tContent02 {
 }
 
 export interface tContent03 {
-  media: tMedia | null;
+  media: tMap.tResponsiveMedia | null;
   title: string;
   caption: string;
   linkHref?: string | null;
@@ -50,7 +49,6 @@ export interface tContent03 {
 }
 
 export interface tContent04 {
-  media: tMedia | null;
   title1: string;
   title2: string;
   caption: string;
@@ -94,7 +92,7 @@ export type tPageContentItem = {
 /**
  * 各コンテンツアイテム
  */
-export type tContentItem = tMap.tMapContentItem<tMedia>;
+export type tContentItem = tMap.tMapContentItem<unknown>;
 
 /**
  * コンテンツ本体

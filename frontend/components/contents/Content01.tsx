@@ -5,6 +5,11 @@ import HtmlText from "@/atoms/Typography";
 import ResponsiveBox from "@/atoms/Box";
 import LinkButton from "@/atoms/LinkButton";
 import { tContent01 } from "@/lib/api/page/type";
+import { getResponsiveValue } from "@/lib/responsiveValue/index";
+import { Responsive } from "@/lib/responsiveValue/type";
+import { tMedia } from "@/types/ttnouMap";
+import { IMAGE_DEFAULT } from "@/const/Image";
+import * as ContextCommon from "@/contexts/Common";
 
 interface Content01Props {
   media: tContent01["media"];
@@ -14,6 +19,8 @@ interface Content01Props {
 }
 
 export default function Content01(props: Content01Props) {
+  const { screenSize } = ContextCommon.useContents();
+
   return (
     <FlexColumnBox
       className={"Content01"}
@@ -35,7 +42,20 @@ export default function Content01(props: Content01Props) {
         },
       }}
     >
-      {props.media && <Image.MediaImage media={props.media} />}
+      {props.media && (
+        <Image.MediaImage
+          media={getResponsiveValue<tMedia>(
+            props.media as Responsive<tMedia>,
+            screenSize,
+            "xs",
+            "xl",
+            "down",
+            true,
+            true,
+            IMAGE_DEFAULT
+          )}
+        />
+      )}
       <ResponsiveBox maxWidth="sm" sx={{ mt: 2 }}>
         <HtmlText
           text={props.caption}

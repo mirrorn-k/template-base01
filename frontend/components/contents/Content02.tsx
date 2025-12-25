@@ -13,6 +13,11 @@ import * as Image from "@/components/media/Index";
 import LinkButton from "@/atoms/LinkButton";
 import HtmlText from "@/atoms/Typography";
 import { tContent02 } from "@/lib/api/page/type";
+import { getResponsiveValue } from "@/lib/responsiveValue/index";
+import { Responsive } from "@/lib/responsiveValue/type";
+import { tMedia } from "@/types/ttnouMap";
+import { IMAGE_DEFAULT } from "@/const/Image";
+import * as ContextCommon from "@/contexts/Common";
 
 export default function Main(props: {
   media: tContent02["media"];
@@ -21,6 +26,8 @@ export default function Main(props: {
   linkHref?: tContent02["linkHref"];
   linkText?: tContent02["linkText"];
 }) {
+  const { screenSize } = ContextCommon.useContents();
+
   return (
     <FlexBox
       className={"Content02"}
@@ -87,7 +94,16 @@ export default function Main(props: {
           }}
         >
           <Image.MediaImage
-            media={props.media}
+            media={getResponsiveValue<tMedia>(
+              props.media as Responsive<tMedia>,
+              screenSize,
+              "xs",
+              "xl",
+              "down",
+              true,
+              true,
+              IMAGE_DEFAULT
+            )}
             imgProps={{
               style: {
                 flex: "0 0 auto",

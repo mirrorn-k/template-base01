@@ -16,6 +16,11 @@ import { ArrowForwardlosLink } from "@/atoms/Link";
 import HtmlText from "@/atoms/Typography";
 import { Theme } from "@mui/material/styles";
 import { tContent03 } from "@/lib/api/page/type";
+import { getResponsiveValue } from "@/lib/responsiveValue/index";
+import { Responsive } from "@/lib/responsiveValue/type";
+import { tMedia } from "@/types/ttnouMap";
+import { IMAGE_DEFAULT } from "@/const/Image";
+import * as ContextCommon from "@/contexts/Common";
 
 export default function Main(props: {
   media: tContent03["media"];
@@ -25,6 +30,9 @@ export default function Main(props: {
   linkText?: tContent03["linkText"];
 }) {
   const height = 800;
+  const { screenSize } = ContextCommon.useContents();
+
+  console.log("Content03 props:", props);
 
   return (
     <FlexBox
@@ -99,7 +107,16 @@ export default function Main(props: {
           }}
         >
           <Image.MediaImage
-            media={props.media}
+            media={getResponsiveValue<tMedia>(
+              props.media as Responsive<tMedia>,
+              screenSize,
+              "xs",
+              "xl",
+              "down",
+              true,
+              true,
+              IMAGE_DEFAULT
+            )}
             objectFit="cover"
             imgProps={{ style: { width: "100%", height: "auto" } }}
           />
