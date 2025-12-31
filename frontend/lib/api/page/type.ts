@@ -53,6 +53,7 @@ export interface tContent04 {
 // content1（TemplateBase01）
 // ==============================
 export type tSetting = {
+  subtitle: string;
   flgShowFooter: boolean;
   flgShowHeader: boolean;
 };

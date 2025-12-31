@@ -35,10 +35,10 @@ export default function Main({ slug }: { slug: string }) {
       }}
     >
       <SubpageKv
-        medias={page.settings.kv}
-        title={page.settings.title}
+        medias={page.kv.kv || undefined}
+        title={page.name}
         subtitle={page.settings.subtitle}
-        catchcopy={page.settings.catchcopy}
+        catchcopy={page.kv.catchcopy}
       />
       <ContentsSelecter contents={page.contents} />
     </Box>

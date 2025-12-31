@@ -17,7 +17,7 @@ export async function getSite(
     console.log("[getSite] data:", data);
     return data[0];
   } catch (e) {
-    console.error("[getPages] fetch error", e);
+    console.error("[getSite] fetch error", e);
     return {} as tSite;
   }
 }

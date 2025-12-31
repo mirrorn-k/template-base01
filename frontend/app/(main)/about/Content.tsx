@@ -27,10 +27,10 @@ export default function Main({ aboutList }: { aboutList: tAbout[] }) {
   return (
     <FlexColumnBox gapSize={8}>
       <SubpageKv
-        medias={page.settings.kv}
-        title={page.settings.title}
+        medias={page.kv.kv || undefined}
+        title={page.name}
         subtitle={page.settings.subtitle}
-        catchcopy={page.settings.catchcopy}
+        catchcopy={page.kv.catchcopy}
       />
       <ResponsiveBox maxWidth="md" sx={{ m: "auto", p: 2 }}>
         <Table01 items={aboutList} />
