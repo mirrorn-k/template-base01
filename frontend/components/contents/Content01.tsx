@@ -68,7 +68,7 @@ export default function Content01(props: Content01Props) {
       {props.linkHref && (
         <LinkButton
           linkHref={props.linkHref}
-          linkText={props.linkHref || "リンク"}
+          linkText={props.linkText || "リンク"}
           variant="contained"
           color="primary"
         />

@@ -1,11 +1,13 @@
 export const dynamic = "force-dynamic";
 import getAboutList from "@/lib/api/about";
-import getMeta from "@/lib/api/meta/index";
+import getPage from "@/lib/api/page/index";
 import Content from "./Content";
+import metaConvert from "@/lib/meta/converter";
 
 // メタデータを設定
 export async function generateMetadata() {
-  return await getMeta({ slug: "about" });
+  const page = await getPage("/about");
+  return metaConvert(page.meta);
 }
 
 export default async function Home() {

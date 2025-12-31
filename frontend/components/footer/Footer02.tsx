@@ -5,20 +5,15 @@ import { Box, Typography, Link } from "@mui/material";
 import ResponsiveBox, { FlexBox } from "@/atoms/Box";
 import * as Image from "@/components/media/Index";
 import React from "react";
-import { tFooterItem } from "@/lib/api/footer/type";
-import * as ContextCommon from "@/contexts/Common";
-import { getResponsiveValue } from "@/lib/responsiveValue/index";
 import * as ContextMap from "@/contexts/MapData";
-import { tMedia } from "@/types/ttnouMap";
-import { IMAGE_DEFAULT } from "@/const/Image";
+import { tSite } from "@/lib/api/site/type";
 
 interface Props {
   // 追加のpropsがあればここに定義
-  content: tFooterItem;
+  footer: tSite["footer"];
 }
-export default function FooterBar({ content }: Props) {
+export default function FooterBar({ footer }: Props) {
   const theme = useTheme();
-  const { screenSize } = ContextCommon.useContents();
   const { organize, menus } = ContextMap.Contents();
 
   return (
@@ -43,18 +38,9 @@ export default function FooterBar({ content }: Props) {
           alignItems: "center",
         }}
       >
-        {content.flgLogo && content.logo ? (
+        {footer.flgLogo && footer.logo ? (
           <Image.MediaImage
-            media={getResponsiveValue<tMedia>(
-              content.logo,
-              screenSize,
-              "xs",
-              "xl",
-              "down",
-              true,
-              true,
-              IMAGE_DEFAULT
-            )}
+            media={footer.logo}
             imgProps={{ style: { maxWidth: "380px", maxHeight: "280px" } }}
           />
         ) : (

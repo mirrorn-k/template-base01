@@ -2,11 +2,13 @@ export const dynamic = "force-dynamic";
 import { Typography } from "@mui/material";
 import ResponsiveBox from "@/atoms/Box";
 import * as Contents from "./Content";
-import getMeta from "@/lib/api/meta/index";
+import getPage from "@/lib/api/page/index";
+import metaConvert from "@/lib/meta/converter";
 
 // メタデータを設定
 export async function generateMetadata() {
-  return await getMeta({ slug: "notices" });
+  const page = await getPage("/");
+  return metaConvert(page.meta);
 }
 
 export default async function Main() {

@@ -6,25 +6,19 @@ import ResponsiveBox, { FlexColumnBox, FlexBox } from "@/atoms/Box";
 import * as Image from "@/components/media/Index";
 import HtmlText from "@/atoms/Typography";
 import React from "react";
-import { tFooterItem } from "@/lib/api/footer/type";
-import * as ContextCommon from "@/contexts/Common";
-import { getResponsiveValue } from "@/lib/responsiveValue/index";
 import * as ContextMap from "@/contexts/MapData";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import FaxIcon from "@mui/icons-material/Fax";
+import { tSite } from "@/lib/api/site/type";
 
 interface Props {
   // 追加のpropsがあればここに定義
-  content: tFooterItem;
+  footer: tSite["footer"];
 }
-export default function FooterBar({ content }: Props) {
+export default function FooterBar({ footer }: Props) {
   const theme = useTheme();
-  const { screenSize } = ContextCommon.useContents();
   const { organize } = ContextMap.Contents();
 
-  const logo = content.logo
-    ? getResponsiveValue(content.logo, screenSize)
-    : undefined;
   return (
     <Box
       component={"footer"}
@@ -47,9 +41,9 @@ export default function FooterBar({ content }: Props) {
           alignItems: "center",
         }}
       >
-        {logo && (
+        {footer.logo && (
           <Image.MediaImage
-            media={logo}
+            media={footer.logo}
             imgProps={{ style: { maxWidth: "380px", maxHeight: "280px" } }}
           />
         )}
@@ -62,19 +56,19 @@ export default function FooterBar({ content }: Props) {
           }}
         />
         <FlexColumnBox gapSize={1}>
-          {content.flgAddress && organize?.address && (
+          {footer.flgAddress && organize?.address && (
             <Typography variant="h6" align="center">
               {organize.address}
             </Typography>
           )}
           <FlexBox>
-            {content.flgTel && organize?.tell && (
+            {footer.flgTel && organize?.tell && (
               <FlexBox sx={{ alignItems: "center" }} gapSize={1}>
                 <LocalPhoneIcon />
                 <Typography variant="h6">{organize.tell}</Typography>
               </FlexBox>
             )}
-            {content.flgFax && organize?.fax && (
+            {footer.flgFax && organize?.fax && (
               <FlexBox sx={{ alignItems: "center" }} gapSize={1}>
                 <FaxIcon />
                 <Typography variant="h6">{organize.fax}</Typography>
@@ -82,8 +76,8 @@ export default function FooterBar({ content }: Props) {
             )}
           </FlexBox>
         </FlexColumnBox>
-        {content.text && (
-          <HtmlText sx={{ textAlign: "center" }} text={content.text || ""} />
+        {footer.text && (
+          <HtmlText sx={{ textAlign: "center" }} text={footer.text || ""} />
         )}
 
         <Typography variant="body2" align="center">

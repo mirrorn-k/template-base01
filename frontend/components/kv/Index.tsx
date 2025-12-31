@@ -26,10 +26,12 @@ export default function Main({
     lg: IMAGE_DEFAULT,
     xl: null,
   },
+  logo = undefined,
   catchcopy,
   notice,
 }: {
   kv?: tResponsiveMedia;
+  logo?: tMedia | undefined;
   catchcopy: string;
   notice: tNotice;
 }) {
@@ -71,34 +73,21 @@ export default function Main({
         }}
       />
 
-      {/*
-      <Image.MediaImage
-        media={
-          logoImg
-            ? getResponsiveValue<tMedia>(
-                logoImg,
-                screenSize,
-                undefined,
-                undefined,
-                "down",
-                true,
-                true,
-                IMAGE_DEFAULT
-              )
-            : IMAGE_DEFAULT
-        }
-        fill={false}
-        imgProps={{
-          style: {
-            objectFit: "contain",
-            width: "80%",
-            height: "60%",
-            maxWidth: "800px",
-            maxHeight: "400px",
-          },
-        }}
-      />
-      */}
+      {logo && (
+        <Image.MediaImage
+          media={logo}
+          fill={false}
+          imgProps={{
+            style: {
+              objectFit: "contain",
+              width: "80%",
+              height: "60%",
+              maxWidth: "150px",
+              maxHeight: "150px",
+            },
+          }}
+        />
+      )}
 
       {catchcopy && (
         <Catchcopy

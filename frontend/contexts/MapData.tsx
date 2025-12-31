@@ -3,18 +3,19 @@ import { createContext, useState, ReactNode, useContext, useMemo } from "react";
 import { tOrganize } from "@/lib/api/organize/type";
 import { tResponsiveMediaContent } from "@/lib/api/media/type";
 import { tFormItem } from "@/lib/api/contactForm/type";
-import { tHeaderItem } from "@/lib/api/header/type";
-import { INIT as INIT_HEADER } from "@/lib/api/header/const";
 import { INIT as INIT_ORGANIZE } from "@/lib/api/organize/const";
-import { tPage, tMenuItem } from "@/lib/api/page/type";
+import { tPage } from "@/lib/api/page/type";
+import { tMenuItem } from "@/types/ttnouMap";
+import { RESPONSIVE_MEDIA_SUBPAGE_KV } from "@/const/ResponsiveImage";
+import { tSite } from "@/lib/api/site/type";
 
 interface DataContextProps {
   organize: tOrganize | null; // 会社情報
   logo: tResponsiveMediaContent | null; // ロゴ画像
   cfItems: tFormItem[]; // お問い合わせフォーム項目
-  header: tHeaderItem;
   pages: tPage[];
   menus: tMenuItem[];
+  site: tSite;
   getPageBySlug: (slug: string) => tPage | undefined;
 }
 
@@ -23,9 +24,9 @@ const defaultValue: DataContextProps = {
   organize: INIT_ORGANIZE,
   logo: null,
   cfItems: [],
-  header: INIT_HEADER,
   pages: [],
   menus: [],
+  site: {} as tSite,
   getPageBySlug: () => undefined,
 };
 
@@ -35,8 +36,8 @@ interface DataProviderProps {
   organize?: tOrganize;
   logo?: tResponsiveMediaContent | null;
   cfItems: tFormItem[];
-  header: tHeaderItem;
   pages: tPage[];
+  site: tSite;
   children: ReactNode;
 }
 export const Provider = (props: DataProviderProps) => {
@@ -45,17 +46,21 @@ export const Provider = (props: DataProviderProps) => {
   );
   const [logo] = useState<tResponsiveMediaContent | null>(props.logo ?? null);
   const [cfItems] = useState<tFormItem[]>(props.cfItems ?? []);
-  const [header] = useState<tHeaderItem>(props.header ?? INIT_HEADER);
   const [pages] = useState<tPage[]>(props.pages ?? []);
+  const [site] = useState<tSite>(props.site);
 
   const menus = useMemo(
     () =>
-      pages.map((page) => ({
-        uuid: page.uuid,
-        label: page.settings.title,
-        slug: page.slug,
-        img: page.settings.kv,
-      })),
+      pages.map(
+        (page): tMenuItem => ({
+          uuid: page.uuid,
+          label: page.name,
+          slug: page.slug,
+          img: page.kv.kv ?? RESPONSIVE_MEDIA_SUBPAGE_KV,
+          flgHeadr: page.settings.flgShowHeader ?? true,
+          flgFooter: page.settings.flgShowFooter ?? true,
+        })
+      ),
     [pages]
   );
 
@@ -65,7 +70,7 @@ export const Provider = (props: DataProviderProps) => {
 
   return (
     <DataContext.Provider
-      value={{ organize, logo, cfItems, header, pages, menus, getPageBySlug }}
+      value={{ organize, logo, cfItems, pages, menus, site, getPageBySlug }}
     >
       {props.children}
     </DataContext.Provider>

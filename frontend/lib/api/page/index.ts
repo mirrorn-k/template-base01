@@ -1,9 +1,11 @@
 import getFetch, { fetchWithParams } from "@/lib/api/getFetch";
 import {
-  tPageListApiResponse,
-  tPageApiResponse,
+  tPageApiResponce,
   tPage,
+  tSetting,
+  tKv,
   tPageContent,
+  tContentItem,
 } from "./type";
 import { tParams, tResponsiveMedia } from "@/types/ttnouMap";
 
@@ -17,7 +19,7 @@ export async function getPages(
     const url = `${process.env.NEXT_PUBLIC_MAP_API_PAGE}?${process.env.NEXT_PUBLIC_MAP_API_PAGE_PARAMS}`;
     const u = fetchWithParams<{ slug?: string }>(url, terms);
 
-    const data: tPageListApiResponse = await getFetch(u);
+    const data: tPageApiResponce[] = await getFetch(u);
 
     // スラッグのみを抽出
     const slugs = Array.from(new Set(data.map((page) => page.slug)));
@@ -27,7 +29,11 @@ export async function getPages(
       return data.find((page) => page.slug === slug)!;
     });
 
-    return pages.map((item) => convert(item));
+    return Promise.all(
+      pages.map(async (page) => {
+        return convert(page);
+      })
+    );
   } catch (e) {
     console.error("[getPages] fetch error", e);
     return [];
@@ -43,10 +49,9 @@ export default async function getPage(slug: string): Promise<tPage> {
     const url = `${process.env.NEXT_PUBLIC_MAP_API_PAGE}?${process.env.NEXT_PUBLIC_MAP_API_PAGE_PARAMS}`;
     const u = fetchWithParams<{ slug?: string }>(url, terms);
 
-    const data: tPageApiResponse[] = await getFetch(u);
+    const data: tPageApiResponce[] = await getFetch(u);
 
-    console.log("[getPage] data", data);
-
+    console.log("[getPage] data:", data);
     return convert(data[0]);
   } catch (e) {
     console.error("[getPages] fetch error", e);
@@ -54,99 +59,108 @@ export default async function getPage(slug: string): Promise<tPage> {
   }
 }
 
-function convert(res: tPageApiResponse): tPage {
+async function convert(res: tPageApiResponce): Promise<tPage> {
   if (!res || typeof res !== "object") return {} as tPage;
 
   const obj: tPage = {
     uuid: res.uuid,
     name: res.name || "",
     slug: res.slug || "",
-    type: res.type || "",
+    flg_show: res.flg_show || false,
+    meta: res.meta || {},
+    structured_data: res.structured_data || {},
     settings: {
-      kv_uuid: null,
-      kv: undefined,
-      title: "",
-      subtitle: "",
-      catchcopy: "",
-      flgShow: true,
       flgShowHeader: true,
       flgShowFooter: true,
+    },
+    kv: {
+      kv: null,
+      logo: null,
+      catchcopy: "",
     },
     contents: [],
   };
 
   // ページ設定について
   const content1 = res.content1;
-  obj.settings = convertContent1(content1);
+  if (content1) {
+    obj.settings = convertContent1(content1);
+  }
+
+  // KVについて
+  const content2 = res.content2;
+  if (content2) {
+    obj.kv = await convertContent2(content2);
+  }
 
   // 表示コンテンツについて
   const content3 = res.content3;
-  obj.contents = convertContent3(content3);
+  if (content3) {
+    obj.contents = convertContent3(content3);
+  }
 
-  console.log("[convert] obj", JSON.stringify(obj));
   return obj;
 }
 
-function convertContent1(c1: tPageApiResponse["content1"]): tPage["settings"] {
+function convertContent1(c1: tSetting): tSetting {
   return c1;
 }
 
-function convertContent3(c3: tPageApiResponse["content3"]): tPage["contents"] {
+function convertContent2(c2: tKv): tKv {
+  return c2;
+}
+
+// KVのレスポンシブメディア情報を取得
+
+function convertContent3(c3: tPageApiResponce["content3"]): tPageContent[] {
   if (!c3 || !Array.isArray(c3)) return [];
 
-  return c3.flatMap<tPageContent>((item): tPageContent[] => {
-    const ci = item.content.content_items;
-
-    const pick = (label: string) => ci.find((i) => i.label === label);
+  return c3.flatMap<tPageContent>((item) => {
+    // 項目からデータを取得するために必要な処理
+    const ci = item.content_items ?? [];
+    const pick = (label: string) =>
+      ci.find((i: tContentItem) => i.label === label);
 
     switch (item.type) {
       case "content01":
-        return [
-          {
-            type: "content01",
-            media: (pick("イメージ")?.content as tResponsiveMedia) ?? null,
-            caption: (pick("キャプション")?.raw_value as string) ?? "",
-            linkHref: (pick("リンク")?.raw_value as string) ?? null,
-            linkText: (pick("リンクラベル")?.raw_value as string) ?? "",
-          },
-        ];
+        return {
+          type: "content01",
+          media: (pick("イメージ")?.content as tResponsiveMedia) ?? null,
+          caption: (pick("キャプション")?.raw_value as string) ?? "",
+          linkHref: (pick("リンク")?.raw_value as string) ?? null,
+          linkText: (pick("リンクラベル")?.raw_value as string) ?? "",
+        };
 
       case "content02":
-        return [
-          {
-            type: "content02",
-            media: (pick("イメージ")?.content as tResponsiveMedia) ?? null,
-            title: (pick("タイトル")?.raw_value as string) ?? "",
-            caption: (pick("キャプション")?.raw_value as string) ?? "",
-          },
-        ];
+        return {
+          type: "content02",
+          media: (pick("イメージ")?.content as tResponsiveMedia) ?? null,
+          title: (pick("タイトル")?.raw_value as string) ?? "",
+          caption: (pick("キャプション")?.raw_value as string) ?? "",
+        };
 
       case "content03":
-        return [
-          {
-            type: "content03",
-            media: (pick("イメージ")?.content as tResponsiveMedia) ?? null,
-            title: (pick("タイトル")?.raw_value as string) ?? "",
-            caption: (pick("キャプション")?.raw_value as string) ?? "",
-            linkHref: (pick("リンク")?.raw_value as string) ?? null,
-            linkText: (pick("リンクラベル")?.raw_value as string) ?? "",
-          },
-        ];
+        return {
+          type: "content03",
+          media: (pick("イメージ")?.content as tResponsiveMedia) ?? null,
+          title: (pick("タイトル")?.raw_value as string) ?? "",
+          caption: (pick("キャプション")?.raw_value as string) ?? "",
+          linkHref: (pick("リンク")?.raw_value as string) ?? null,
+          linkText: (pick("リンクラベル")?.raw_value as string) ?? "",
+        };
 
       case "content04":
-        return [
-          {
-            type: "content04",
-            title1: (pick("タイトル１")?.raw_value as string) ?? "",
-            title2: (pick("タイトル２")?.raw_value as string) ?? "",
-            caption: (pick("キャプション")?.raw_value as string) ?? "",
-            linkHref: (pick("リンク")?.raw_value as string) ?? null,
-            linkText: (pick("リンクラベル")?.raw_value as string) ?? "",
-          },
-        ];
+        return {
+          type: "content04",
+          title1: (pick("タイトル１")?.raw_value as string) ?? "",
+          title2: (pick("タイトル２")?.raw_value as string) ?? "",
+          caption: (pick("キャプション")?.raw_value as string) ?? "",
+          linkHref: (pick("リンク")?.raw_value as string) ?? null,
+          linkText: (pick("リンクラベル")?.raw_value as string) ?? "",
+        };
 
       default:
-        return [];
+        return {} as tPageContent;
     }
   });
 }

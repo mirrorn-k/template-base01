@@ -1,23 +1,16 @@
-import * as tMap from "@/types/ttnouMap";
+import { tMedia, tResponsiveMedia } from "@/types/ttnouMap";
 
-/**
- * pageから作成するメニューリスト
- */
-export interface tMenuItem {
-  uuid: string;
-  label: string;
-  slug: string;
-  img?: tMap.tResponsiveMedia;
-}
-
-export interface tPage {
+export type tPage = {
   uuid: string;
   name: string;
   slug: string;
-  type: string;
-  settings: tPageSetting;
+  settings: tSetting;
+  kv: tKv;
+  flg_show: boolean;
+  meta: Record<string, string> | null;
+  structured_data: Record<string, string | number | boolean | null> | null;
   contents: tPageContent[];
-}
+};
 
 export type tPageContent =
   | ({ type: "content01" } & tContent01)
@@ -26,14 +19,14 @@ export type tPageContent =
   | ({ type: "content04" } & tContent04);
 
 export interface tContent01 {
-  media: tMap.tResponsiveMedia | null;
+  media: tResponsiveMedia | null;
   caption: string;
   linkHref?: string | null;
   linkText?: string;
 }
 
 export interface tContent02 {
-  media: tMap.tResponsiveMedia | null;
+  media: tResponsiveMedia | null;
   title: string;
   caption: string;
   linkHref?: string | null;
@@ -41,7 +34,7 @@ export interface tContent02 {
 }
 
 export interface tContent03 {
-  media: tMap.tResponsiveMedia | null;
+  media: tResponsiveMedia | null;
   title: string;
   caption: string;
   linkHref?: string | null;
@@ -56,82 +49,54 @@ export interface tContent04 {
   linkText?: string;
 }
 
-/**
- * =========================
- * Page Settings
- * =========================
- */
-export interface tPageSetting {
-  kv_uuid: string | null;
-  kv?: tMap.tResponsiveMedia;
-  title: string;
-  subtitle: string;
-  catchcopy: string;
-  flgShow: boolean;
-  flgShowHeader: boolean;
+// ==============================
+// content1（TemplateBase01）
+// ==============================
+export type tSetting = {
   flgShowFooter: boolean;
-}
-
-/**
- * =========================
- * Page Footer（content2）
- * =========================
- */
-//export interface tPageFooter {}
-
-/**
- * =========================
- * Page に配置される Content（content3 要素）
- * =========================
- */
-export type tPageContentItem = {
-  type: string;
-  content: tContent;
+  flgShowHeader: boolean;
 };
 
-/**
- * 各コンテンツアイテム
- */
-export type tContentItem = tMap.tMapContentItem<unknown>;
+// ==============================
+// content2（TemplateBase01）
+// ==============================
+export type tKv = {
+  // 元データ（UUID）
+  catchcopy: string;
 
-/**
- * コンテンツ本体
- */
-export type tContent = tMap.tMapContent<tContentItem>;
+  // 展開後（アクセサで付与）
+  logo: tMedia | null;
+  kv: tResponsiveMedia | null;
+};
 
-/**
- * =========================
- * Page 本体
- * =========================
- */
-export interface tPageApiResponse {
-  uuid: string;
-  domain: string;
+// ==============================
+// content3（TemplateBase01）
+// ==============================
+export type tContent = {
   name: string;
-  key: string;
-  slug: string;
   type: string;
+  content_items: tContentItem[];
+};
 
-  released_at: string;
+export type tContentItem = {
+  label: string;
+  type: string;
+  raw_value: string | null;
+  content: tMedia | tResponsiveMedia | null;
+};
 
-  created_at: string;
-  updated_at: string;
-  deleted_at: string | null;
+// ==============================
+// Page（APIレスポンス）
+// ==============================
+export type tPageApiResponce = {
+  uuid: string;
+  name: string;
+  slug: string;
+  flg_show: boolean;
+  meta: Record<string, string> | null;
+  structured_data: Record<string, string | number | boolean | null> | null;
 
-  content1: tPageSetting;
-  content2: null;
-  content3: {
-    type: string;
-    content: tContent;
-  }[];
-
-  content4: null;
-  content5: null;
-}
-
-/**
- * =========================
- * API レスポンス（配列）
- * =========================
- */
-export type tPageListApiResponse = tPageApiResponse[];
+  content1: tSetting | null;
+  content2: tKv | null;
+  content3: tContent[] | null;
+};

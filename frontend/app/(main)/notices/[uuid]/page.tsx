@@ -3,7 +3,6 @@ import ResponsiveBox from "@/atoms/Box";
 import { Typography } from "@mui/material";
 import { Detail } from "@/components/list/List01";
 import { getNotice } from "@/lib/api/notice/index";
-import getMeta from "@/lib/api/meta/index";
 
 // メタデータを設定
 export async function generateMetadata({
@@ -15,7 +14,11 @@ export async function generateMetadata({
   const slug = Array.isArray(resolved.slug)
     ? resolved.slug[0]
     : resolved.slug ?? "";
-  return await getMeta({ slug });
+
+  // サーバサイドでAPIコール
+  const [notice] = await Promise.all([getNotice({ uuid: slug })]);
+
+  return notice;
 }
 
 export default async function Main({

@@ -5,13 +5,19 @@ import * as ContextMapInfo from "@/contexts/MapData";
 import getThemeOptions from "@/lib/api/themeOption/index";
 import getFormContent from "@/lib/api/contactForm/api";
 import getOrganize from "@/lib/api/organize/index";
-import ScriptContainer from "./Script";
-import { tSiteInfo } from "@/lib/api/siteInfo/type";
-import getHeader from "@/lib/api/header/index";
 import BaseThemeProvider from "@/themes/BaseTheme";
 import { CssBaseline } from "@mui/material";
 import * as GtmScript from "@/components/google/GtmScript";
 import { getPages } from "@/lib/api/page/index";
+import { getSite } from "@/lib/api/site/index";
+import { Metadata } from "next";
+import metaConvert from "@/lib/meta/converter";
+import Script from "next/script";
+
+export async function generateMetadata(): Promise<Metadata> {
+  const site = await getSite();
+  return metaConvert(site.meta);
+}
 
 export default async function RootLayout({
   children,
@@ -19,36 +25,34 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   // ✅ 共通データの取得
-  const { organize, options, cfItems, header, pages } = await api();
+  const { organize, options, cfItems, pages, site } = await api();
 
   if (!organize) {
     return <p>準備中</p>;
   }
   return (
     <html lang="ja">
-      <head>
-        {process.env.NODE_ENV !== "production" && (
-          <meta name="robots" content="noindex" />
+      <body>
+        {site.gtm_tag && <GtmScript.Header tag={site.gtm_tag} />}
+
+        {/* 外部 JS（確実に head に入る） */}
+        {process.env.NEXT_PUBLIC_MAP_JS_EVENTDATA && (
+          <Script src={process.env.NEXT_PUBLIC_MAP_JS_EVENTDATA} />
         )}
 
-        <ScriptContainer info={null} />
-        <SiteInfoHead info={null} />
+        {site.structured_data && (
+          <Script
+            id="json-ld"
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: site.structured_data }}
+          />
+        )}
 
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="mapttnou-domain" content={process.env.TTNOU_DOMAIN} />
-        <meta
-          name="mapttnou-wdc-api"
-          content={process.env.NEXT_PUBLIC_MAP_JS_EVENTDATA_POST_API}
-        />
-      </head>
-
-      <body>
         <ContextMapInfo.Provider
           organize={organize}
           cfItems={cfItems}
-          header={header}
           pages={pages}
+          site={site}
         >
           <ContextCommon.Provider>
             <BaseThemeProvider options={options}>
@@ -109,41 +113,41 @@ async function AsyncLayoutContent({
 async function api() {
   try {
     // 並列で取得（最速化）
-    const [organize, options, cfItems, header, pages] = await Promise.all([
+    const [organize, options, cfItems, pages, site] = await Promise.all([
       getOrganize(),
       getThemeOptions(),
       getFormContent({
         url: `${process.env.NEXT_PUBLIC_MAP_API_CONTACT_FORM}?${process.env.NEXT_PUBLIC_MAP_API_CONTACT_FORM_PARAM}`,
       }),
-      getHeader(),
       getPages(),
+      getSite(),
     ]);
 
-    return { organize, options, cfItems, header, pages };
+    return { organize, options, cfItems, pages, site };
   } catch (e) {
     console.error("API ERROR IN LAYOUT:", e);
     throw e; // ← build を確実に止める
   }
 }
 
-const SiteInfoHead = ({ info }: { info: tSiteInfo | null }) => {
-  if (!info) return null;
-  return (
-    <>
-      {/* favicon */}
-      {info.favicon?.url && (
-        <link rel="icon" href={info.favicon.url} sizes="any" />
-      )}
-
-      {/* Apple Touch Icon */}
-      {info.appleTouchIcon?.url && (
-        <link rel="apple-touch-icon" href={info.appleTouchIcon.url} />
-      )}
-
-      {/* 外部CSS */}
-      {info.externalCss && (
-        <style dangerouslySetInnerHTML={{ __html: info.externalCss }} />
-      )}
-    </>
-  );
-};
+//const SiteInfoHead = ({ info }: { info: tSiteInfo | null }) => {
+//  if (!info) return null;
+//  return (
+//    <>
+//      {/* favicon */}
+//      {info.favicon?.url && (
+//        <link rel="icon" href={info.favicon.url} sizes="any" />
+//      )}
+//
+//      {/* Apple Touch Icon */}
+//      {info.appleTouchIcon?.url && (
+//        <link rel="apple-touch-icon" href={info.appleTouchIcon.url} />
+//      )}
+//
+//      {/* 外部CSS */}
+//      {info.externalCss && (
+//        <style dangerouslySetInnerHTML={{ __html: info.externalCss }} />
+//      )}
+//    </>
+//  );
+//};

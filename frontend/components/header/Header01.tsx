@@ -1,10 +1,8 @@
 "use client";
 
 import Box from "@mui/material/Box";
-import { tMedia } from "@/types/ttnouMap";
 import { MainMenuButton } from "./atoms/Button";
 import * as ContextMap from "@/contexts/MapData";
-import { tHeaderItem } from "@/lib/api/header/type";
 import Typography from "@mui/material/Typography";
 import MenuItems from "./atoms/MenuItems";
 import { Link } from "@mui/material";
@@ -12,14 +10,12 @@ import NextLink from "next/link";
 import Button from "@mui/material/Button";
 import * as ContextCommon from "@/contexts/Common";
 import * as Image from "@/components/media/Index";
-import { getResponsiveValue } from "@/lib/responsiveValue/index";
-import { IMAGE_DEFAULT } from "@/const/Image";
 import { useIsDesktop } from "@/lib/isDeviceSize";
 import SendIcon from "@mui/icons-material/Send";
+import { tSite } from "@/lib/api/site/type";
 
-const Main = ({ content }: { content: tHeaderItem }) => {
-  const { flgContactModal, setFlgContactModal, screenSize } =
-    ContextCommon.useContents();
+const Main = ({ content }: { content: tSite["header"] }) => {
+  const { flgContactModal, setFlgContactModal } = ContextCommon.useContents();
   const { menus, organize } = ContextMap.Contents();
   return (
     <Box className="Header01" sx={{ display: "contents" }}>
@@ -32,18 +28,9 @@ const Main = ({ content }: { content: tHeaderItem }) => {
       >
         {content.flgLogo && content.logo ? (
           <Image.MediaImage
-            media={getResponsiveValue<tMedia>(
-              content.logo,
-              screenSize,
-              "xs",
-              "xl",
-              "down",
-              true,
-              true,
-              IMAGE_DEFAULT
-            )}
+            media={content.logo}
             objectFit="contain"
-            alt={content.siteName || organize?.organization_name || "Logo"}
+            alt={content.title || organize?.organization_name || "Logo"}
             fill={false}
             imgProps={{
               style: {
@@ -58,7 +45,7 @@ const Main = ({ content }: { content: tHeaderItem }) => {
           />
         ) : (
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {content.siteName || organize?.organization_name}
+            {content.title || organize?.organization_name}
           </Typography>
         )}
       </Link>

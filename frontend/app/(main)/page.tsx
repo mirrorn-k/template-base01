@@ -4,11 +4,13 @@ import Box from "@mui/material/Box";
 import { getNotices } from "@/lib/api/notice/index";
 import getPage from "@/lib/api/page/index";
 import ContentsSelecter from "@/components/contents/Index";
-import getMeta from "@/lib/api/meta/index";
+import metaConvert from "@/lib/meta/converter";
+import Script from "next/script";
 
 // メタデータを設定
 export async function generateMetadata() {
-  return await getMeta({ slug: "" });
+  const page = await getPage("/");
+  return metaConvert(page.meta);
 }
 
 export default async function Home() {
@@ -21,22 +23,32 @@ export default async function Home() {
   console.log("[page] ", page);
 
   return (
-    <Box
-      sx={{
-        m: "auto",
-        p: 0,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 8,
-      }}
-    >
-      <KV
-        notice={notices[0]}
-        kv={page.settings.kv}
-        catchcopy={page.settings.catchcopy}
-      />
-      <ContentsSelecter contents={page.contents} />
-    </Box>
+    <>
+      {page.structured_data && (
+        <Script
+          id="json-ld"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: page.structured_data }}
+        />
+      )}
+      <Box
+        sx={{
+          m: "auto",
+          p: 0,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 8,
+        }}
+      >
+        <KV
+          notice={notices[0]}
+          kv={page.kv.kv ?? undefined}
+          logo={page.kv.logo ?? undefined}
+          catchcopy={page.kv.catchcopy}
+        />
+        <ContentsSelecter contents={page.contents} />
+      </Box>
+    </>
   );
 }

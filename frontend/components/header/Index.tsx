@@ -8,8 +8,12 @@ import * as ContextMap from "@/contexts/MapData";
 import Header01 from "@/components/header/Header01";
 
 export default function Main() {
-  const { header } = ContextMap.Contents();
+  const { site } = ContextMap.Contents();
   const [scrolled, setScrolled] = useState(false);
+
+  const header = site.header;
+
+  console.log("Headerコンテンツ", header);
 
   // スラッグを取得
   const pathname = usePathname();
@@ -26,7 +30,7 @@ export default function Main() {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
-  if ((isTop && !scrolled) || !header.flg) {
+  if ((isTop && !scrolled) || !header.flgShow) {
     return null;
   }
 
@@ -34,13 +38,11 @@ export default function Main() {
     <>
       <AppBar
         className={`header appbar ${isTop && !scrolled && "transparent"} ${
-          !header.flg ? "un-viewable" : ""
+          !header.flgShow ? "un-viewable" : ""
         }`}
       >
         <Toolbar>
-          {header.type === "Header01" && (
-            <Header01 key={`header-Header01-${header.uuid}`} content={header} />
-          )}
+          {header.type === "header01" && <Header01 content={header} />}
         </Toolbar>
       </AppBar>
       {!isTop && (

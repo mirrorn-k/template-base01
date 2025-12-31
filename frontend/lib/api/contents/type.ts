@@ -1,4 +1,3 @@
-import { tMedia } from "@/types/ttnouMap";
 import * as tMap from "@/types/ttnouMap";
 
 /**
@@ -10,7 +9,13 @@ export interface tCustomItems {
   caption: string;
   released_at: string;
   // 日本語キーを許容
-  [key: string]: string | number | null | tMedia | undefined;
+  [key: string]:
+    | string
+    | number
+    | null
+    | tMap.tMedia
+    | tMap.tResponsiveMedia
+    | undefined;
 }
 
 /**

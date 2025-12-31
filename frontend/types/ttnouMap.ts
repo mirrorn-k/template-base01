@@ -188,3 +188,15 @@ export interface tResponsiveMedia {
   lg: tMedia | null;
   xl: tMedia | null;
 }
+
+/**
+ * メニューアイテム
+ */
+export interface tMenuItem {
+  uuid: string;
+  label: string;
+  slug: string;
+  img?: tResponsiveMedia;
+  flgHeadr: boolean;
+  flgFooter: boolean;
+}
