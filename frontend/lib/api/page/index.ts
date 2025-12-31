@@ -70,6 +70,7 @@ async function convert(res: tPageApiResponce): Promise<tPage> {
     meta: res.meta || {},
     structured_data: res.structured_data || {},
     settings: {
+      subtitle: "",
       flgShowHeader: true,
       flgShowFooter: true,
     },

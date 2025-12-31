@@ -3,7 +3,7 @@ import Link from "@/atoms/Link";
 import { FlexBox } from "@/atoms/Box";
 import React from "react";
 import { BoxProps } from "@mui/material/Box";
-import { tMenuItem } from "@/lib/api/page/type";
+import { tMenuItem } from "@/types/ttnouMap";
 
 type Menu01Props = {
   FlexBoxProps?: BoxProps;
