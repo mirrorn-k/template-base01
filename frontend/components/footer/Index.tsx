@@ -11,9 +11,9 @@ export default function Main() {
 
   console.log("Footerコンテンツ", footer);
 
-  if (footer.type === "Footer01") {
+  if (footer.type === "footer01") {
     return <Footer01 footer={footer} />;
-  } else if (footer.type === "Footer02") {
+  } else if (footer.type === "footer02") {
     return <Footer02 footer={footer} />;
   } else {
     console.log("未対応のスタイル", footer);
