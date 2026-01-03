@@ -119,11 +119,9 @@ export default function siteMetaToMetadata(
   }
 
   result.other = {
-    mapttnouDomain: process.env.NEXT_DOMAIN || "ttnou.com",
-    mapttnouWdcApi: process.env.NEXT_PUBLIC_MAP_JS_EVENTDATA_POST_API || "",
+    "mapttnou-domain": process.env.NEXT_DOMAIN || "ttnou.com",
+    "mapttnou-wdc-api": process.env.NEXT_PUBLIC_MAP_JS_EVENTDATA_POST_API || "",
   };
-
-  console.log("siteMetaToMetadata result:", result);
 
   return result;
 }
