@@ -57,7 +57,7 @@ export default async function RootLayout({
           <ContextCommon.Provider>
             <BaseThemeProvider options={options}>
               <CssBaseline />
-              {organize?.gtm_tag && <GtmScript.Body tag={organize.gtm_tag} />}
+              {site.gtm_tag && <GtmScript.Body tag={site.gtm_tag} />}
               {children}
             </BaseThemeProvider>
             {/*

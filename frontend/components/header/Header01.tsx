@@ -24,7 +24,7 @@ const Main = ({ content }: { content: tSite["header"] }) => {
         href="/"
         color="inherit"
         underline="none"
-        sx={{ height: "100%" }}
+        sx={{ height: "100%", alignContent: "center" }}
       >
         {content.flgLogo && content.logo ? (
           <Image.MediaImage
@@ -44,7 +44,7 @@ const Main = ({ content }: { content: tSite["header"] }) => {
             }}
           />
         ) : (
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="p" sx={{ flexGrow: 1 }}>
             {content.title || organize?.organization_name}
           </Typography>
         )}

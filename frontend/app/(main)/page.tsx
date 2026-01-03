@@ -43,11 +43,11 @@ export default async function Home() {
       >
         <KV
           notice={notices[0]}
-          kv={page.kv.kv ?? undefined}
-          logo={page.kv.logo ?? undefined}
-          catchcopy={page.kv.catchcopy}
+          kv={page.kv?.kv ?? undefined}
+          logo={page.kv?.logo ?? undefined}
+          catchcopy={page.kv?.catchcopy ?? ""}
         />
-        <ContentsSelecter contents={page.contents} />
+        <ContentsSelecter contents={page.contents ?? []} />
       </Box>
     </>
   );

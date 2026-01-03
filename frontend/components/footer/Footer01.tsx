@@ -42,19 +42,21 @@ export default function FooterBar({ footer }: Props) {
         }}
       >
         {footer.logo && (
-          <Image.MediaImage
-            media={footer.logo}
-            imgProps={{ style: { maxWidth: "380px", maxHeight: "280px" } }}
-          />
+          <>
+            <Image.MediaImage
+              media={footer.logo}
+              imgProps={{ style: { maxWidth: "380px", maxHeight: "280px" } }}
+            />
+            <Box
+              sx={{
+                width: "100%",
+                borderTop: "1px solid",
+                borderColor: theme.palette.primary.contrastText,
+              }}
+            />
+          </>
         )}
 
-        <Box
-          sx={{
-            width: "100%",
-            borderTop: "1px solid",
-            borderColor: theme.palette.primary.contrastText,
-          }}
-        />
         <FlexColumnBox gapSize={1}>
           {footer.flgAddress && organize?.address && (
             <Typography variant="h6" align="center">
