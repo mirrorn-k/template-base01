@@ -35,7 +35,7 @@ export default async function RootLayout({
       <body>
         {site.gtm_tag && <GtmScript.Header tag={site.gtm_tag} />}
 
-        {/* 外部 JS（確実に head に入る） */}
+        {/* 外部 JS */}
         {process.env.NEXT_PUBLIC_MAP_JS_EVENTDATA && (
           <Script src={process.env.NEXT_PUBLIC_MAP_JS_EVENTDATA} />
         )}
