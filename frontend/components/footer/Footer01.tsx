@@ -41,7 +41,7 @@ export default function FooterBar({ footer }: Props) {
           alignItems: "center",
         }}
       >
-        {footer.logo && (
+        {footer.flgLogo && footer.logo && (
           <>
             <Image.MediaImage
               media={footer.logo}
