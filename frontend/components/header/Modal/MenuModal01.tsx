@@ -86,7 +86,7 @@ const Main = () => {
               <LinkBox
                 key={`head-navi-sp-${index}`}
                 onClick={handleMenuClose}
-                href={menu.slug ? `${menu.slug}` : "/"}
+                href={menu.slug ? `/${menu.slug}` : "/"}
               >
                 {menu.label}
               </LinkBox>
