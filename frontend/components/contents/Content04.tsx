@@ -18,10 +18,13 @@ export default function Main(props: MainProps) {
     <Box className={"Content04"} maxWidth={"lg"} width={"100%"}>
       <Box sx={{ display: "flex", width: "100%" }}>
         <Typography
+          color={"primary.dark"}
+          variant={"h5"}
           sx={{
             flex: 1,
             pr: 2,
             textAlign: "right",
+            fontWeight: "Bold",
           }}
         >
           {props.title1}
@@ -32,7 +35,11 @@ export default function Main(props: MainProps) {
             borderColor: "primary.main",
           }}
         ></Box>
-        <Typography sx={{ flex: 1, pl: 2, textAlign: "left" }}>
+        <Typography
+          color={"primary.dark"}
+          variant={"h5"}
+          sx={{ flex: 1, pl: 2, textAlign: "left", fontWeight: "Bold" }}
+        >
           {props.title2}
         </Typography>
       </Box>
