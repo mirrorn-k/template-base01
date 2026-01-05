@@ -54,6 +54,11 @@ export default function Content01(props: Content01Props) {
             true,
             IMAGE_DEFAULT
           )}
+          imgProps={{
+            style: {
+              height: "auto",
+            },
+          }}
         />
       )}
       <ResponsiveBox maxWidth="sm" sx={{ mt: 2 }}>
