@@ -15,7 +15,7 @@ interface MainProps {
 
 export default function Main(props: MainProps) {
   return (
-    <Box>
+    <Box className={"Content04"} maxWidth={"lg"} width={"100%"}>
       <Box sx={{ display: "flex", width: "100%" }}>
         <Typography
           sx={{
@@ -59,6 +59,7 @@ export default function Main(props: MainProps) {
             linkHref={props.linkHref}
             linkText={props.linkText || "お問い合わせ"}
             sx={{
+              m: "auto",
               backgroundColor: "primary.contrastText",
               color: "primary.main",
               mt: 2,

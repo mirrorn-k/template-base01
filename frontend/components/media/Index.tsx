@@ -41,7 +41,7 @@ export const MediaImage: React.FC<MediaImageProps> = ({
   // fillじゃない場合のみ、width/height を media の値で補完
   if (!fill) {
     if (!finalImgProps.width && media.width) {
-      finalImgProps.width = media.width;
+      finalImgProps.width = media.height;
     }
     if (!finalImgProps.height && media.height) {
       finalImgProps.height = media.height;

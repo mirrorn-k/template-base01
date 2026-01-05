@@ -10,8 +10,7 @@
  */
 
 import { FlexBox, FlexColumnBox } from "@/atoms/Box";
-import { Typography, Box } from "@mui/material";
-import * as Image from "@/components/media/Index";
+import { Typography } from "@mui/material";
 import { ArrowForwardlosLink } from "@/atoms/Link";
 import HtmlText from "@/atoms/Typography";
 import { Theme } from "@mui/material/styles";
@@ -39,9 +38,26 @@ export default function Main(props: {
       className={"Content03"}
       sx={{
         width: "100vw",
-        maxHeight: { xs: "auto", md: `${height}px` },
+        height: { xs: "auto", md: `${height}px` },
         position: "relative",
         flexDirection: { xs: "column", lg: "row" },
+        backgroundImage: props.media
+          ? `url(${
+              getResponsiveValue<tMedia>(
+                props.media as Responsive<tMedia>,
+                screenSize,
+                "xs",
+                "xl",
+                "down",
+                true,
+                true,
+                IMAGE_DEFAULT
+              )?.url
+            })`
+          : "none",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
       }}
     >
       <FlexColumnBox
@@ -96,32 +112,6 @@ export default function Main(props: {
           <ArrowForwardlosLink href={props.linkHref} label={props.linkText} />
         )}
       </FlexColumnBox>
-      {props.media && (
-        <Box
-          className="media-box"
-          sx={{
-            display: "contents",
-            width: "100vw",
-            height: "auto",
-            overflow: "hidden",
-          }}
-        >
-          <Image.MediaImage
-            media={getResponsiveValue<tMedia>(
-              props.media as Responsive<tMedia>,
-              screenSize,
-              "xs",
-              "xl",
-              "down",
-              true,
-              true,
-              IMAGE_DEFAULT
-            )}
-            objectFit="cover"
-            imgProps={{ style: { width: "100%", height: "auto" } }}
-          />
-        </Box>
-      )}
     </FlexBox>
   );
 }

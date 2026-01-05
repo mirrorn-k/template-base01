@@ -54,7 +54,6 @@ export default function Content01(props: Content01Props) {
             true,
             IMAGE_DEFAULT
           )}
-          fill={true}
         />
       )}
       <ResponsiveBox maxWidth="sm" sx={{ mt: 2 }}>
