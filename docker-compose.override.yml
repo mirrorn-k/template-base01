@@ -11,7 +11,9 @@ networks:
 services:
   develop:
     command: npm run dev
-    environment: { NODE_ENV: development }
+    environment:
+      NODE_ENV: development
+      NODE_OPTIONS: "--max-old-space-size=1024"
     volumes:
       - ./frontend:/app
       #- /app/node_modules
