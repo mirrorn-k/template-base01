@@ -82,7 +82,7 @@ export default function Main({
               objectFit: "contain",
               width: "80%",
               height: "60%",
-              maxWidth: "150px",
+              maxWidth: "200px",
               maxHeight: "150px",
             },
           }}
