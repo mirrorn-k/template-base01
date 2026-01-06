@@ -17,7 +17,7 @@ services:
       #- /app/node_modules
     environment:
       NODE_ENV: production
-    mem_limit: 768m
+    mem_limit: 1g
 
   template-base01.ttnou.com:
     container_name: template-base01.ttnou.com
@@ -32,7 +32,7 @@ services:
     command: sh -c "npm run build && npm run start"
     environment:
       NODE_ENV: production
-    mem_limit: 768m
+    mem_limit: 1g
 
   good-therapy:
     container_name: template-base01-good-therapy
@@ -47,7 +47,7 @@ services:
     command: sh -c "npm run build && npm run start"
     environment:
       NODE_ENV: production
-    mem_limit: 768m
+    mem_limit: 1g
 
   kimotokk:
     container_name: template-base01-kimotokk
@@ -62,4 +62,4 @@ services:
     command: sh -c "npm run build && npm run start"
     environment:
       NODE_ENV: production
-    mem_limit: 768m
+    mem_limit: 1g
