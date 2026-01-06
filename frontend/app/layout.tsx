@@ -16,6 +16,14 @@ import Script from "next/script";
 
 export async function generateMetadata(): Promise<Metadata> {
   const site = await getSite();
+
+  if (site.meta == null) {
+    site.meta = {};
+  }
+  if (site.favicon?.url) {
+    site.meta.icon = site.favicon.url;
+  }
+
   return metaConvert(site.meta);
 }
 

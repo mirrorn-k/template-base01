@@ -25,11 +25,13 @@ export type tSite = {
   // =========================
   // ロゴ（media uuid）
   // =========================
+  favicon_uuid: string | null;
   logo_square_uuid: string | null;
   logo_horizontal_uuid: string | null;
   logo_full_uuid: string | null;
 
   // リレーション
+  favicon: tMedia | null;
   logo: tMedia | null;
   logo_square: tMedia | null;
   logo_horizontal: tMedia | null;
