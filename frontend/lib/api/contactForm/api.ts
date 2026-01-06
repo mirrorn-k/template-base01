@@ -55,7 +55,7 @@ function convert(contentList?: tListContent[]): tFormItem[] {
         systemName: findValue("システム名") as string,
         label: lc.name as string,
         type: findType("入力形式"),
-        required: findValue("必須") === "true" ? true : false,
+        required: findValue("必須") ? true : false,
         placeholder: findValue("プレースホルダー") as string,
         row: Number(findValue("行数")),
         options: findOptions("オプション"),
