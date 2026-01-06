@@ -19,3 +19,4 @@ services:
       - ${ENV_FILE:-./env/develop.env}
     networks:
       - ttnoumap-net
+    mem_limit: 1.5g
