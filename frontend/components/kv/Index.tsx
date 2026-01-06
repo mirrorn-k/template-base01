@@ -143,6 +143,7 @@ const LatestNews = (props: { notice: tNotice; sx?: SxProps<Theme> }) => {
       flex: 1,
       width: "100%",
       padding: { xs: 1, sm: 2, md: 2 },
+      overflow: "hidden",
 
       display: "flex",
       flexDirection: {
@@ -186,6 +187,7 @@ const LatestNews = (props: { notice: tNotice; sx?: SxProps<Theme> }) => {
         gap: { xs: 0.5, sm: 2, md: 2 },
 
         "& span:nth-of-type(1)": {
+          whiteSpace: "nowrap",
           fontWeight: "bold",
           fontSize: { xs: "0.8rem", sm: "1.0rem", md: "1rem" },
         },

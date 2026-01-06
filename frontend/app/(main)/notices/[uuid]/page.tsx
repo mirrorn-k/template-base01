@@ -24,13 +24,15 @@ export async function generateMetadata({
 export default async function Main({
   params,
 }: {
-  params: Promise<{ slug?: string | string[] }>;
+  params: Promise<{ uuid?: string | string[] }>;
 }) {
-  // URLパラメータ（/notice/aaa/bbb → ["aaa","bbb"]）
+  // URLパラメータ（/notice/aaa/bbb → {uuid: ""}
   const resolved = await params; // 👈 awaitが必須
-  const uuid = Array.isArray(resolved.slug)
-    ? resolved.slug[0]
-    : resolved.slug ?? "";
+  const uuid = Array.isArray(resolved.uuid)
+    ? resolved.uuid[0]
+    : resolved.uuid ?? "";
+
+  console.log("uuid", resolved);
 
   if (!uuid) {
     return <NotFound />;

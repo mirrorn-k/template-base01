@@ -47,7 +47,7 @@ export default function Main() {
       </AppBar>
       {!isTop && (
         <AppBar
-          className={`appbar-shadow ${!header.flg && "un-viewable"}`}
+          className={`appbar-shadow ${!header.flgShow && "un-viewable"}`}
         ></AppBar>
       )}
     </>
