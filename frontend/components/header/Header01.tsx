@@ -17,6 +17,7 @@ import { tSite } from "@/lib/api/site/type";
 const Main = ({ content }: { content: tSite["header"] }) => {
   const { flgContactModal, setFlgContactModal } = ContextCommon.useContents();
   const { menus, organize } = ContextMap.Contents();
+
   return (
     <Box className="Header01" sx={{ display: "contents" }}>
       <Link
@@ -24,7 +25,7 @@ const Main = ({ content }: { content: tSite["header"] }) => {
         href="/"
         color="inherit"
         underline="none"
-        sx={{ height: "100%", alignContent: "center" }}
+        sx={{ height: "100%", alignContent: "center", py: 2 }}
       >
         {content.flgLogo && content.logo ? (
           <Image.MediaImage
@@ -53,7 +54,7 @@ const Main = ({ content }: { content: tSite["header"] }) => {
       {useIsDesktop() ? (
         <>
           {/* PCナビゲーション */}
-          {content.flgMenus && <MenuItems menus={menus} />}
+          {content.flgMenus && <MenuItems menus={menus} location="header" />}
           {/* お問い合わせボタン */}
           {content.flgContactButton ? (
             <Button

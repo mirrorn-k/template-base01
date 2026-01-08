@@ -45,7 +45,7 @@ export default function FooterBar({ footer }: Props) {
           <>
             <Image.MediaImage
               media={footer.logo}
-              imgProps={{ style: { maxWidth: "380px", maxHeight: "280px" } }}
+              imgProps={{ style: { maxWidth: "160px", maxHeight: "160px" } }}
             />
             <Box
               sx={{

@@ -69,11 +69,11 @@ export default async function RootLayout({
               {children}
             </BaseThemeProvider>
             {/*
-          <BaseThemeProvider options={options}>
-            <AsyncLayoutContent organize={organize}>
-              {children}
-            </AsyncLayoutContent>
-          </BaseThemeProvider>
+            <BaseThemeProvider options={options}>
+              <AsyncLayoutContent organize={organize}>
+                {children}
+              </AsyncLayoutContent>
+            </BaseThemeProvider>
           */}
           </ContextCommon.Provider>
         </ContextMapInfo.Provider>
