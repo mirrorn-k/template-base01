@@ -18,6 +18,7 @@ export default function Main(props: MainProps) {
     <Box className={"Content04"} maxWidth={"lg"} width={"100%"}>
       <Box sx={{ display: "flex", width: "100%" }}>
         <Typography
+          className="title1"
           color={"primary.dark"}
           variant={"h5"}
           sx={{
@@ -36,6 +37,7 @@ export default function Main(props: MainProps) {
           }}
         ></Box>
         <Typography
+          className="title2"
           color={"primary.dark"}
           variant={"h5"}
           sx={{ flex: 1, pl: 2, textAlign: "left", fontWeight: "Bold" }}
@@ -54,6 +56,7 @@ export default function Main(props: MainProps) {
         }}
       >
         <HtmlText
+          className="caption"
           text={props.caption}
           variant="body1"
           sx={{
@@ -63,6 +66,7 @@ export default function Main(props: MainProps) {
         />
         {props.linkHref && (
           <LinkButton
+            className="button"
             linkHref={props.linkHref}
             linkText={props.linkText || "お問い合わせ"}
             sx={{

@@ -61,12 +61,18 @@ export default function Main(props: {
         }}
       >
         <Box sx={{ p: 8 }}>
-          <Typography variant="h3" component="h4" gutterBottom>
+          <Typography
+            className="title"
+            variant="h3"
+            component="h4"
+            gutterBottom
+          >
             {props.title}
           </Typography>
-          <HtmlText text={props.caption} variant="body1" />
+          <HtmlText className="caption" text={props.caption} variant="body1" />
           {props.linkHref && (
             <LinkButton
+              className="linkButton"
               linkHref={props.linkHref}
               linkText={props.linkText || "リンク"}
               sx={{
@@ -84,6 +90,7 @@ export default function Main(props: {
       </FlexColumnBox>
       {props.media && (
         <Box
+          className="mediaBox"
           sx={{
             flex: 1,
             display: "flex",

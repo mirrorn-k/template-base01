@@ -63,6 +63,7 @@ export default function Content01(props: Content01Props) {
       )}
       <ResponsiveBox maxWidth="sm" sx={{ mt: 2 }}>
         <HtmlText
+          className="caption"
           text={props.caption}
           variant="body1"
           sx={{
@@ -72,6 +73,7 @@ export default function Content01(props: Content01Props) {
       </ResponsiveBox>
       {props.linkHref && (
         <LinkButton
+          className="linkButton"
           linkHref={props.linkHref}
           linkText={props.linkText || "リンク"}
           variant="contained"

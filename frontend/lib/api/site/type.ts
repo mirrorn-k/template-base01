@@ -67,6 +67,11 @@ export type tSite = {
   structured_data: Record<string, string | number | boolean | null> | null;
 
   // =========================
+  // 構造化データ（JSON-LD）
+  // =========================
+  css: string | null;
+
+  // =========================
   // ヘッダー / フッター（JSON）
   // =========================
   header: {

@@ -56,6 +56,13 @@ export default async function RootLayout({
           />
         )}
 
+        {site.css && (
+          <style
+            id="site-custom-css"
+            dangerouslySetInnerHTML={{ __html: site.css }}
+          />
+        )}
+
         <ContextMapInfo.Provider
           organize={organize}
           cfItems={cfItems}
