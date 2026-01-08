@@ -21,6 +21,7 @@ export default function FooterBar({ footer }: Props) {
 
   return (
     <Box
+      className="Footer01"
       component={"footer"}
       sx={{
         backgroundColor: theme.palette.primary.main,
@@ -30,6 +31,13 @@ export default function FooterBar({ footer }: Props) {
         boxShadow: theme.shadows[4],
       }}
     >
+      {footer.customCss && (
+        <style
+          id="site-footer-custom-css"
+          dangerouslySetInnerHTML={{ __html: footer.customCss }}
+        />
+      )}
+
       <ResponsiveBox
         maxWidth="md"
         margin="0 auto"
@@ -59,30 +67,46 @@ export default function FooterBar({ footer }: Props) {
 
         <FlexColumnBox gapSize={1}>
           {footer.flgAddress && organize?.address && (
-            <Typography variant="h6" align="center">
+            <Typography className="address" variant="h6" align="center">
               {organize.address}
             </Typography>
           )}
           <FlexBox>
             {footer.flgTel && organize?.tell && (
-              <FlexBox sx={{ alignItems: "center" }} gapSize={1}>
+              <FlexBox
+                className="tell-box"
+                sx={{ alignItems: "center" }}
+                gapSize={1}
+              >
                 <LocalPhoneIcon />
-                <Typography variant="h6">{organize.tell}</Typography>
+                <Typography className="tell" variant="h6">
+                  {organize.tell}
+                </Typography>
               </FlexBox>
             )}
             {footer.flgFax && organize?.fax && (
-              <FlexBox sx={{ alignItems: "center" }} gapSize={1}>
+              <FlexBox
+                className="fax-box"
+                sx={{ alignItems: "center" }}
+                gapSize={1}
+              >
                 <FaxIcon />
-                <Typography variant="h6">{organize.fax}</Typography>
+                <Typography className="fax" variant="h6">
+                  {organize.fax}
+                </Typography>
               </FlexBox>
             )}
           </FlexBox>
         </FlexColumnBox>
         {footer.text && (
-          <HtmlText sx={{ textAlign: "center" }} text={footer.text || ""} />
+          <HtmlText
+            className="text"
+            sx={{ textAlign: "center" }}
+            text={footer.text || ""}
+          />
         )}
 
-        <Typography variant="body2" align="center">
+        <Typography className="copyright" variant="body2" align="center">
           {footer.copyright
             ? footer.copyright
             : `© ${new Date().getFullYear()} addonem llc. All rights reserved.`}

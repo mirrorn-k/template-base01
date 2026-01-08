@@ -67,6 +67,7 @@ export default function Main({
         objectFit="cover"
         fill={true}
         imgProps={{
+          className: "kv",
           style: {
             zIndex: -1,
           },
@@ -78,6 +79,7 @@ export default function Main({
           media={logo}
           fill={false}
           imgProps={{
+            className: "logo",
             style: {
               objectFit: "contain",
               width: "80%",
@@ -217,17 +219,17 @@ const LatestNews = (props: { notice: tNotice; sx?: SxProps<Theme> }) => {
   };
 
   return (
-    <Box sx={style}>
+    <Box sx={style} className="latest-news-box">
       <Box className="news-box">
         <Typography variant="h5" className="news-title">
           NEWS
         </Typography>
         <Box className="divider"></Box>
         <Box className="news-latest">
-          <Typography component="span" variant="body2">
+          <Typography className="date" component="span" variant="body2">
             {props.notice.released_at.split(" ")[0]}
           </Typography>
-          <Typography component="span" variant="body1">
+          <Typography className="title" component="span" variant="body1">
             {props.notice.title}
           </Typography>
         </Box>
@@ -263,6 +265,7 @@ const Catchcopy = (props: { catchcopy: string; sx?: SxProps<Theme> }) => {
 
   return (
     <Box
+      className="catchcopy-box"
       sx={{
         ...props.sx,
         textAlign: "center",
@@ -271,6 +274,7 @@ const Catchcopy = (props: { catchcopy: string; sx?: SxProps<Theme> }) => {
       }}
     >
       <Typography
+        className="catchcopy"
         variant={getResponsiveValue<TypographyProps["variant"]>(
           typoVariant,
           screenSize

@@ -83,6 +83,7 @@ export type tSite = {
     flgMenus: boolean;
     flgContactButton: boolean;
     logo: tMedia | null;
+    customCss: string;
   };
   footer: {
     type: string;
