@@ -35,6 +35,7 @@ export default function Main(props: Props) {
     >
       <Image.MediaImage media={media} fill={true} objectFit="contain" />
       <Box
+        className="title-box"
         sx={{
           position: "absolute",
           top: 0,
@@ -52,7 +53,7 @@ export default function Main(props: Props) {
         <Typography
           variant="h4"
           component="h1"
-          className={"font-text"}
+          className={"font-text title"}
           color="primary.contrastText"
           sx={{
             textAlign: "center",
@@ -66,7 +67,7 @@ export default function Main(props: Props) {
           <Typography
             variant="h4"
             component="h2"
-            className={"font-text"}
+            className={"font-text subtitle"}
             color="primary.contrastText"
             sx={{
               textAlign: "center",
