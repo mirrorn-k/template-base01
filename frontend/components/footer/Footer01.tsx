@@ -83,7 +83,9 @@ export default function FooterBar({ footer }: Props) {
         )}
 
         <Typography variant="body2" align="center">
-          © {new Date().getFullYear()} addonem llc. All rights reserved.{" "}
+          {footer.copyright
+            ? footer.copyright
+            : `© ${new Date().getFullYear()} addonem llc. All rights reserved.`}
           <Link href="/privacy" color="inherit">
             Privacy Policy
           </Link>

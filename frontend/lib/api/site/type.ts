@@ -89,6 +89,7 @@ export type tSite = {
     flgAddress: boolean;
     logo: tMedia | null;
     text: string;
+    copyright: string;
     customCss: string;
   };
 };
