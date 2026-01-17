@@ -9,7 +9,7 @@ services:
     working_dir: /app
     env_file:
       - ${ENV_FILE:-./env/prod.env}
-    command: sh -c "npm run build && npm run start"
+    command: npm run start
     volumes:
       # ソースコードはホストと同期
       #- ./frontend:/app
@@ -30,7 +30,7 @@ services:
     working_dir: /app
     env_file:
       - ${ENV_FILE:-./env/template-base01.env}
-    command: sh -c "npm run build && npm run start"
+    command: npm run start
     environment:
       NODE_ENV: production
       NODE_OPTIONS: "--max-old-space-size=768"
@@ -46,7 +46,7 @@ services:
     working_dir: /app
     env_file:
       - ${ENV_FILE:-./env/good-therapy.env}
-    command: sh -c "npm run build && npm run start"
+    command: npm run start
     environment:
       NODE_ENV: production
       NODE_OPTIONS: "--max-old-space-size=768"
@@ -62,7 +62,7 @@ services:
     working_dir: /app
     env_file:
       - ${ENV_FILE:-./env/kimotokk.env}
-    command: sh -c "npm run build && npm run start"
+    command: npm run start
     environment:
       NODE_ENV: production
       NODE_OPTIONS: "--max-old-space-size=768"
