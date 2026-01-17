@@ -16,6 +16,7 @@ setup:
 	docker compose run --rm --entrypoint sh frontend -c "npm ci"
 
 prod-setup:
+	COMPOSE_FILE=docker-compose.yml docker compose build develop
 	COMPOSE_FILE=docker-compose.yml docker compose run --rm --entrypoint sh develop -c "npm ci"
 	
 # =========================
