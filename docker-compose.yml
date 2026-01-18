@@ -10,11 +10,11 @@ services:
     env_file:
       - ${ENV_FILE:-./env/prod.env}
     command: npm run start
-    volumes:
-      # ソースコードはホストと同期
-      #- ./frontend:/app
-      # node_modules はコンテナ専用（ホストに上書きされないようにする）
-      #- /app/node_modules
+    #volumes:
+    # ソースコードはホストと同期
+    #- ./frontend:/app
+    # node_modules はコンテナ専用（ホストに上書きされないようにする）
+    #- /app/node_modules
     environment:
       NODE_ENV: production
       NODE_OPTIONS: "--max-old-space-size=768"
