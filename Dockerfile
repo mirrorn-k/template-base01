@@ -7,8 +7,6 @@ RUN npm ci
 
 COPY . .
 
-# ★ ここを入れる
-RUN npm run build
 
 EXPOSE 3000
 
