@@ -57,9 +57,11 @@ docker-cache:
 # 本番（env/PJ.env を使う）
 # =========================
 prod-up:
+	COMPOSE_FILE=docker-compose.yml docker compose $(ENV_OPT) build $(PJ)
 	COMPOSE_FILE=docker-compose.yml docker compose $(ENV_OPT) up $(PJ)
 
 prod-upd:
+	COMPOSE_FILE=docker-compose.yml docker compose $(ENV_OPT) build $(PJ)
 	COMPOSE_FILE=docker-compose.yml docker compose $(ENV_OPT) up -d $(PJ)
 
 prod-build:
