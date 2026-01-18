@@ -1,18 +1,15 @@
-# ベースイメージとしてNode.jsを使用
 FROM node:20-alpine
 
-# 作業ディレクトリを設定
 WORKDIR /app
 
-# package.jsonとpackage-lock.jsonをコピーし、依存関係をインストール
 COPY package*.json ./
-RUN npm install
+RUN npm ci --omit=dev
 
-# ソースコードをコンテナにコピー
 COPY . .
 
-# ポートを公開
+# ★ ここを入れる
+RUN npm run build
+
 EXPOSE 3000
 
-# 起動コマンドを環境に応じて切り替え
-# CMD [ "sh", "-c", "if [ \"$NODE_ENV\" = \"production\" ]; then npm run start; else npm run dev; fi" ]
+CMD ["npm","run","start"]
