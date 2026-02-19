@@ -9,7 +9,7 @@ export default function Main() {
 
   const footer = site["footer"];
 
-  console.log("Footerコンテンツ", footer);
+  //console.log("Footerコンテンツ", footer);
 
   if (footer.type === "footer01") {
     return <Footer01 footer={footer} />;

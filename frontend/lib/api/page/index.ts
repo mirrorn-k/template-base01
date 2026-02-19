@@ -84,7 +84,6 @@ export default async function getPage(
 async function convert(res: tPageApiResponce): Promise<tPage> {
   if (!res || typeof res !== "object") return {} as tPage;
 
-  console.log("[getPage] converting page data:", res);
   const obj: tPage = {
     uuid: res.uuid,
     name: res.name || "",

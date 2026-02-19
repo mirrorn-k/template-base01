@@ -117,7 +117,7 @@ export const ResponsiveFlex: React.FC<ResponsiveFlexProps> = ({
   const isVertical = useMediaQuery(theme.breakpoints.down(breakpoint));
   const widthPercent = 100 / children.length;
 
-  console.log("isVertical", isVertical);
+  //console.log("isVertical", isVertical);
   return (
     <Box
       display="flex"
