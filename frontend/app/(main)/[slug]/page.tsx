@@ -2,6 +2,7 @@ export const dynamic = "force-dynamic";
 import Content from "./Content";
 import getPage from "@/lib/api/page/index";
 import metaConvert from "@/lib/meta/converter";
+import { getSite } from "@/lib/api/site/index";
 
 // メタデータを設定
 export async function generateMetadata({
@@ -13,7 +14,8 @@ export async function generateMetadata({
   const slug = Array.isArray(resolved.slug)
     ? resolved.slug[0]
     : resolved.slug ?? "";
-  const page = await getPage(`/${slug}`);
+  const site = await getSite();
+  const page = await getPage(site.uuid, `/${slug}`);
   return metaConvert(page.meta);
 }
 

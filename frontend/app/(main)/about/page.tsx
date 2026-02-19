@@ -3,10 +3,12 @@ import getAboutList from "@/lib/api/about";
 import getPage from "@/lib/api/page/index";
 import Content from "./Content";
 import metaConvert from "@/lib/meta/converter";
+import { getSite } from "@/lib/api/site/index";
 
 // メタデータを設定
 export async function generateMetadata() {
-  const page = await getPage("/about");
+  const site = await getSite();
+  const page = await getPage(site.uuid, `/about`);
   return metaConvert(page.meta);
 }
 

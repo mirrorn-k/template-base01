@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function Main({ contents }: Props) {
-  console.log("Main contents", contents);
+  //console.log("Main contents", contents);
 
   return contents.map((data, index) => {
     switch (data.type) {

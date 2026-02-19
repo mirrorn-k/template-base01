@@ -31,7 +31,7 @@ export default function Main(props: {
   const height = 800;
   const { screenSize } = ContextCommon.useContents();
 
-  console.log("Content03 props:", props);
+  //console.log("Content03 props:", props);
 
   return (
     <FlexBox
@@ -67,9 +67,9 @@ export default function Main(props: {
         sx={(theme: Theme) => ({
           border: 1,
           borderColor: "primary.dark",
-          width: "90%",
-          margin: "auto",
-          p: 8,
+          width: { sm: "55%", md: "400px", lg: "400px" },
+          m: { xs: "48px", md: "unset" },
+          p: { xs: 2, sm: 4, md: 8 },
           gap: 2,
           overflow: "hidden",
           justifyContent: "flex-end",

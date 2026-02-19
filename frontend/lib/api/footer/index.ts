@@ -26,7 +26,7 @@ export default async function getFooterContent(): Promise<tFooterItem> {
  * Footer構造変換関数
  */
 function convert(item: tFooterListContent): tFooterItem {
-  console.log("convert footer item", item);
+  //console.log("convert footer item", item);
   const logoItem = item.content_items.find((i) => i.label === "ロゴ");
 
   const logo: tFooterItem["logo"] = logoItem?.content

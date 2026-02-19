@@ -4,10 +4,12 @@ import ResponsiveBox from "@/atoms/Box";
 import * as Contents from "./Content";
 import getPage from "@/lib/api/page/index";
 import metaConvert from "@/lib/meta/converter";
+import { getSite } from "@/lib/api/site/index";
 
 // メタデータを設定
 export async function generateMetadata() {
-  const page = await getPage("/");
+  const site = await getSite();
+  const page = await getPage(site.uuid, `/`);
   return metaConvert(page.meta);
 }
 

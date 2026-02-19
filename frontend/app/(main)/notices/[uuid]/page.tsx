@@ -32,7 +32,7 @@ export default async function Main({
     ? resolved.uuid[0]
     : resolved.uuid ?? "";
 
-  console.log("uuid", resolved);
+  //console.log("uuid", resolved);
 
   if (!uuid) {
     return <NotFound />;

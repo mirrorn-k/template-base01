@@ -22,3 +22,17 @@ services:
     networks:
       - ttnoumap-net
     mem_limit: 1.5g
+
+  kimotokk:
+    command: npm run dev
+    environment:
+      NODE_ENV: development
+      NODE_OPTIONS: "--max-old-space-size=1024"
+    volumes:
+      - ./frontend:/app
+      #- /app/node_modules
+    env_file:
+      - ${ENV_FILE:-./env/kimotokk.env}
+    networks:
+      - ttnoumap-net
+    mem_limit: 1.5g

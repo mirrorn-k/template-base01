@@ -6,21 +6,23 @@ import getPage from "@/lib/api/page/index";
 import ContentsSelecter from "@/components/contents/Index";
 import metaConvert from "@/lib/meta/converter";
 import Script from "next/script";
+import { getSite } from "@/lib/api/site/index";
 
 // メタデータを設定
 export async function generateMetadata() {
-  const page = await getPage("/");
+  const site = await getSite();
+  const page = await getPage(site.uuid, `/`);
   return metaConvert(page.meta);
 }
 
 export default async function Home() {
+  const [site] = await Promise.all([getSite()]);
+
   // ✅ Promiseを並列実行（効率アップ & Suspense可）
   const [page, notices] = await Promise.all([
-    getPage("/"),
+    getPage(site.uuid, "/"),
     getNotices({ page: 1, limit: 1 }),
   ]);
-
-  console.log("[page] ", page);
 
   return (
     <>

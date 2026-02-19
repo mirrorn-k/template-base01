@@ -13,10 +13,20 @@ import { tParams, tResponsiveMedia } from "@/types/ttnouMap";
  * SSR/SSG 用：ページ情報を取得
  */
 export async function getPages(
+  siteUuid: string,
   terms?: tParams<{ slug?: string }>
 ): Promise<tPage[]> {
   try {
-    const url = `${process.env.NEXT_PUBLIC_MAP_API_PAGE}?${process.env.NEXT_PUBLIC_MAP_API_PAGE_PARAMS}`;
+    const base = process.env.NEXT_PUBLIC_MAP_API_PAGE;
+    const params = process.env.NEXT_PUBLIC_MAP_API_PAGE_PARAMS ?? "";
+
+    if (!base || !params) {
+      console.warn("[getPages] API env missing, skip fetch");
+      return [];
+    }
+
+    const url = `${base}?filter[site_uuid]=${siteUuid}&${params}`;
+
     const u = fetchWithParams<{ slug?: string }>(url, terms);
 
     const data: tPageApiResponce[] = await getFetch(u);
@@ -43,15 +53,27 @@ export async function getPages(
 /**
  * スタッグ指定でページ情報を取得
  */
-export default async function getPage(slug: string): Promise<tPage> {
+export default async function getPage(
+  siteUuid: string,
+  slug: string
+): Promise<tPage> {
   try {
-    const terms: tParams<{ slug?: string }> = { filter: { slug } };
-    const url = `${process.env.NEXT_PUBLIC_MAP_API_PAGE}?${process.env.NEXT_PUBLIC_MAP_API_PAGE_PARAMS}`;
-    const u = fetchWithParams<{ slug?: string }>(url, terms);
+    const terms: tParams<{ site_uuid: string; slug?: string }> = {
+      filter: { site_uuid: siteUuid, slug },
+    };
 
+    const base = process.env.NEXT_PUBLIC_MAP_API_PAGE;
+    const params = process.env.NEXT_PUBLIC_MAP_API_PAGE_PARAMS;
+
+    if (!base || !params) {
+      console.warn("[getPages] API env missing, skip fetch");
+      return {} as tPage;
+    }
+    const url = `${base}?${params}`;
+
+    const u = fetchWithParams<{ site_uuid: string; slug?: string }>(url, terms);
     const data: tPageApiResponce[] = await getFetch(u);
 
-    console.log("[getPage] data:", data);
     return convert(data[0]);
   } catch (e) {
     console.error("[getPages] fetch error", e);
@@ -62,6 +84,7 @@ export default async function getPage(slug: string): Promise<tPage> {
 async function convert(res: tPageApiResponce): Promise<tPage> {
   if (!res || typeof res !== "object") return {} as tPage;
 
+  console.log("[getPage] converting page data:", res);
   const obj: tPage = {
     uuid: res.uuid,
     name: res.name || "",

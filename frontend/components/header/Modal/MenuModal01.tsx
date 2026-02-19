@@ -20,7 +20,7 @@ const Main = () => {
     : false;
 
   const handleMenuClose = () => {
-    console.log("handleMenuClose");
+    //console.log("handleMenuClose");
     setFlgMenus(false);
   };
 

@@ -53,7 +53,7 @@ interface MainProps {
 }
 
 const Main = ({ items }: MainProps) => {
-  console.log("props.items", items);
+  //log("props.items", items);
   return (
     <>
       {items.map((item, index) => {

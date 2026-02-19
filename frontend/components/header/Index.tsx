@@ -13,7 +13,7 @@ export default function Main() {
 
   const header = site.header;
 
-  console.log("Headerコンテンツ", header);
+  //console.log("Headerコンテンツ", header);
 
   // スラッグを取得
   const pathname = usePathname();

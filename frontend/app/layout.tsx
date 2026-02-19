@@ -128,14 +128,16 @@ async function AsyncLayoutContent({
 async function api() {
   try {
     // 並列で取得（最速化）
-    const [organize, options, cfItems, pages, site] = await Promise.all([
+    const [site] = await Promise.all([getSite()]);
+
+    // 並列で取得（最速化）
+    const [organize, options, cfItems, pages] = await Promise.all([
       getOrganize(),
       getThemeOptions(),
       getFormContent({
         url: `${process.env.NEXT_PUBLIC_MAP_API_CONTACT_FORM}?${process.env.NEXT_PUBLIC_MAP_API_CONTACT_FORM_PARAM}`,
       }),
-      getPages(),
-      getSite(),
+      getPages(site.uuid),
     ]);
 
     return { organize, options, cfItems, pages, site };
