@@ -104,7 +104,7 @@ prod-customer-upd:
 	@for service in $(SERVICES); do \
 		env_file="env/$$service.env"; \
 		echo "=== Up $$service (env: $$env_file) ==="; \
-		COMPOSE_FILE=docker-compose.yml docker compose --env-file $$env_file up -d --build $$service || exit 1; \
+		COMPOSE_FILE=docker-compose.yml docker compose --env-file $$env_file up -d $$service || exit 1; \
 	done
 
 
