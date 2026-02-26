@@ -1,8 +1,5 @@
 version: "3.9"
 
-# ==============================
-# 共通定義
-# ==============================
 x-template-base01-common: &template-base01-common
   build:
     context: ./frontend
@@ -29,8 +26,11 @@ services:
       - "${HOST_PORT:-8260}:3000"
     env_file:
       - ${ENV_FILE:-./env/prod.env}
-    args:
-      ENV_FILE: env/prod.env
+    build:
+      context: ./frontend
+      dockerfile: ../Dockerfile
+      args:
+        ENV_FILE: env/prod.env
 
   template-base01.ttnou.com:
     <<: *template-base01-common
@@ -40,6 +40,8 @@ services:
     env_file:
       - ${ENV_FILE:-./env/template-base01.env}
     build:
+      context: ./frontend
+      dockerfile: ../Dockerfile
       args:
         ENV_FILE: env/template-base01.env
 
@@ -51,6 +53,8 @@ services:
     env_file:
       - ${ENV_FILE:-./env/good-therapy.env}
     build:
+      context: ./frontend
+      dockerfile: ../Dockerfile
       args:
         ENV_FILE: env/good-therapy.env
 
@@ -62,5 +66,7 @@ services:
     env_file:
       - ${ENV_FILE:-./env/kimotokk.env}
     build:
+      context: ./frontend
+      dockerfile: ../Dockerfile
       args:
         ENV_FILE: env/kimotokk.env
