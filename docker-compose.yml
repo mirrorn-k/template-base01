@@ -27,8 +27,8 @@ services:
     env_file:
       - ${ENV_FILE:-./env/prod.env}
     build:
-      context: ./frontend
-      dockerfile: ../Dockerfile
+      context: ./
+      dockerfile: Dockerfile
       args:
         ENV_FILE: env/prod.env
 
@@ -40,8 +40,8 @@ services:
     env_file:
       - ${ENV_FILE:-./env/template-base01.env}
     build:
-      context: ./frontend
-      dockerfile: ../Dockerfile
+      context: ./
+      dockerfile: Dockerfile
       args:
         ENV_FILE: env/template-base01.env
 
@@ -53,8 +53,8 @@ services:
     env_file:
       - ${ENV_FILE:-./env/good-therapy.env}
     build:
-      context: ./frontend
-      dockerfile: ../Dockerfile
+      context: ./
+      dockerfile: Dockerfile
       args:
         ENV_FILE: env/good-therapy.env
 
@@ -66,7 +66,7 @@ services:
     env_file:
       - ${ENV_FILE:-./env/kimotokk.env}
     build:
-      context: ./frontend
-      dockerfile: ../Dockerfile
+      context: ./
+      dockerfile: Dockerfile
       args:
         ENV_FILE: env/kimotokk.env
