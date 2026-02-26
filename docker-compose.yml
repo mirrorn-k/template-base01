@@ -29,6 +29,8 @@ services:
       - "${HOST_PORT:-8260}:3000"
     env_file:
       - ${ENV_FILE:-./env/prod.env}
+    args:
+      ENV_FILE: env/prod.env
 
   template-base01.ttnou.com:
     <<: *template-base01-common
@@ -37,6 +39,8 @@ services:
       - "${HOST_PORT:-8261}:3000"
     env_file:
       - ${ENV_FILE:-./env/template-base01.env}
+    args:
+      ENV_FILE: env/template-base01.env
 
   good-therapy:
     <<: *template-base01-common
@@ -45,6 +49,8 @@ services:
       - "${HOST_PORT:-8262}:3000"
     env_file:
       - ${ENV_FILE:-./env/good-therapy.env}
+    args:
+      ENV_FILE: env/good-therapy.env
 
   kimotokk:
     <<: *template-base01-common
@@ -53,3 +59,5 @@ services:
       - "${HOST_PORT:-8263}:3000"
     env_file:
       - ${ENV_FILE:-./env/kimotokk.env}
+    args:
+      ENV_FILE: env/kimotokk.env

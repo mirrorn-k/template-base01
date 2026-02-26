@@ -7,7 +7,10 @@ RUN npm ci
 
 COPY . .
 
-EXPOSE 3000
+ARG ENV_FILE
+COPY ${ENV_FILE} /app/.env.build
 
+RUN export $(cat /app/.env.build | xargs) \
+    && npm run build
 
-RUN npm run build
+CMD ["npm","run","start"]
