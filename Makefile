@@ -92,7 +92,9 @@ SERVICES := good-therapy kimotokk
 # ============================
 prod-customer-build:
 	@for service in $(SERVICES); do \
-		COMPOSE_FILE=docker-compose.yml docker compose build $$service || exit 1; \
+		env_file="env/$$service.env"; \
+		echo "=== Building $$service (env: $$env_file) ==="; \
+		COMPOSE_FILE=docker-compose.yml docker compose --env-file $$env_file build $$service || exit 1; \
 	done
 
 # ============================
