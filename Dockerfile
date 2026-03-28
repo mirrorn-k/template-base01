@@ -4,7 +4,7 @@ WORKDIR /app
 
 # frontend 配下の package.json を使う
 COPY frontend/package*.json ./
-RUN npm ci
+RUN npm ci --ignore-scripts
 
 # ソースコピー
 COPY frontend/ ./
