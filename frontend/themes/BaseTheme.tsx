@@ -1,144 +1,151 @@
 "use client";
 import { useMemo } from "react";
-import {
-  createTheme,
-  ThemeProvider,
-  responsiveFontSizes,
-  ThemeOptions,
-} from "@mui/material/styles";
+import { createTheme, ThemeProvider, ThemeOptions } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import "@fontsource/shippori-mincho";
 import "@fontsource/noto-sans-jp";
 import React from "react";
 
 // テーマ作成
-export const baseTheme = createTheme({
-  palette: {
-    primary: {
-      main: "rgb(39,70,124)",
-      contrastText: "rgb(255,255,255)",
-      light: "rgb(231,244,252)",
-      dark: "rgb(19,40,94)",
+export const createBaseTheme = () => {
+  return createTheme({
+    palette: {
+      primary: {
+        main: "rgb(39,70,124)",
+        contrastText: "rgb(255,255,255)",
+        light: "rgb(231,244,252)",
+        dark: "rgb(19,40,94)",
+      },
+      secondary: {
+        main: "#19857b",
+      },
+      error: {
+        main: "#ff0000",
+      },
+      background: {
+        default: "#fff",
+        paper: "rgb(231,244,252)",
+      },
     },
-    secondary: {
-      main: "#19857b",
-    },
-    error: {
-      main: "#ff0000",
-    },
-    background: {
-      default: "#fff",
-      paper: "rgb(231,244,252)",
-    },
-  },
-  typography: {
-    fontFamily: `'Noto Sans JP', sans-serif`,
-    h1: {
-      fontFamily: `'Shippori Mincho', sans-serif`,
-      letterSpacing: "0.1em",
-    },
-    h2: {
-      fontFamily: `'Shippori Mincho', sans-serif`,
-      fontSize: "2.5rem",
-      fontWeight: "700",
-      letterSpacing: "0.1em",
-    },
-    h3: {
-      fontFamily: `'Shippori Mincho', sans-serif`,
-      letterSpacing: "0.1em",
-    },
-    h4: {
-      fontFamily: `'Shippori Mincho', sans-serif`,
-      letterSpacing: "0.1em",
-    },
-    h5: {
-      fontFamily: `'Shippori Mincho', sans-serif`,
-      letterSpacing: "0.1em",
-      fontSize: "1.5rem",
-    },
-    h6: {
-      fontFamily: `'Shippori Mincho', sans-serif`,
-    },
-    body1: {
+    typography: {
       fontFamily: `'Noto Sans JP', sans-serif`,
-      textAlign: "left",
-      fontSize: "1rem",
-      letterSpacing: "0.1rem",
-      lineHeight: 1.8,
+      h1: {
+        fontFamily: `'Shippori Mincho', sans-serif`,
+        letterSpacing: "0.1em",
+      },
+      h2: {
+        fontFamily: `'Shippori Mincho', sans-serif`,
+        fontSize: "2.5rem",
+        fontWeight: "700",
+        letterSpacing: "0.1em",
+      },
+      h3: {
+        fontFamily: `'Shippori Mincho', sans-serif`,
+        letterSpacing: "0.1em",
+      },
+      h4: {
+        fontFamily: `'Shippori Mincho', sans-serif`,
+        letterSpacing: "0.1em",
+      },
+      h5: {
+        fontFamily: `'Shippori Mincho', sans-serif`,
+        letterSpacing: "0.1em",
+        fontSize: "1.5rem",
+      },
+      h6: {
+        fontFamily: `'Shippori Mincho', sans-serif`,
+      },
+      body1: {
+        fontFamily: `'Noto Sans JP', sans-serif`,
+        textAlign: "left",
+        fontSize: "1rem",
+        letterSpacing: "0.1rem",
+        lineHeight: 1.8,
+      },
+      body2: {
+        fontFamily: `'Noto Sans JP', sans-serif`,
+        fontSize: "0.8rem",
+        textAlign: "left",
+        letterSpacing: "0.08rem",
+        lineHeight: 1.8,
+      },
     },
-    body2: {
-      fontFamily: `'Noto Sans JP', sans-serif`,
-      fontSize: "0.8rem",
-      textAlign: "left",
-      letterSpacing: "0.08rem",
-      lineHeight: 1.8,
-    },
-  },
-  components: {
-    MuiCssBaseline: {},
-    MuiAppBar: {
-      styleOverrides: {
-        root: {
-          position: "fixed",
-          top: 0,
-          left: 0,
-          boxShadow: "none",
-          height: "64px",
-          "&.transparent": {
-            backgroundColor: "transparent",
+    components: {
+      MuiCssBaseline: {},
+      MuiAppBar: {
+        styleOverrides: {
+          root: {
+            position: "fixed",
+            top: 0,
+            left: 0,
             boxShadow: "none",
+            height: "64px",
+            "&.transparent": {
+              backgroundColor: "transparent",
+              boxShadow: "none",
+            },
+            "&.appbar-shadow": {
+              position: "static",
+            },
+            "&.un-viewable": {
+              position: "absolute",
+              top: "-100px",
+            },
           },
-          "&.appbar-shadow": {
-            position: "static",
+        },
+      },
+      MuiToolbar: {
+        styleOverrides: {
+          root: {
+            justifyContent: "space-between",
           },
-          "&.un-viewable": {
-            position: "absolute",
-            top: "-100px",
+        },
+      },
+      MuiIconButton: {
+        styleOverrides: {
+          root: {
+            borderRadius: "50%",
+          },
+        },
+      },
+      MuiLink: {
+        defaultProps: {
+          underline: "none", // ← これ必須
+        },
+        styleOverrides: {
+          root: {
+            textDecoration: "none",
+            "&:hover": {
+              textDecoration: "underline",
+            },
           },
         },
       },
     },
-    MuiToolbar: {
-      styleOverrides: {
-        root: {
-          justifyContent: "space-between",
-        },
-      },
-    },
-    MuiIconButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: "50%",
-        },
-      },
-    },
-    MuiLink: {
-      defaultProps: {
-        underline: "none", // ← これ必須
-      },
-      styleOverrides: {
-        root: {
-          textDecoration: "none",
-          "&:hover": {
-            textDecoration: "underline",
-          },
-        },
-      },
-    },
-  },
-});
+  });
+};
 
+// =====================
+// Props
+// =====================
 interface ThemeProps {
-  options: ThemeOptions;
+  options?: ThemeOptions;
   children: React.ReactNode;
 }
 
-const BaseThemeProvider: React.FC<ThemeProps> = ({ options, children }) => {
-  // themeをuseMemoで生成
-  const mergedTheme = useMemo(
-    () => responsiveFontSizes(createTheme(baseTheme, options)),
-    [options]
-  );
+// =====================
+// Provider
+// =====================
+const BaseThemeProvider: React.FC<ThemeProps> = ({
+  options = {},
+  children,
+}) => {
+  const mergedTheme = useMemo(() => {
+    console.log("[BaseThemeProvider] create theme with options:", options);
+    // optionsで上書き（元設計維持）
+    //return responsiveFontSizes(createTheme(createBaseTheme(), options));
+    return createTheme(createBaseTheme(), options);
+  }, [options]);
 
   return (
     <ThemeProvider theme={mergedTheme}>

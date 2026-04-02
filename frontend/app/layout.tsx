@@ -13,6 +13,7 @@ import { getSite } from "@/lib/api/site/index";
 import { Metadata } from "next";
 import metaConvert from "@/lib/meta/converter";
 import Script from "next/script";
+import { ThemeOptions } from "@mui/material";
 
 export async function generateMetadata(): Promise<Metadata> {
   const site = await getSite();
@@ -70,7 +71,9 @@ export default async function RootLayout({
           site={site}
         >
           <ContextCommon.Provider>
-            <BaseThemeProvider options={options}>
+            <BaseThemeProvider
+              options={{ ...options, ...site.theme } as ThemeOptions}
+            >
               <CssBaseline />
               {site.gtm_tag && <GtmScript.Body tag={site.gtm_tag} />}
               {children}

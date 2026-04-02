@@ -1,4 +1,5 @@
 import { tMedia } from "@/types/ttnouMap";
+import { FONT_TYPE_LIST } from "@/const/fonts";
 
 export type tSite = {
   // =========================
@@ -98,4 +99,35 @@ export type tSite = {
     copyright: string;
     customCss: string;
   };
+
+  theme: Theme;
 };
+
+export type Theme = {
+  uuid: string;
+
+  domain: string | null;
+  site_uuid: string;
+
+  typography: Typography;
+
+  released_at: string | null;
+
+  created_at: string;
+  updated_at: string;
+  deleted_at: string | null;
+
+  // accessor
+  site_name: string | null;
+};
+
+export type FontType = (typeof FONT_TYPE_LIST)[number];
+
+export type TypographyValues = {
+  fontFamily?: string;
+  fontSize?: string;
+  fontWeight?: string;
+  letterSpacing?: string;
+};
+
+export type Typography = Record<FontType, TypographyValues>;
