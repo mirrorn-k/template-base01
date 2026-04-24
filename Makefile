@@ -90,11 +90,8 @@ SERVICES := good-therapy kimotokk
 # Build
 prod-customer-build:
 	@for service in $(SERVICES); do \
-		env_file="frontend/env/$$service.env"; \
-		echo "=== Building $$service (env: $$env_file) ==="; \
-		set -a; \
-		. $$env_file; \
-		set +a; \
+		env_file="env/$$service.env"; \
+		echo "=== Building $$service ==="; \
 		docker compose build $$service --build-arg ENV_FILE=$$env_file || exit 1; \
 	done
 
