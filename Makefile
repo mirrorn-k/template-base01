@@ -6,7 +6,7 @@ PJ ?= develop
 # =========================
 # env/PJ.env は本番専用
 # =========================
-ENV_FILE := env/$(PJ).env
+ENV_FILE := frontend/env/$(PJ).env
 ENV_OPT := $(if $(wildcard $(ENV_FILE)),--env-file $(ENV_FILE),)
 
 # =========================
