@@ -6,7 +6,7 @@ PJ ?= develop
 # =========================
 # env/PJ.env は本番専用
 # =========================
-ENV_FILE := env/$(PJ).env
+ENV_FILE := frontend/env/$(PJ).env
 ENV_OPT := $(if $(wildcard $(ENV_FILE)),--env-file $(ENV_FILE),)
 
 # =========================
@@ -90,18 +90,18 @@ SERVICES := good-therapy kimotokk
 # Build
 prod-customer-build:
 	@for service in $(SERVICES); do \
-		# env_file="frontendenv/$$service.env"; \
+		env_file="frontend/env/$$service.env"; \
 		echo "=== Building $$service (env: $$env_file) ==="; \
 		set -a; \
 		. $$env_file; \
 		set +a; \
-		docker compose build $$service --build-arg ENV_FILE=env/$$service.env || exit 1; \
+		docker compose build $$service --build-arg ENV_FILE=$$env_file || exit 1; \
 	done
 
 # Deploy
 prod-customer-deploy:
 	@for service in $(SERVICES); do \
-		# env_file="frontendenv/$$service.env"; \
+		env_file="frontend/env/$$service.env"; \
 		echo "=== Deploy $$service (env: $$env_file) ==="; \
 		COMPOSE_FILE=docker-compose.yml docker compose --env-file $$env_file pull $$service || exit 1; \
 		COMPOSE_FILE=docker-compose.yml docker compose --env-file $$env_file up -d $$service || exit 1; \
@@ -110,7 +110,7 @@ prod-customer-deploy:
 # Up
 prod-customer-upd:
 	@for service in $(SERVICES); do \
-		env_file="frontendenv/$$service.env"; \
+		env_file="frontend/env/$$service.env"; \
 		echo "=== Up $$service (env: $$env_file) ==="; \
 		COMPOSE_FILE=docker-compose.yml docker compose --env-file $$env_file up -d $$service || exit 1; \
 	done
