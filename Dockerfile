@@ -10,10 +10,10 @@ RUN npm ci --ignore-scripts
 COPY frontend/ ./
 
 ARG ENV_FILE
-COPY ${ENV_FILE} /app/.env.build
+COPY ${ENV_FILE} /app/.env
 
 RUN set -a \
-    && . /app/.env.build \
+    && . /app/.env \
     && set +a \
     && npm run build
     
