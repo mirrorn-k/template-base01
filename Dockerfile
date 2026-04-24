@@ -6,6 +6,13 @@ WORKDIR /app
 COPY . .
 RUN npm ci --ignore-scripts
 
-RUN npm run build
+
+ARG ENV_FILE
+COPY ${ENV_FILE} /app/.env
+
+RUN set -a \
+    && . /app/.env \
+    && set +a \
+    && npm run build
     
 CMD ["npm","run","start"]
