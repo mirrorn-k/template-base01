@@ -29,8 +29,6 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-      args:
-        ENV_FILE: env/prod.env
 
   template-base01.ttnou.com:
     <<: *template-base01-common
@@ -42,8 +40,6 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-      args:
-        ENV_FILE: env/template-base01.env
 
   good-therapy:
     <<: *template-base01-common
@@ -55,8 +51,6 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-      args:
-        ENV_FILE: env/good-therapy.env
 
   kimotokk:
     <<: *template-base01-common
@@ -68,5 +62,3 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile
-      args:
-        ENV_FILE: env/kimotokk.env
