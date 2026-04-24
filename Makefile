@@ -90,7 +90,7 @@ SERVICES := good-therapy kimotokk
 # Build
 prod-customer-build:
 	@for service in $(SERVICES); do \
-		env_file="env/$$service.env"; \
+		env_file="frontend/env/$$service.env"; \
 		echo "=== Building $$service (env: $$env_file) ==="; \
 		set -a; \
 		. $$env_file; \
@@ -101,7 +101,7 @@ prod-customer-build:
 # Deploy
 prod-customer-deploy:
 	@for service in $(SERVICES); do \
-		env_file="env/$$service.env"; \
+		env_file="frontend/env/$$service.env"; \
 		echo "=== Deploy $$service (env: $$env_file) ==="; \
 		COMPOSE_FILE=docker-compose.yml docker compose --env-file $$env_file pull $$service || exit 1; \
 		COMPOSE_FILE=docker-compose.yml docker compose --env-file $$env_file up -d $$service || exit 1; \
@@ -110,7 +110,7 @@ prod-customer-deploy:
 # Up
 prod-customer-upd:
 	@for service in $(SERVICES); do \
-		env_file="env/$$service.env"; \
+		env_file="frontend/env/$$service.env"; \
 		echo "=== Up $$service (env: $$env_file) ==="; \
 		COMPOSE_FILE=docker-compose.yml docker compose --env-file $$env_file up -d $$service || exit 1; \
 	done
@@ -118,7 +118,7 @@ prod-customer-upd:
 # Down
 prod-customer-down:
 	@for service in $(SERVICES); do \
-		env_file="env/$$service.env"; \
+		env_file="frontend/env/$$service.env"; \
 		echo "=== Down $$service (env: $$env_file) ==="; \
 		COMPOSE_FILE=docker-compose.yml docker compose --env-file $$env_file stop $$service || exit 1; \
 	done
