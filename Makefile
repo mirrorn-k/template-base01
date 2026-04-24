@@ -95,7 +95,7 @@ prod-customer-build:
 		set -a; \
 		. $$env_file; \
 		set +a; \
-		COMPOSE_FILE=docker compose build $$service --env-file $$env_file || exit 1; \
+		docker compose build $$service --build-arg ENV_FILE=env/$$service.env || exit 1; \
 	done
 
 # Deploy
