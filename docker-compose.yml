@@ -26,9 +26,6 @@ services:
       - "${HOST_PORT:-8260}:3000"
     env_file:
       - ${ENV_FILE:-./frontend/env/prod.env}
-    build:
-      context: ./
-      dockerfile: Dockerfile
 
   template-base01.ttnou.com:
     <<: *template-base01-common
@@ -37,9 +34,6 @@ services:
       - "${HOST_PORT:-8261}:3000"
     env_file:
       - ${ENV_FILE:-./frontend/env/template-base01.env}
-    build:
-      context: ./
-      dockerfile: Dockerfile
 
   good-therapy:
     <<: *template-base01-common
@@ -48,9 +42,6 @@ services:
       - "${HOST_PORT:-8262}:3000"
     env_file:
       - ${ENV_FILE:-./frontend/env/good-therapy.env}
-    build:
-      context: ./
-      dockerfile: Dockerfile
 
   kimotokk:
     <<: *template-base01-common
@@ -59,6 +50,3 @@ services:
       - "${HOST_PORT:-8263}:3000"
     env_file:
       - ${ENV_FILE:-./frontend/env/kimotokk.env}
-    build:
-      context: ./
-      dockerfile: Dockerfile
