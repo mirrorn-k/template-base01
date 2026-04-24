@@ -92,7 +92,7 @@ SERVICES := good-therapy kimotokk
 # ============================
 prod-customer-build:
 	@for service in $(SERVICES); do \
-		env_file="env/$$service.env"; \
+		env_file="frontend/env/$$service.env"; \
 		echo "=== Building $$service (env: $$env_file) ==="; \
 		set -a; \
 		. $$env_file; \
@@ -105,7 +105,7 @@ prod-customer-build:
 # ============================
 prod-customer-upd:
 	@for service in $(SERVICES); do \
-		env_file="env/$$service.env"; \
+		env_file="frontend/env/$$service.env"; \
 		echo "=== Up $$service (env: $$env_file) ==="; \
 		COMPOSE_FILE=docker-compose.yml docker compose --env-file $$env_file up -d $$service || exit 1; \
 	done
@@ -116,7 +116,7 @@ prod-customer-upd:
 # ============================
 prod-customer-down:
 	@for service in $(SERVICES); do \
-		env_file="env/$$service.env"; \
+		env_file="frontend/env/$$service.env"; \
 		echo "=== Down $$service (env: $$env_file) ==="; \
 		COMPOSE_FILE=docker-compose.yml docker compose --env-file $$env_file stop $$service || exit 1; \
 	done
